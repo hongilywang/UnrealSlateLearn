@@ -14,4 +14,8 @@ class LEARNSLATE_API ASlAiMenuHUD : public AHUD
 {
 	GENERATED_BODY()
 	
+public:
+	ASlAiMenuHUD();
+	
+	TSharedPtr<class SSlAiMenuHUDWidget> MenuHUDWidget;
 };
