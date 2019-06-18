@@ -4,3 +4,13 @@
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, LearnSlate, "LearnSlate" );
+
+void FLearnSlateModule::StartupModule()
+{
+
+}
+
+void FLearnSlateModule::ShutdownModule()
+{
+
+}
