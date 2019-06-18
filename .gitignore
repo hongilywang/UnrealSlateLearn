@@ -12,3 +12,12 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+Plugins/GitSourceControl/Screenshots/SubmitFiles.png
+Plugins/GitSourceControl/Screenshots/SourceControlStatusTooltip.png
+Plugins/GitSourceControl/Screenshots/SourceControlMenu.png
+Plugins/GitSourceControl/Screenshots/SourceControlLogin_Init.png
+Plugins/GitSourceControl/Screenshots/FileHistory.png
+Plugins/GitSourceControl/README.md
+Plugins/GitSourceControl/LICENSE.txt
+Plugins/GitSourceControl/.gitbugtraq
+Plugins/GitSourceControl/.gitignore
