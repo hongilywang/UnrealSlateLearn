@@ -2,6 +2,7 @@
 
 
 #include "SlAiStyle.h"
+#include "SlateGameResources.h"
 
 TSharedPtr<FSlateStyleSet> SlAiStyle::SlAiStyleInstance = NULL;
 

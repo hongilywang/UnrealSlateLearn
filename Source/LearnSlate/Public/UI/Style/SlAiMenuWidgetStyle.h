@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
+#include "SlateBrush.h"
 
 #include "SlAiMenuWidgetStyle.generated.h"
 
@@ -24,6 +25,9 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 	static const FName TypeName;
 	virtual const FName GetTypeName() const override { return TypeName; };
 	static const FSlAiMenuStyle& GetDefault();
+
+	UPROPERTY(EditAnywhere, Category = Menu)
+		FSlateBrush MenuBackgroundBrush;
 };
 
 /**

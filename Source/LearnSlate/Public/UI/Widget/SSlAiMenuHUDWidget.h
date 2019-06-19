@@ -17,4 +17,8 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	//获取Menu样式
+	const struct FSlAiMenuStyle* MenuStyle;
 };
