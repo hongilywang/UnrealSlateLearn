@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 
-class FLearnSlateModule : FDefaultGameModuleImpl
+class FLearnSlateModule : public FDefaultGameModuleImpl
 {
 public:
 	virtual void StartupModule() override;

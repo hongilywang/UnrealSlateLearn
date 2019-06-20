@@ -4,8 +4,6 @@
 #include "Modules/ModuleManager.h"
 #include "SlAiStyle.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, LearnSlate, "LearnSlate" );
-
 void FLearnSlateModule::StartupModule()
 {
 	//初始化样式
@@ -17,3 +15,5 @@ void FLearnSlateModule::ShutdownModule()
 {
 	SlAiStyle::ShutDown();
 }
+
+IMPLEMENT_PRIMARY_GAME_MODULE(FLearnSlateModule, LearnSlate, "LearnSlate");
