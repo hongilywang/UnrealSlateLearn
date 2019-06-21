@@ -19,6 +19,15 @@ public:
 	void Construct(const FArguments& InArgs);
 
 private:
+	//绑定UIScaler的函数
+	float GetUIScaler() const;
+	//获取屏幕尺寸
+	FVector2D GetViewportSize() const;
+
+private:
 	//获取Menu样式
 	const struct FSlAiMenuStyle* MenuStyle;
+
+	//DPI缩放系数
+	TAttribute<float> UIScaler;
 };

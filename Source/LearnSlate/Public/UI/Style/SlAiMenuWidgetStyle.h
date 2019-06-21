@@ -28,6 +28,9 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 
 	UPROPERTY(EditAnywhere, Category = Menu)
 		FSlateBrush MenuBackgroundBrush;
+	UPROPERTY(EditAnywhere, Category = MenuHUD)
+		FSlateBrush MenuHUDBackgroundBrush;
+
 };
 
 /**
