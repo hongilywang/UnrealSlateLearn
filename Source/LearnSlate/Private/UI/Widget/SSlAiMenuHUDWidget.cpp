@@ -26,20 +26,29 @@ void SSlAiMenuHUDWidget::Construct(const FArguments& InArgs)
 			SNew(SOverlay)
 
 			+SOverlay::Slot()
-			.VAlign(VAlign_Fill)
-			.HAlign(HAlign_Fill)
-			[
-				SNew(SImage)
-				.Image(&MenuStyle->MenuHUDBackgroundBrush)
-			]
+				.VAlign(VAlign_Fill)
+				.HAlign(HAlign_Fill)
+				[
+					SNew(SImage)
+					.Image(&MenuStyle->MenuHUDBackgroundBrush)
+				]
 
 			+ SOverlay::Slot()
-			.HAlign(HAlign_Center)
-			.VAlign(VAlign_Center)
-			[
-				SNew(SImage)
-				.Image(&MenuStyle->MenuBackgroundBrush)
-			]
+				.HAlign(HAlign_Left)
+				.VAlign(VAlign_Top)
+				.Expose(ImageSlot)
+				[
+					SNew(SImage)
+					.Image(&MenuStyle->MenuBackgroundBrush)
+				]
+
+			+SOverlay::Slot()
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Center)
+				[
+					SNew(SButton)
+					.OnClicked(this, &SSlAiMenuHUDWidget::OnClick)
+				]
 		]
 	];
 	
@@ -60,4 +69,10 @@ FVector2D SSlAiMenuHUDWidget::GetViewportSize() const
 	}
 
 	return Result;
+}
+
+FReply SSlAiMenuHUDWidget::OnClick()
+{
+	ImageSlot->HAlign(HAlign_Right).VAlign(VAlign_Bottom);
+	return FReply::Handled();
 }
