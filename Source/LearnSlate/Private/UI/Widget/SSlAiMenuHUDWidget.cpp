@@ -9,6 +9,7 @@
 #include "SlAiMenuWidgetStyle.h"
 #include "Engine/Engine.h"
 #include "SDPIScaler.h"
+#include "SSlAiMenuWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiMenuHUDWidget::Construct(const FArguments& InArgs)
@@ -34,20 +35,10 @@ void SSlAiMenuHUDWidget::Construct(const FArguments& InArgs)
 				]
 
 			+ SOverlay::Slot()
-				.HAlign(HAlign_Left)
-				.VAlign(VAlign_Top)
-				.Expose(ImageSlot)
-				[
-					SNew(SImage)
-					.Image(&MenuStyle->MenuBackgroundBrush)
-				]
-
-			+SOverlay::Slot()
-				.VAlign(VAlign_Center)
 				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Center)
 				[
-					SNew(SButton)
-					.OnClicked(this, &SSlAiMenuHUDWidget::OnClick)
+					SAssignNew(MenuWidget, SSlAiMenuWidget)
 				]
 		]
 	];
@@ -69,10 +60,4 @@ FVector2D SSlAiMenuHUDWidget::GetViewportSize() const
 	}
 
 	return Result;
-}
-
-FReply SSlAiMenuHUDWidget::OnClick()
-{
-	ImageSlot->HAlign(HAlign_Right).VAlign(VAlign_Bottom);
-	return FReply::Handled();
 }

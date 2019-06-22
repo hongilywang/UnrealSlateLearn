@@ -26,10 +26,24 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 	virtual const FName GetTypeName() const override { return TypeName; };
 	static const FSlAiMenuStyle& GetDefault();
 
-	UPROPERTY(EditAnywhere, Category = Menu)
-		FSlateBrush MenuBackgroundBrush;
 	UPROPERTY(EditAnywhere, Category = MenuHUD)
 		FSlateBrush MenuHUDBackgroundBrush;
+
+	// 指定Menu的背景图片
+	UPROPERTY(EditAnywhere, Category = Menu)
+		FSlateBrush MenuBackgroundBrush;
+
+	//Menu左图标的Brush
+	UPROPERTY(EditAnywhere, Category = Menu)
+		FSlateBrush LeftIconBrush;
+
+	//Menu右图标的Brush
+	UPROPERTY(EditAnywhere, Category = Menu)
+		FSlateBrush RightIconBrush;
+
+	//Menu标题Border的Brush
+	UPROPERTY(EditAnywhere, Category = Menu)
+		FSlateBrush TitleBorderBrush;
 
 };
 

@@ -17,4 +17,14 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	//保存根节点
+	TSharedPtr<SBox> RootSizeBox;
+
+	//获取MenuStyle
+	const struct FSlAiMenuStyle* MenuStyle;
+
+	//保存标题
+	TSharedPtr<STextBlock> TitleText;
 };

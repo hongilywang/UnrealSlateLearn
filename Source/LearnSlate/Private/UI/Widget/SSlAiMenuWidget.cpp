@@ -3,15 +3,71 @@
 
 #include "SSlAiMenuWidget.h"
 #include "SlateOptMacros.h"
+#include "SlAiStyle.h"
+#include "SlAiMenuWidgetStyle.h"
+#include "SBox.h"
+#include "Margin.h"
+#include "SImage.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiMenuWidget::Construct(const FArguments& InArgs)
 {
-	/*
+	MenuStyle = &SlAiStyle::Get().GetWidgetStyle<FSlAiMenuStyle>("BPSlAiMenuStyle");
+
 	ChildSlot
 	[
-		// Populate the widget
+		SAssignNew(RootSizeBox, SBox)
+		[
+			SNew(SOverlay)
+
+			+SOverlay::Slot()
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Fill)
+				.Padding(FMargin(0.f, 50.f, 0.f, 0.f))
+				[
+					SNew(SImage)
+					.Image(&MenuStyle->MenuBackgroundBrush)
+				]
+
+			+SOverlay::Slot()
+				.HAlign(HAlign_Left)
+				.VAlign(VAlign_Center)
+				.Padding(FMargin(0.f, 25.f, 0.f, 0.f))
+				[
+					SNew(SImage)
+					.Image(&MenuStyle->LeftIconBrush)
+				]
+
+			+ SOverlay::Slot()
+				.HAlign(HAlign_Right)
+				.VAlign(VAlign_Center)
+				.Padding(FMargin(0.f, 25.f, 0.f, 0.f))
+				[
+					SNew(SImage)
+					.Image(&MenuStyle->RightIconBrush)
+				]
+
+			+SOverlay::Slot()
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Top)
+				[
+					SNew(SBox)
+						.WidthOverride(400.f)
+						.HeightOverride(100.f)
+						[
+							SNew(SBorder)
+							.BorderImage(&MenuStyle->TitleBorderBrush)
+							.HAlign(HAlign_Center)
+							.VAlign(VAlign_Center)
+							[
+								SAssignNew(TitleText, STextBlock)
+								.Font(SlAiStyle::Get().GetFontStyle("MenuItemFont"))
+								.Text(FText::FromString("Test, ≤‚ ‘"))
+							]
+						]
+				]
+		]
 	];
-	*/
+	
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

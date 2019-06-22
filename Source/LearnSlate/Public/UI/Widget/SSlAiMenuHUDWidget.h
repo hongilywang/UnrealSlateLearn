@@ -24,8 +24,6 @@ private:
 	//获取屏幕尺寸
 	FVector2D GetViewportSize() const;
 
-	FReply OnClick();
-
 private:
 	//获取Menu样式
 	const struct FSlAiMenuStyle* MenuStyle;
@@ -33,6 +31,6 @@ private:
 	//DPI缩放系数
 	TAttribute<float> UIScaler;
 
-	//获取图片的Slot
-	SOverlay::FOverlaySlot* ImageSlot;
+	//菜单指针
+	TSharedPtr<class SSlAiMenuWidget> MenuWidget;
 };
