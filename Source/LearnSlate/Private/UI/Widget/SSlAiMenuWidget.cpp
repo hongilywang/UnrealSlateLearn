@@ -62,7 +62,7 @@ void SSlAiMenuWidget::Construct(const FArguments& InArgs)
 							[
 								SAssignNew(TitleText, STextBlock)
 								.Font(SlAiStyle::Get().GetFontStyle("MenuItemFont"))
-								.Text(FText::FromString("Test, ≤‚ ‘"))
+								.Text(NSLOCTEXT("SlAiMenu", "Menu", "Menu"))
 							]
 						]
 				]
