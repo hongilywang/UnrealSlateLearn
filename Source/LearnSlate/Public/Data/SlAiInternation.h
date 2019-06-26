@@ -30,7 +30,7 @@ SlAiInternation::Register(LOCTEXT("ChooseRecord", "ChooseRecord")); //选择存档
 SlAiInternation::Register(LOCTEXT("RecordName", "RecordName")); //存档名
 SlAiInternation::Register(LOCTEXT("EnterGame", "EnterGame")); //进入游戏
 SlAiInternation::Register(LOCTEXT("EnterRecord", "EnterRecord")); //进入存档
-SlAiInternation::Register(LOCTEXT("RecordNameHint", "RecordNameHint")); //输入存档名
+SlAiInternation::Register(LOCTEXT("RecordNameHint", "Input Record Name!")); //输入存档名
 SlAiInternation::Register(LOCTEXT("NameRepeatedHint", "Record Name Repeated")); //输入存档名
 
 SlAiInternation::Register(LOCTEXT("Chinese", "Chinese")); //中文
