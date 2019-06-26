@@ -34,6 +34,7 @@ void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 {
 	TSharedRef<SlAiDataHandle> DataRef = MakeShareable(new SlAiDataHandle());
+	return DataRef;
 }
 
 SlAiDataHandle::SlAiDataHandle()
