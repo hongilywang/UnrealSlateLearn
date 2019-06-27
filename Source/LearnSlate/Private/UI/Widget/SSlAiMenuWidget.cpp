@@ -8,6 +8,7 @@
 #include "SBox.h"
 #include "Margin.h"
 #include "SImage.h"
+#include "SSlAiMenuItemWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiMenuWidget::Construct(const FArguments& InArgs)
@@ -66,8 +67,32 @@ void SSlAiMenuWidget::Construct(const FArguments& InArgs)
 							]
 						]
 				]
+
+			+SOverlay::Slot()
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Top)
+				.Padding(FMargin(0.f, 130.f, 0.f, 0.f))
+				[
+					SAssignNew(ContentBox, SVerticalBox)
+				]
 		]
+	];
+
+	RootSizeBox->SetWidthOverride(600.f);
+	RootSizeBox->SetHeightOverride(510.f);
+
+	ContentBox->AddSlot()
+	[
+		SNew(SSlAiMenuItemWidget)
+		.ItemText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"))
+		.ItemType(EMenuItem::StartGame)
+		.OnClicked(this, &SSlAiMenuWidget::MenuItemOnClicked)
 	];
 	
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SSlAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
+{
+
+}
