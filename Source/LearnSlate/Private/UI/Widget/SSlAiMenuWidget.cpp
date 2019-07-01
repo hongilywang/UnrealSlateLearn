@@ -9,6 +9,8 @@
 #include "Margin.h"
 #include "SImage.h"
 #include "SSlAiMenuItemWidget.h"
+#include "SSlAiGameOptionWidget.h"
+#include "SlAiHelper.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiMenuWidget::Construct(const FArguments& InArgs)
@@ -83,10 +85,7 @@ void SSlAiMenuWidget::Construct(const FArguments& InArgs)
 
 	ContentBox->AddSlot()
 	[
-		SNew(SSlAiMenuItemWidget)
-		.ItemText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"))
-		.ItemType(EMenuItem::StartGame)
-		.OnClicked(this, &SSlAiMenuWidget::MenuItemOnClicked)
+		SNew(SSlAiGameOptionWidget)
 	];
 	
 }
@@ -94,5 +93,5 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSlAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 {
-
+	//SlAiHelper::Debug(FString("hhh"), 5.f);
 }

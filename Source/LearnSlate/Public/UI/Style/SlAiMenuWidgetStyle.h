@@ -61,6 +61,10 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 	//30ºÅ×ÖÌå
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_30;
+
+	//GameOptionµÄ±³¾°
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush GameOptionBrush;
 };
 
 /**
