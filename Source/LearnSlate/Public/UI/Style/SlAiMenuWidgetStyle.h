@@ -62,9 +62,25 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_30;
 
+	//黑色颜色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_White;
+
+	//白色颜色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_Black;
+
 	//GameOption的背景
 	UPROPERTY(EditAnywhere, Category = GameOption)
 		FSlateBrush GameOptionBrush;
+
+	//checkedBox的Brush被选中
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush CheckedBoxBrush;
+
+	//checkedBox的Brush不被选中
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush UnCheckedBoxBrush;
 };
 
 /**

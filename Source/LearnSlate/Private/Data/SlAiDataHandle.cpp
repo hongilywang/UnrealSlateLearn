@@ -2,6 +2,7 @@
 
 
 #include "SlAiDataHandle.h"
+#include "Internationalization.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = nullptr;
 
@@ -14,7 +15,7 @@ void SlAiDataHandle::Initialize()
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::Get()
 {
 	Initialize();
-	return TSharedPtr<SlAiDataHandle>();
+	return DataInstance;
 }
 
 void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
@@ -39,4 +40,6 @@ TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 
 SlAiDataHandle::SlAiDataHandle()
 {
+	//初始化为中文
+	CurrentCulture = ECultureTeam::ZH;
 }
