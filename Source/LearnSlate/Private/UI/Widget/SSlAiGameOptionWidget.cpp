@@ -232,10 +232,10 @@ void SSlAiGameOptionWidget::StyleInitialize()
 		break;
 	}
 
-	MuSlider->SetValue(0.5f);
-	MuTexBlock->SetText(FText::FromString(FString("50%")));
-	SoSlider->SetValue(0.5f);
-	SoTexBlock->SetText(FText::FromString(FString("50%")));
+	MuSlider->SetValue(SlAiDataHandle::Get()->MusicVolume);
+	MuTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(SlAiDataHandle::Get()->MusicVolume * 100)) + FString("%")));
+	SoSlider->SetValue(SlAiDataHandle::Get()->SoundVolume);
+	SoTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(SlAiDataHandle::Get()->SoundVolume * 100)) + FString("%")));
 }
 
 void SSlAiGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
@@ -260,12 +260,14 @@ void SSlAiGameOptionWidget::MusicSliderChanged(float value)
 {
 	//显示百分比
 	MuTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
+	SlAiDataHandle::Get()->ResetMenuVolume(value, -1);
 }
 
 void SSlAiGameOptionWidget::SoundSliderChanged(float value)
 {
 	//显示百分比
 	SoTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
+	SlAiDataHandle::Get()->ResetMenuVolume(-1, value);
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

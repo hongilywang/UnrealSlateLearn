@@ -32,6 +32,15 @@ void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 	CurrentCulture = Culture;
 }
 
+void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
+{
+	if (MusicVol > 0)
+		MusicVolume = MusicVol;
+
+	if (SoundVol > 0)
+		SoundVol = SoundVol;
+}
+
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 {
 	TSharedRef<SlAiDataHandle> DataRef = MakeShareable(new SlAiDataHandle());
@@ -42,4 +51,6 @@ SlAiDataHandle::SlAiDataHandle()
 {
 	//初始化为中文
 	CurrentCulture = ECultureTeam::ZH;
+	MusicVolume = 0.5f;
+	SoundVolume = 0.5f;
 }
