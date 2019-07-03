@@ -146,6 +146,54 @@ void SSlAiGameOptionWidget::Construct(const FArguments& InArgs)
 				.FillHeight(1.f)
 				[
 					SNew(SOverlay)
+
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Fill)
+					[
+						SNew(STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_Black)
+						.Text(NSLOCTEXT("SlAiMenu", "Sound", "Sound"))
+					]
+
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					[
+						SNew(SBox)
+						.WidthOverride(240.f)
+						[
+							SNew(SOverlay)
+	
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							.Padding(FMargin(30.f, 0.f))
+							[
+								SNew(SImage)
+								.Image(&MenuStyle->SliderBarBrush)
+							]
+
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							[
+								SAssignNew(SoSlider, SSlider)
+								.Style(&MenuStyle->SliderStyle)
+								.OnValueChanged(this, &SSlAiGameOptionWidget::SoundSliderChanged)
+							]
+						]
+					]
+
+					+ SOverlay::Slot()
+					.HAlign(HAlign_Right)
+					.VAlign(VAlign_Center)
+					[
+						SAssignNew(SoTexBlock, STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_Black)
+					]
 				]
 ]
 		]
@@ -184,7 +232,10 @@ void SSlAiGameOptionWidget::StyleInitialize()
 		break;
 	}
 
+	MuSlider->SetValue(0.5f);
 	MuTexBlock->SetText(FText::FromString(FString("50%")));
+	SoSlider->SetValue(0.5f);
+	SoTexBlock->SetText(FText::FromString(FString("50%")));
 }
 
 void SSlAiGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
@@ -213,6 +264,8 @@ void SSlAiGameOptionWidget::MusicSliderChanged(float value)
 
 void SSlAiGameOptionWidget::SoundSliderChanged(float value)
 {
+	//显示百分比
+	SoTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
