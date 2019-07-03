@@ -7,6 +7,8 @@
 #include "Widgets/SCompoundWidget.h"
 
 class SCheckBox;
+class SSlider;
+class STextBlock;
 /**
  * 
  */
@@ -29,10 +31,21 @@ private:
 	void ZhCheckBoxStateChanged(ECheckBoxState NewState);
 	//英文checkbox事件
 	void EnCheckBoxStateChanged(ECheckBoxState NewState);
+	//音量变化事件
+	void MusicSliderChanged(float value);
+	//音效变化事件
+	void SoundSliderChanged(float value);
 
 private:
 	const struct FSlAiMenuStyle* MenuStyle;
 	//获取CheckBox指针
 	TSharedPtr<SCheckBox> EnCheckBox;
 	TSharedPtr<SCheckBox> ZhCheckBox;
+	//两个进度条
+	TSharedPtr<SSlider> MuSlider; //背景音乐
+	TSharedPtr<SSlider> SoSlider; //音效
+	//进度条百分百
+	TSharedPtr<STextBlock> MuTexBlock;
+	//进度条百分百
+	TSharedPtr<STextBlock> SoTexBlock;
 };

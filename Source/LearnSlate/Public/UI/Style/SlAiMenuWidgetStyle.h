@@ -81,6 +81,14 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 	//checkedBox的Brush不被选中
 	UPROPERTY(EditAnywhere, Category = GameOption)
 		FSlateBrush UnCheckedBoxBrush;
+
+	//Slider的背景Brush
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush SliderBarBrush;
+
+	//指定Slider的样式
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSliderStyle SliderStyle;
 };
 
 /**

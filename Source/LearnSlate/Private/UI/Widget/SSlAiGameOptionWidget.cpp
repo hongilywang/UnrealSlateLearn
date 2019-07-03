@@ -12,6 +12,7 @@
 #include "STextBlock.h"
 #include "SBoxPanel.h"
 #include "SCheckBox.h"
+#include "SSlider.h"
 
 #include "SlAiDataHandle.h"
 
@@ -89,6 +90,54 @@ void SSlAiGameOptionWidget::Construct(const FArguments& InArgs)
 				.FillHeight(1.f)
 				[
 					SNew(SOverlay)
+
+					+SOverlay::Slot()
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Fill)
+					[
+						SNew(STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_Black)
+						.Text(NSLOCTEXT("SlAiMenu", "Music", "Music"))
+					]
+
+					+SOverlay::Slot()
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					[
+						SNew(SBox)
+						.WidthOverride(240.f)
+						[	
+							SNew(SOverlay)
+
+							+SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							.Padding(FMargin(30.f, 0.f))
+							[
+								SNew(SImage)
+								.Image(&MenuStyle->SliderBarBrush)
+							]
+
+							+SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Center)
+							[
+								SAssignNew(MuSlider, SSlider)
+								.Style(&MenuStyle->SliderStyle)
+								.OnValueChanged(this, &SSlAiGameOptionWidget::MusicSliderChanged)
+							]
+						]
+					]
+
+					+SOverlay::Slot()
+					.HAlign(HAlign_Right)
+					.VAlign(VAlign_Center)
+					[
+						SAssignNew(MuTexBlock, STextBlock)
+						.Font(MenuStyle->Font_40)
+						.ColorAndOpacity(MenuStyle->FontColor_Black)
+					]
 				]
 				//第3行
 				+ SVerticalBox::Slot()
@@ -134,6 +183,8 @@ void SSlAiGameOptionWidget::StyleInitialize()
 		EnCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 		break;
 	}
+
+	MuTexBlock->SetText(FText::FromString(FString("50%")));
 }
 
 void SSlAiGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
@@ -152,6 +203,16 @@ void SSlAiGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
 	EnCheckBox->SetIsChecked(ECheckBoxState::Checked);
 	//告诉数据控制类换为英文
 	SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
+}
+
+void SSlAiGameOptionWidget::MusicSliderChanged(float value)
+{
+	//显示百分比
+	MuTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
+}
+
+void SSlAiGameOptionWidget::SoundSliderChanged(float value)
+{
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
