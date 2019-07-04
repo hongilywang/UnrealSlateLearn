@@ -21,7 +21,9 @@ void SSlAiGameOptionWidget::Construct(const FArguments& InArgs)
 {
 	MenuStyle = &SlAiStyle::Get().GetWidgetStyle<FSlAiMenuStyle>("BPSlAiMenuStyle");
 
-	
+	ChangeCulture = InArgs._ChangeCulture;
+	ChangeVolume = InArgs._ChangeVolume;
+
 	ChildSlot
 	[
 		SNew(SBox)
@@ -244,7 +246,8 @@ void SSlAiGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
 	ZhCheckBox->SetIsChecked(ECheckBoxState::Checked);
 	EnCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 	//告诉数据控制类换为中文
-	SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::ZH);
+	//SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::ZH);
+	ChangeCulture.ExecuteIfBound(ECultureTeam::ZH);
 }
 
 void SSlAiGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
@@ -253,21 +256,24 @@ void SSlAiGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
 	ZhCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 	EnCheckBox->SetIsChecked(ECheckBoxState::Checked);
 	//告诉数据控制类换为英文
-	SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
+	//SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
+	ChangeCulture.ExecuteIfBound(ECultureTeam::EN);
 }
 
 void SSlAiGameOptionWidget::MusicSliderChanged(float value)
 {
 	//显示百分比
 	MuTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
-	SlAiDataHandle::Get()->ResetMenuVolume(value, -1);
+	//SlAiDataHandle::Get()->ResetMenuVolume(value, -1);
+	ChangeVolume.ExecuteIfBound(value, -1);
 }
 
 void SSlAiGameOptionWidget::SoundSliderChanged(float value)
 {
 	//显示百分比
 	SoTexBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(value * 100)) + FString("%")));
-	SlAiDataHandle::Get()->ResetMenuVolume(-1, value);
+	//SlAiDataHandle::Get()->ResetMenuVolume(-1, value);
+	ChangeVolume.ExecuteIfBound(-1, value);
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

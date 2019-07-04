@@ -9,6 +9,12 @@
 class SCheckBox;
 class SSlider;
 class STextBlock;
+
+//修改中英文委托
+DECLARE_DELEGATE_OneParam(FChangeCulture, const ECultureTeam)
+//修改音量委托
+DECLARE_DELEGATE_TwoParams(FChangeVolume, const float, const float)
+
 /**
  * 
  */
@@ -17,6 +23,8 @@ class LEARNSLATE_API SSlAiGameOptionWidget : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SSlAiGameOptionWidget)
 	{}
+	SLATE_EVENT(FChangeCulture, ChangeCulture)
+	SLATE_EVENT(FChangeVolume, ChangeVolume)
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
@@ -48,4 +56,8 @@ private:
 	TSharedPtr<STextBlock> MuTexBlock;
 	//进度条百分百
 	TSharedPtr<STextBlock> SoTexBlock;
+
+	//委托变了
+	FChangeCulture ChangeCulture;
+	FChangeVolume ChangeVolume;
 };
