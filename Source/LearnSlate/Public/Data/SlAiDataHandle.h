@@ -24,6 +24,14 @@ private:
 	//创建单例
 	static TSharedRef<SlAiDataHandle> Create();
 
+	//根据enum类型获取字符串
+	template<typename TEnum>
+	FString GetEnumValueAsString(const FString& Name, TEnum Value);
+
+	//根据字符串获取Enum值
+	template<typename TEnum>
+	TEnum GetEnumValueFromString(const FString& Name, FString Value);
+
 public:
 	//语言
 	ECultureTeam CurrentCulture;
