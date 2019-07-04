@@ -7,9 +7,17 @@
 /**
  * 
  */
+template<class T>
 class LEARNSLATE_API SlAiSingleton
 {
 public:
-	SlAiSingleton();
-	~SlAiSingleton();
+	static TSharedPtr<T> Get();
+
+private:
+	static void Initialize();
+
+	static TSharedRef<T> Create();
+
+private:
+	static TSharedPtr<T> TInstance;
 };
