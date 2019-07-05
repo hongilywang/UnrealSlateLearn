@@ -3,6 +3,9 @@
 
 #include "SlAiDataHandle.h"
 #include "Internationalization.h"
+#include "SlAiSingleton.h"
+#include "SlAiJsonHandle.h"
+#include "SlAiHelper.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = nullptr;
 
@@ -47,12 +50,27 @@ TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 	return DataRef;
 }
 
+void SlAiDataHandle::InitRecordData()
+{
+	//获取语言
+	FString Culture;
+	//读取存档数据
+	SlAiSingleton<SlAiJsonHandle>::Get()->RecordDataJsonRead(Culture, MusicVolume, SoundVolume, RecordDataList);
+	
+	//初始化语言
+	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
+	
+	//输出一下
+	SlAiHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) + FString("--") + FString::SanitizeFloat(SoundVolume), 20.f);
+	//循环读取RecordDataList
+	for (TArray<FString>::TIterator It(RecordDataList); It; ++It)
+		SlAiHelper::Debug(*It, 20.f);
+}
+
 SlAiDataHandle::SlAiDataHandle()
 {
-	//初始化为中文
-	CurrentCulture = ECultureTeam::ZH;
-	MusicVolume = 0.5f;
-	SoundVolume = 0.5f;
+	//初始化为存档数据
+	InitRecordData();
 }
 
 template<typename TEnum>

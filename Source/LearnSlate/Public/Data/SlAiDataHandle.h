@@ -32,6 +32,9 @@ private:
 	template<typename TEnum>
 	TEnum GetEnumValueFromString(const FString& Name, FString Value);
 
+	//初始化存档数据
+	void InitRecordData();
+
 public:
 	//语言
 	ECultureTeam CurrentCulture;
@@ -39,6 +42,9 @@ public:
 	float MusicVolume;
 	//音效
 	float SoundVolume;
+
+	//存档数据
+	TArray<FString> RecordDataList;
 
 private:
 	static TSharedPtr<SlAiDataHandle> DataInstance;
