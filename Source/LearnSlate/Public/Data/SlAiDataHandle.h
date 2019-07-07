@@ -46,6 +46,9 @@ public:
 	//´æµµÊý¾Ý
 	TArray<FString> RecordDataList;
 
+	//´æµµÃû
+	FString RecordName;
+
 private:
 	static TSharedPtr<SlAiDataHandle> DataInstance;
 };
