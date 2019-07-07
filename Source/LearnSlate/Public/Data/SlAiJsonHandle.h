@@ -17,6 +17,9 @@ public:
 	//解析存档方法
 	void RecordDataJsonRead(FString& Culture, float& MusicVolume, float& SoundVolume, TArray<FString>& RecordDataList);
 
+	//修改存档
+	void UpdateRecodeData(FString Culture, float MusicVolume, float SoundVolume, TArray<FString>* RecordDataList);
+
 private:
 	//读取Json文件到字符串
 	bool LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString);

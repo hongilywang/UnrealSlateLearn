@@ -33,6 +33,7 @@ void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 		break;
 	}
 	CurrentCulture = Culture;
+	SlAiSingleton<SlAiJsonHandle>::Get()->UpdateRecodeData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
 void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
@@ -41,7 +42,9 @@ void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 		MusicVolume = MusicVol;
 
 	if (SoundVol > 0)
-		SoundVol = SoundVol;
+		SoundVolume = SoundVol;
+
+	SlAiSingleton<SlAiJsonHandle>::Get()->UpdateRecodeData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
