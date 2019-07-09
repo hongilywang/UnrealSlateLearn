@@ -51,3 +51,14 @@ namespace EMenuType
 		ChooseRecord
 	};
 }
+
+//Menu动画状态枚举
+namespace EMenuAnim
+{
+	enum Type
+	{
+		Stop,	//停止动画
+		Close,	//关闭Menu
+		Open,	//打开Menu
+	};
+}
