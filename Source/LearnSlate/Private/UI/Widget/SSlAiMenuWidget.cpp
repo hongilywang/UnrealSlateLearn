@@ -15,6 +15,8 @@
 
 #include "SlAiHelper.h"
 #include "SlAiDataHandle.h"
+#include "SlAiMenuController.h"
+#include "Kismet/GameplayStatics.h"
 
 
 struct MenuGroup
@@ -41,6 +43,8 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiMenuWidget::Construct(const FArguments& InArgs)
 {
 	MenuStyle = &SlAiStyle::Get().GetWidgetStyle<FSlAiMenuStyle>("BPSlAiMenuStyle");
+	//²¥·Å±³¾°ÒôÀÖ
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuBackgroundMusic);
 
 	ChildSlot
 	[
@@ -174,7 +178,8 @@ void SSlAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::GameOption);
 		break;
 	case EMenuItem::QuitGame:
-		ControlLocked = false;
+		//ÍË³öÓÎÏ·£¬²¥·ÅÉùÒô²¢ÇÒÑÓ³Ùµ÷ÓÃÍË³öº¯Êý
+		SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->ExitGameSound, this, &SSlAiMenuWidget::QuitGame);
 		break;
 	case EMenuItem::NewGame:
 		PlayClose(EMenuType::NewGame);
@@ -195,10 +200,10 @@ void SSlAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::StartGame);
 		break;
 	case EMenuItem::EnterGame:
-		ControlLocked = false;
+		SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
 		break;
 	case EMenuItem::EnterRecord:
-		ControlLocked = false;
+		SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
 		break;
 	}
 }
@@ -320,4 +325,17 @@ void SSlAiMenuWidget::PlayClose(EMenuType::Type NewMenu)
 	AnimState = EMenuAnim::Close;
 	//²¥·Å·´Ïò¶¯»­
 	MenuAimation.PlayReverse(this->AsShared());
+	//²¥·ÅÇÐ»»²Ëµ¥ÒôÀÖ
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuItemChangeSound);
+}
+
+void SSlAiMenuWidget::QuitGame()
+{
+	Cast<ASlAiMenuController>(UGameplayStatics::GetPlayerController(GWorld, 0))->ConsoleCommand("quit");
+}
+
+void SSlAiMenuWidget::EnterGame()
+{
+	SlAiHelper::Debug(FString("EnterGame"), 10.f);
+	ControlLocked = false;
 }

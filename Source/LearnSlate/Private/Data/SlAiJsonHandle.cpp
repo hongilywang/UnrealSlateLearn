@@ -91,7 +91,7 @@ bool SlAiJsonHandle::LoadStringFromFile(const FString& FileName, const FString& 
 		return false;
 
 	//获取绝对路径
-	FString AbsoPath = FPaths::GameContentDir() + RelaPath + FileName;
+	FString AbsoPath = FPaths::ProjectContentDir() + RelaPath + FileName;
 
 	if (!FPaths::FileExists(AbsoPath))
 	{
@@ -128,7 +128,7 @@ bool SlAiJsonHandle::WriteFileWithJsonData(const FString& JsonStr, const FString
 	if (FileName.IsEmpty())
 		return false;
 
-	FString AbsoPath = FPaths::GameContentDir() + RelaPath + FileName;
+	FString AbsoPath = FPaths::ProjectContentDir() + RelaPath + FileName;
 	if (FFileHelper::SaveStringToFile(JsonStr, *AbsoPath))
 	{
 		return true;

@@ -5,6 +5,7 @@
 #include "SlAiTypes.h"
 #include "CoreMinimal.h"
 
+class USoundCue;
 /**
  * 
  */
@@ -34,6 +35,8 @@ private:
 
 	//初始化存档数据
 	void InitRecordData();
+	//初始化Menu声音数据
+	void InitializedMenuAudio();
 
 public:
 	//语言
@@ -51,4 +54,8 @@ public:
 
 private:
 	static TSharedPtr<SlAiDataHandle> DataInstance;
+	//保存Menu的声音
+	TMap<FString, TArray<USoundCue*>> MenuAudioResource;
+	//获取MenuStyle 里面存放有声音文件
+	const struct FSlAiMenuStyle* MenuStyle;
 };

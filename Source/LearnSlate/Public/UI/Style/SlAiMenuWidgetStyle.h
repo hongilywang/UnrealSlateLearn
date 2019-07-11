@@ -105,7 +105,7 @@ struct LEARNSLATE_API FSlAiMenuStyle : public FSlateWidgetStyle
 
 	//Menu±≥æ∞…˘“Ù
 	UPROPERTY(EditAnywhere, Category = Sound)
-		FSlateSound MenuBackgroundSound;
+		FSlateSound MenuBackgroundMusic;
 };
 
 /**
