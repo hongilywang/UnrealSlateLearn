@@ -200,9 +200,22 @@ void SSlAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::StartGame);
 		break;
 	case EMenuItem::EnterGame:
-		SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
+		//检测是否可以进入游戏
+		if (NewGameWidget->AllowEnterGame())
+		{
+			SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
+		}
+		else
+		{
+			//解锁按钮
+			ControlLocked = false;
+		}
+
+
 		break;
 	case EMenuItem::EnterRecord:
+		//告诉选择存档更新存档名
+		ChooseRecordWidget->UpdateRecordName();
 		SlAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSlAiMenuWidget::EnterGame);
 		break;
 	}
@@ -336,6 +349,5 @@ void SSlAiMenuWidget::QuitGame()
 
 void SSlAiMenuWidget::EnterGame()
 {
-	SlAiHelper::Debug(FString("EnterGame"), 10.f);
-	ControlLocked = false;
+	UGameplayStatics::OpenLevel(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), FName("GameMap"));
 }
