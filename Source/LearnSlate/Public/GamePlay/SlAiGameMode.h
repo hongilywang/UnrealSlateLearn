@@ -17,6 +17,9 @@ class LEARNSLATE_API ASlAiGameMode : public AGameModeBase
 public:
 	ASlAiGameMode();
 
+	//ÖØÐ´
+	virtual void Tick(float DeltaSeconds) override;
+
 protected:
 	virtual void BeginPlay() override;
 };
