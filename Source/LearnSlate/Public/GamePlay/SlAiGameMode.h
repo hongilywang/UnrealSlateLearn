@@ -14,4 +14,9 @@ class LEARNSLATE_API ASlAiGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	ASlAiGameMode();
+
+protected:
+	virtual void BeginPlay() override;
 };

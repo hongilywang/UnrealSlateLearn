@@ -16,4 +16,8 @@ class LEARNSLATE_API ASlAiMenuGameMode : public AGameModeBase
 
 public:
 	ASlAiMenuGameMode();
+
+protected:
+
+	virtual void BeginPlay() override;
 };
