@@ -26,4 +26,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	//第一人称的骨骼模型
+	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
+		USkeletalMeshComponent* MeshFirst;
 };
