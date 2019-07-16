@@ -7,12 +7,16 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	//设置人物碰撞属性为playerProfile，下面的mesh模型的碰撞就可以设置无无碰撞
+	GetCapsuleComponent()->SetCollisionProfileName(FName("PlayerProfile"));
 
 	//添加第一人称骨骼模型
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> StaticMeshFirst(TEXT("SkeletalMesh'/Game/Res/PolygonAdventure/Mannequin/FirstPlayer/SkMesh/FirstPlayer.FirstPlayer'"));
