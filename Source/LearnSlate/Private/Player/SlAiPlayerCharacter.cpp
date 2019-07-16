@@ -5,6 +5,8 @@
 #include "ConstructorHelpers.h"
 #include "Engine/SkeletalMesh.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
@@ -21,7 +23,7 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	MeshFirst->bCastDynamicShadow = false;
 	MeshFirst->bReceivesDecals = false;
 	//更新频率衰落
-	MeshFirst->MeshComponentUpdateFlag = EMeshComponentUpdateFlag::OnlyTickPoseWhenRendered;
+	MeshFirst->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
 	MeshFirst->PrimaryComponentTick.TickGroup = TG_PrePhysics;
 	//设置碰撞属性
 	MeshFirst->SetCollisionObjectType(ECC_Pawn);
@@ -42,6 +44,30 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	GetMesh()->SetCollisionResponseToAllChannels(ECR_Ignore);
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
 	GetMesh()->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.f, -90.f)));
+
+	//摄像机手臂
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	//设置距离
+	CameraBoom->TargetArmLength = 300.f;
+	//设置偏移
+	CameraBoom->TargetOffset = FVector(0.f, 0.f, 60.f);
+	//绑定controller的旋转
+	CameraBoom->bUsePawnControlRotation = true;
+
+	//初始化第三人称摄像机
+	ThirdCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdCamera"));
+	ThirdCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	//设置ThirdCamera不跟随控制器的旋转
+	ThirdCamera->bUsePawnControlRotation = false;
+
+	//初始化第一人摄像机
+	FirstCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstCamera"));
+	FirstCamera->SetupAttachment((USceneComponent*)GetCapsuleComponent());
+	//设置跟随controller的旋转
+	FirstCamera->bUsePawnControlRotation = true;
+	//设置位置
+	FirstCamera->AddLocalOffset(FVector(0.f, 0.f, 60.f));
 }
 
 // Called when the game starts or when spawned

@@ -15,16 +15,28 @@ public:
 	// Sets default values for this character's properties
 	ASlAiPlayerCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
+		class USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
+		class UCameraComponent* FirstCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
+		UCameraComponent* ThirdCamera;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
 
 private:
 	//第一人称的骨骼模型
