@@ -3,3 +3,8 @@
 
 #include "SlAiThirdPlayerAnim.h"
 
+USlAiThirdPlayerAnim::USlAiThirdPlayerAnim()
+{
+	Direction = 0.f;
+	IsInAir = false;
+}

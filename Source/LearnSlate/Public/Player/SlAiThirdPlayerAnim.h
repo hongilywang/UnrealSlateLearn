@@ -14,4 +14,16 @@ class LEARNSLATE_API USlAiThirdPlayerAnim : public USlAiPlayerAnim
 {
 	GENERATED_BODY()
 	
+public:
+	USlAiThirdPlayerAnim();
+
+public:
+
+	//是否在空中
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)
+		bool IsInAir;
+
+	//方向
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)
+		float Direction;
 };

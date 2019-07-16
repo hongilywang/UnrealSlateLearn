@@ -3,3 +3,8 @@
 
 #include "SlAiPlayerAnim.h"
 
+USlAiPlayerAnim::USlAiPlayerAnim()
+{
+	Speed = 0.f;
+	SpineRotator = FRotator(0.f, 0.f, 0.f);
+}
