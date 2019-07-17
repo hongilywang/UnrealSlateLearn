@@ -8,6 +8,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/Controller.h"
+#include "RotationMatrix.h"
+#include "QuatRotationTranslationMatrix.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
@@ -82,6 +86,9 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	FirstCamera->bUsePawnControlRotation = true;
 	//ÉèÖÃÎ»ÖÃ
 	FirstCamera->AddLocalOffset(FVector(0.f, 0.f, 60.f));
+
+	FirstCamera->SetActive(false);
+	ThirdCamera->SetActive(true);
 }
 
 // Called when the game starts or when spawned
@@ -103,5 +110,56 @@ void ASlAiPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &ASlAiPlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ASlAiPlayerCharacter::MoveRight);
 }
 
+void ASlAiPlayerCharacter::MoveForward(float Value)
+{
+	if (Value != 0.f && Controller)
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
+}
+
+void ASlAiPlayerCharacter::MoveRight(float Value)
+{
+	if (Value != 0)
+	{
+		const FQuat Rotation = GetActorQuat();
+		FVector Direction = FQuatRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		AddMovementInput(Direction, Value);
+	}
+}
+
+void ASlAiPlayerCharacter::LookUpAtRate(float Value)
+{
+}
+
+void ASlAiPlayerCharacter::Turn(float Value)
+{
+}
+
+void ASlAiPlayerCharacter::TurnAtRate(float Value)
+{
+}
+
+void ASlAiPlayerCharacter::OnStartJump()
+{
+}
+
+void ASlAiPlayerCharacter::OnStopJump()
+{
+}
+
+void ASlAiPlayerCharacter::OnStartRun()
+{
+}
+
+void ASlAiPlayerCharacter::OnStopRun()
+{
+}
