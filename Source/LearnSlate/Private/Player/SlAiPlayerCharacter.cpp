@@ -37,6 +37,11 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	MeshFirst->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
 	MeshFirst->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.f, -90.f)));
 
+	//获取第一人称的动作蓝图
+	//如果是动画蓝图，Ctrl C，Ctrl V后的路径需要加上_C
+	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticAnimFirst(TEXT("AnimBlueprint'/Game/Blueprint/Player/FirstPlayer_Animation.FirstPlayer_Animation_C'"));
+	MeshFirst->AnimClass = StaticAnimFirst.Class;
+
 	//给默认Mesh添加骨骼模型
 	//模型的路径获取在unity编辑器里面，找到对应的模型文件，然后Ctrl+C复制就可以
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> StaticMeshThird(TEXT("SkeletalMesh'/Game/Res/PolygonAdventure/Mannequin/Player/SkMesh/Player.Player'"));
@@ -48,6 +53,11 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	GetMesh()->SetCollisionResponseToAllChannels(ECR_Ignore);
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
 	GetMesh()->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.f, -90.f)));
+
+	//获取第三人称的动作蓝图
+	//如果是动画蓝图，Ctrl C，Ctrl V后的路径需要加上_C
+	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticAnimThird(TEXT("AnimBlueprint'/Game/Blueprint/Player/ThirdPlayer_Animation.ThirdPlayer_Animation_C'"));
+	GetMesh()->AnimClass = StaticAnimThird.Class;
 
 	//摄像机手臂
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
