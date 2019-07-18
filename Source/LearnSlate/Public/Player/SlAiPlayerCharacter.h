@@ -52,4 +52,8 @@ private:
 	//第一人称的骨骼模型
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
 		USkeletalMeshComponent* MeshFirst;
+
+	//旋转比例
+	float BaseLookUpRate;
+	float BaseTurnRate;
 };

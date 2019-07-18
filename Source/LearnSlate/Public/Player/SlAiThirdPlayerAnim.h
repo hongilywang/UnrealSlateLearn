@@ -17,6 +17,10 @@ class LEARNSLATE_API USlAiThirdPlayerAnim : public USlAiPlayerAnim
 public:
 	USlAiThirdPlayerAnim();
 
+
+protected:
+	virtual void UpdateParameter() override;
+
 public:
 
 	// «∑Ò‘⁄ø’÷–
