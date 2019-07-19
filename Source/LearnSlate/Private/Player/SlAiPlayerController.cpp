@@ -2,4 +2,66 @@
 
 
 #include "SlAiPlayerController.h"
+#include "SlAiPlayerCharacter.h"
 
+void ASlAiPlayerController::Tick(float DeltaSeconds)
+{
+	//允许
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+void ASlAiPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	//绑定视角切换
+	InputComponent->BindAction("ChangeView", IE_Pressed, this, &ASlAiPlayerController::ChangeView);
+	//绑定鼠标按下事件
+	InputComponent->BindAction("LeftEvent", IE_Pressed, this, &ASlAiPlayerController::LeftEventStart);
+	InputComponent->BindAction("LeftEvent", IE_Released, this, &ASlAiPlayerController::LeftEventStop);
+	InputComponent->BindAction("RightEvent", IE_Pressed, this, &ASlAiPlayerController::RightEventStart);
+	InputComponent->BindAction("RightEvent", IE_Released, this, &ASlAiPlayerController::RightEventStop);
+}
+
+void ASlAiPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	//获取角色
+	if (!SPCharacter)
+		SPCharacter = Cast<ASlAiPlayerCharacter>(GetCharacter());
+
+	//设置鼠标输入不显示
+	bShowMouseCursor = false;
+	//设置输入模式
+	FInputModeGameOnly InputMode;
+	InputMode.SetConsumeCaptureMouseDown(true);
+	SetInputMode(InputMode);
+}
+
+void ASlAiPlayerController::ChangeView()
+{
+	switch (SPCharacter->GameView)
+	{
+	case EGameViewMode::First:
+		SPCharacter->ChangeView(EGameViewMode::Third);
+		break;
+	case EGameViewMode::Third:
+		SPCharacter->ChangeView(EGameViewMode::First);
+		break;
+	}
+}
+
+void ASlAiPlayerController::LeftEventStart()
+{
+}
+
+void ASlAiPlayerController::LeftEventStop()
+{
+}
+
+void ASlAiPlayerController::RightEventStart()
+{
+}
+
+void ASlAiPlayerController::RightEventStop()
+{
+}

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SlAiTypes.h"
+
 #include "SlAiPlayerCharacter.generated.h"
 
 UCLASS()
@@ -21,6 +23,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//修改视角
+	void ChangeView(EGameViewMode::Type NewGameView);
+
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
@@ -31,6 +36,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
 		UCameraComponent* ThirdCamera;
+
+	//当前的视角模式
+	EGameViewMode::Type GameView;
 
 protected:
 	// Called when the game starts or when spawned
