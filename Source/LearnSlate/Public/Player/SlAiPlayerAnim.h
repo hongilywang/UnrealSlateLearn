@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Animation/AnimMontage.h"
 #include "SlAiPlayerAnim.generated.h"
 
+class UAnimMontage;
 /**
  * 
  */
@@ -33,8 +35,18 @@ protected:
 	//更新属性
 	virtual void UpdateParameter();
 
+	//更新动作
+	virtual void UpdateMontage();
+
 protected:
 
 	//角色指针
 	class ASlAiPlayerCharacter* SPCharacter;
+
+	//上半身的Montage
+	UAnimMontage* PlayerHitMontage;
+	UAnimMontage* PlayerEatMontage;
+	UAnimMontage* PlayerFightMontage;
+	UAnimMontage* PlayerPunchMontage;
+	UAnimMontage* PlayerPickUpMontage;
 };

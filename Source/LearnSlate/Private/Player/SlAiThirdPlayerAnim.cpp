@@ -5,9 +5,23 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "SlAiPlayerCharacter.h"
+#include "Animation/AnimMontage.h"
+#include "ConstructorHelpers.h"
 
 USlAiThirdPlayerAnim::USlAiThirdPlayerAnim()
 {
+	//绑定资源到montage
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerHitMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerHitMontage.PlayerHitMontage'"));
+	PlayerHitMontage = PlayerHitMon.Object;
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerEatMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerEatMontage.PlayerEatMontage'"));
+	PlayerEatMontage = PlayerEatMon.Object;
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerFightMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerFightMontage.PlayerFightMontage'"));
+	PlayerFightMontage = PlayerFightMon.Object;
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerPunchMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerPunchMontage.PlayerPunchMontage'"));
+	PlayerPunchMontage = PlayerPunchMon.Object;
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerPickUpMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerPickUpMontage.PlayerPickUpMontage'"));
+	PlayerPickUpMontage = PlayerPickUpMon.Object;
+
 	Direction = 0.f;
 	IsInAir = false;
 }
