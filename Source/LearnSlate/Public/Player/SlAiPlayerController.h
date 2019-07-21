@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "SlAiTypes.h"
-
 #include "SlAiPlayerController.generated.h"
 
 /**

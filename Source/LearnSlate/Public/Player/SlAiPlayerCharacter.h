@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SlAiTypes.h"
-
 #include "SlAiPlayerCharacter.generated.h"
 
 UCLASS()
@@ -35,7 +34,7 @@ public:
 		class UCameraComponent* FirstCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
-		UCameraComponent* ThirdCamera;
+		class UCameraComponent* ThirdCamera;
 
 	//当前的视角模式
 	EGameViewMode::Type GameView;

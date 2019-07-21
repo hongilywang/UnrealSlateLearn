@@ -3,6 +3,12 @@
 
 #include "SlAiPlayerController.h"
 #include "SlAiPlayerCharacter.h"
+#include "SlAiTypes.h"
+
+ASlAiPlayerController::ASlAiPlayerController()
+{
+
+}
 
 void ASlAiPlayerController::Tick(float DeltaSeconds)
 {
