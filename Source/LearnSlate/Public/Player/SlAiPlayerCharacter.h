@@ -39,6 +39,9 @@ public:
 	//当前的视角模式
 	EGameViewMode::Type GameView;
 
+	//上半身动画状态
+	EUpperBody::Type UpperType;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

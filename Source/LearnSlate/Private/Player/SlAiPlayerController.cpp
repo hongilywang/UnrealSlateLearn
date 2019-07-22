@@ -41,6 +41,10 @@ void ASlAiPlayerController::BeginPlay()
 	FInputModeGameOnly InputMode;
 	InputMode.SetConsumeCaptureMouseDown(true);
 	SetInputMode(InputMode);
+
+	//ÉèÖÃÔ¤¶¯×÷
+	LeftUpperType = EUpperBody::Punch;
+	RightUpperType = EUpperBody::PickUp;
 }
 
 void ASlAiPlayerController::ChangeView()
@@ -58,16 +62,20 @@ void ASlAiPlayerController::ChangeView()
 
 void ASlAiPlayerController::LeftEventStart()
 {
+	SPCharacter->UpperType = LeftUpperType;
 }
 
 void ASlAiPlayerController::LeftEventStop()
 {
+	SPCharacter->UpperType = EUpperBody::None;
 }
 
 void ASlAiPlayerController::RightEventStart()
 {
+	SPCharacter->UpperType = RightUpperType;
 }
 
 void ASlAiPlayerController::RightEventStop()
 {
+	SPCharacter->UpperType = EUpperBody::None;
 }

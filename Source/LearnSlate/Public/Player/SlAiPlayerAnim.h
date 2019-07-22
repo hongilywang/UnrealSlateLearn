@@ -49,4 +49,7 @@ protected:
 	UAnimMontage* PlayerFightMontage;
 	UAnimMontage* PlayerPunchMontage;
 	UAnimMontage* PlayerPickUpMontage;
+
+	//保存当前播放的Montage
+	UAnimMontage* CurrentMontage;
 };

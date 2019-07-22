@@ -72,3 +72,17 @@ namespace EGameViewMode
 		Third,
 	};
 }
+
+//…œ∞Î…Ì∂Øª≠◊¥Ã¨
+namespace EUpperBody
+{
+	enum Type
+	{
+		None,
+		Punch,
+		Hit,
+		Fight,
+		PickUp,
+		Eat
+	};
+}

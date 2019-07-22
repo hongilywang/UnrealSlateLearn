@@ -102,6 +102,8 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 	//初始化第三人视角
 	GameView = EGameViewMode::Third;
+	//上半身动作初始化为无动作
+	UpperType = EUpperBody::None;
 }
 
 // Called when the game starts or when spawned
