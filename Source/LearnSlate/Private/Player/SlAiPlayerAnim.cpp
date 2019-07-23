@@ -32,6 +32,14 @@ void USlAiPlayerAnim::UpdateParameter()
 		return;
 
 	Speed = SPCharacter->GetVelocity().Size();
+	//定义上半身的旋转
+	float SpineDir = SPCharacter->GetActorRotation().Yaw - 90.f;
+	if (SpineDir > 180.f)
+		SpineDir -= 360.f;
+	if (SpineDir < -180.f)
+		SpineDir += 360.f;
+
+	SpineRotator = FRotator(0.f, SpineDir, 90.f);
 }
 
 void USlAiPlayerAnim::UpdateMontage()
