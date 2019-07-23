@@ -22,6 +22,9 @@ USlAiThirdPlayerAnim::USlAiThirdPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerPickUpMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/UpperBody/PlayerPickUpMontage.PlayerPickUpMontage'"));
 	PlayerPickUpMontage = PlayerPickUpMon.Object;
 
+	//设置运行时的人称视角
+	GameView = EGameViewMode::Third;
+
 	Direction = 0.f;
 	IsInAir = false;
 }

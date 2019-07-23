@@ -39,6 +39,10 @@ void USlAiPlayerAnim::UpdateMontage()
 	if (!SPCharacter)
 		return;
 
+	//如果当前的人称状态和这个动作的不一致，直接返回
+	if (SPCharacter->GameView != GameView)
+		return;
+
 	//如果当前的动作没有停止，不更新动作
 	if (!Montage_GetIsStopped(CurrentMontage))
 		return;
@@ -51,6 +55,8 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Stop(0);
 			CurrentMontage = nullptr;
+			//允许切换视角
+			AllowViewChange(true);
 		}
 		break;
 	case EUpperBody::Punch:
@@ -58,6 +64,8 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Play(PlayerPunchMontage);
 			CurrentMontage = PlayerPunchMontage;
+			//不允许切换视角
+			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Hit:
@@ -65,6 +73,8 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Play(PlayerHitMontage);
 			CurrentMontage = PlayerHitMontage;
+			//不允许切换视角
+			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Fight:
@@ -72,6 +82,8 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Play(PlayerFightMontage);
 			CurrentMontage = PlayerFightMontage;
+			//不允许切换视角
+			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::PickUp:
@@ -79,6 +91,8 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Play(PlayerPickUpMontage);
 			CurrentMontage = PlayerPickUpMontage;
+			//不允许切换视角
+			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Eat:
@@ -86,7 +100,16 @@ void USlAiPlayerAnim::UpdateMontage()
 		{
 			Montage_Play(PlayerEatMontage);
 			CurrentMontage = PlayerEatMontage;
+			//不允许切换视角
+			AllowViewChange(false);
 		}
 		break;
 	}
+}
+
+void USlAiPlayerAnim::AllowViewChange(bool IsAllow)
+{
+	if (!SPCharacter)
+		return;
+	SPCharacter->IsAllowSwitch = IsAllow;
 }

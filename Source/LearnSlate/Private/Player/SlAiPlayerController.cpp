@@ -49,6 +49,10 @@ void ASlAiPlayerController::BeginPlay()
 
 void ASlAiPlayerController::ChangeView()
 {
+	//如果不允许切换视角
+	if (!SPCharacter->IsAllowSwitch)
+		return;
+
 	switch (SPCharacter->GameView)
 	{
 	case EGameViewMode::First:

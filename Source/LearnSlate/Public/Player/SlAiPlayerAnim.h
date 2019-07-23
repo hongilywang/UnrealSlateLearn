@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
+#include "SlAiTypes.h"
 #include "SlAiPlayerAnim.generated.h"
 
 class UAnimMontage;
@@ -38,6 +39,9 @@ protected:
 	//更新动作
 	virtual void UpdateMontage();
 
+	//修改是否运行切换视角
+	void AllowViewChange(bool IsAllow);
+
 protected:
 
 	//角色指针
@@ -52,4 +56,7 @@ protected:
 
 	//保存当前播放的Montage
 	UAnimMontage* CurrentMontage;
+
+	//制定自己的运行人称
+	EGameViewMode::Type GameView;
 };
