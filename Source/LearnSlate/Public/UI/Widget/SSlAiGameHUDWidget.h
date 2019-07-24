@@ -17,4 +17,22 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	//绑定到UIScaler的方法
+	float GetUIScaler() const;
+
+public:
+
+	//快捷栏指针
+	TSharedPtr<class SSlAiShortcutWidget> ShortcutWidget;
+
+private:
+	//获取屏幕size
+	FVector2D GetViewportSize() const;
+
+
+private:
+
+	//DPI缩放
+	TAttribute<float> UIScaler;
 };

@@ -14,4 +14,9 @@ class LEARNSLATE_API ASlAiGameHUD : public AHUD
 {
 	GENERATED_BODY()
 	
+public:
+	ASlAiGameHUD();
+
+private:
+	TSharedPtr<class SSlAiGameHUDWidget> GameHUDWidget;
 };

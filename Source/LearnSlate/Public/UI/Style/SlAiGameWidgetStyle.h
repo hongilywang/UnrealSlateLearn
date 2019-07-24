@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
+#include "SlateBrush.h"
 
 #include "SlAiGameWidgetStyle.generated.h"
 
@@ -24,6 +25,63 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	static const FName TypeName;
 	virtual const FName GetTypeName() const override { return TypeName; };
 	static const FSlAiGameStyle& GetDefault();
+
+	//指定快捷栏的容器图标
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush NormalContainerBrush;
+
+	//指定被选择的容器的Brush
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ChoosedContainerBrush;
+
+	//没有指定颜色的Brush
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush EmptyBrush;
+
+	//60号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_60;
+
+	//50号字体有轮廓
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_Outline_50;
+
+	//50号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_50;
+
+	//40号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_40;
+
+	//30号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_30;
+
+	//20号字体有轮廓
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_Outline_20;
+
+	//20号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_20;
+
+	//16号字体有轮廓
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_Outline_16;
+
+	//16号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_16;
+
+	//白颜色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_White;
+
+	//黑颜色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_Black;
+
 };
 
 /**
