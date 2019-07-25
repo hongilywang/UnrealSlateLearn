@@ -46,13 +46,13 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_Outline_50;
 
-	//50号字体
-	UPROPERTY(EditAnywhere, Category = Common)
-		FSlateFontInfo Font_50;
-
 	//40号字体
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_40;
+
+	//40号字体有轮廓
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_Outline_40;
 
 	//30号字体
 	UPROPERTY(EditAnywhere, Category = Common)
