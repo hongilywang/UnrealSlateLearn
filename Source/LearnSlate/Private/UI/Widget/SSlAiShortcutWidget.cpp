@@ -70,24 +70,15 @@ void SSlAiShortcutWidget::InitializeContainer()
 
 		SAssignNew(ContainerBorder, SBorder)
 		.Padding(FMargin(10.f))
-			//´ýÉ¾³ý
-		.BorderImage(&GameStyle->NormalContainerBrush)
-		/////
 		[
 			SAssignNew(ObjectImage, SBorder)
 			.HAlign(HAlign_Right)
 			.VAlign(VAlign_Bottom)
 			.Padding(FMargin(0.f, 0.f, 5.f, 0.f))
-			//´ýÉ¾³ý
-			.BorderImage(&GameStyle->EmptyBrush)
-			/////
 			[
 				SAssignNew(ObjectNumText, STextBlock)
 				.Font(GameStyle->Font_Outline_20)
 				.ColorAndOpacity(GameStyle->FontColor_Black)
-			//´ýÉ¾³ý
-				.Text(FText::FromString("12"))
-			/////
 			]
 		];
 

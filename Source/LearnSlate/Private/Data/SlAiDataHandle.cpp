@@ -112,6 +112,18 @@ void SlAiDataHandle::InitializedMenuAudio()
 	ResetMenuVolume(MusicVolume, SoundVolume);
 }
 
+void SlAiDataHandle::InitializeGameData()
+{
+	//初始化物品属性
+	InitializeObjectAttr();
+}
+
+
+void SlAiDataHandle::InitializeObjectAttr()
+{
+	SlAiSingleton<SlAiJsonHandle>::Get()->ObjectAttrJsonRead(ObjectAttrMap);
+}
+
 SlAiDataHandle::SlAiDataHandle()
 {
 	//初始化为存档数据

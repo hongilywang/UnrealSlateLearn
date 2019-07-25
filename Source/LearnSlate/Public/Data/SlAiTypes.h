@@ -86,3 +86,41 @@ namespace EUpperBody
 		Eat
 	};
 }
+
+//物品类型
+namespace EObjectType
+{
+	enum Type
+	{
+		Normal = 0, //普通物品
+		Food,	//食物
+		Tool,	//工具
+		Weapon	//武器
+	};
+}
+
+//物品属性结构体
+struct ObjectAttribute 
+{
+	FText EN; //英文名
+	FText ZH; //中文名
+	EObjectType::Type ObjectType; //物品类型
+	int PlantAttack;	//对植物的攻击力
+	int MetalAttack;	//对金属的攻击力
+	int AnimalAttack;	//对动物的攻击力
+	int AffectRange;	//攻击距离
+	FString TexPath;	//图片路径资源
+
+	ObjectAttribute(const FText ENName, const FText ZHName, const EObjectType::Type OT, const int PA, const int MA, const int AA, const int AR, const FString TP)
+	{
+		EN = ENName;
+		ZH = ZHName;
+		ObjectType = OT;
+		PlantAttack = PA;
+		MetalAttack = MA;
+		AnimalAttack = AA;
+		AffectRange = AR;
+		TexPath = TP;
+	}
+
+};
