@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SBorder.h"
+#include "STextBlock.h"
+#include "SlateBrush.h"
 
 /**
  * 
@@ -122,5 +125,66 @@ struct ObjectAttribute
 		AffectRange = AR;
 		TexPath = TP;
 	}
+};
 
+//快捷栏容器结构体
+struct ShortcutContainer
+{
+	//物品ID
+	int ObjectIndex;
+	int ObjectNum;
+	TSharedPtr<SBorder> ContainerBorder;
+	TSharedPtr<SBorder> ObjectImage;
+	TSharedPtr<STextBlock> ObjectNumText;
+	const FSlateBrush* NormalContainerBrush;
+	const FSlateBrush* ChoosedContainerBrush;
+	TArray<const FSlateBrush*>* ObjectBrushList;
+
+	ShortcutContainer(TSharedPtr<SBorder> CB, TSharedPtr<SBorder> OI, TSharedPtr<STextBlock> ONT, const FSlateBrush* NCB, const FSlateBrush* CCB, TArray<const FSlateBrush*>* OBL)
+	{
+		ContainerBorder = CB;
+		ObjectImage = OI;
+		ObjectNumText = ONT;
+		NormalContainerBrush = NCB;
+		ChoosedContainerBrush = CCB;
+		ObjectBrushList = OBL;
+
+		//初始化显示设置
+		ObjectIndex = 0;
+		ObjectNum = 0;
+		ContainerBorder->SetBorderImage(NormalContainerBrush);
+		ObjectImage->SetBorderImage((*ObjectBrushList)[0]);
+	}
+
+	//设置是否选中当前的物品
+	int SetChoosed(bool Option)
+	{
+		if (Option)
+			ContainerBorder->SetBorderImage(ChoosedContainerBrush);
+		else
+			ContainerBorder->SetBorderImage(NormalContainerBrush);
+
+		return ObjectIndex;
+	}
+
+	//设置Index
+	ShortcutContainer* SetObject(int NewIndex)
+	{
+		ObjectIndex = NewIndex;
+		ObjectImage->SetBorderImage((*ObjectBrushList)[ObjectIndex]);
+		return this;
+	}
+
+	//设置数量
+	ShortcutContainer* SetObject(int Num = 0)
+	{
+		ObjectNum = Num;
+		//如果数量为0或者1，不显示
+		if (ObjectNum == 0 || ObjectNum == 1)
+			ObjectNumText->SetText(FString(""));
+		else
+			ObjectNumText->SetText(FString::FromInt(Num));
+
+		return this;
+	}
 };
