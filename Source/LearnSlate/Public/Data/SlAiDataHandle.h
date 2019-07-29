@@ -58,6 +58,8 @@ public:
 
 	//物品属性
 	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
+	//物品贴图资源数组
+	TArray<const FSlateBrush*> ObjectBrushList;
 
 private:
 	static TSharedPtr<SlAiDataHandle> DataInstance;
@@ -65,4 +67,6 @@ private:
 	TMap<FString, TArray<USoundCue*>> MenuAudioResource;
 	//获取MenuStyle 里面存放有声音文件
 	const struct FSlAiMenuStyle* MenuStyle;
+	//获取MenuStyle 里面存放有声音文件
+	const struct FSlAiGameStyle* GameStyle;
 };

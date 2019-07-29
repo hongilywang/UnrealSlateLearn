@@ -14,3 +14,8 @@ ASlAiGameHUD::ASlAiGameHUD()
 		GEngine->GameViewport->AddViewportWidgetContent(SNew(SWeakWidget).PossiblyNullContent(GameHUDWidget.ToSharedRef()));
 	}
 }
+
+void ASlAiGameHUD::BeginPlay()
+{
+
+}

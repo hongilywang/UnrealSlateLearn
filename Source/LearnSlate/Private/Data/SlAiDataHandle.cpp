@@ -8,6 +8,7 @@
 #include "SlAiHelper.h"
 #include "SlAiStyle.h"
 #include "SlAiMenuWidgetStyle.h"
+#include "SlAiGameWidgetStyle.h"
 #include "Sound/SoundCue.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = nullptr;
@@ -122,6 +123,17 @@ void SlAiDataHandle::InitializeGameData()
 void SlAiDataHandle::InitializeObjectAttr()
 {
 	SlAiSingleton<SlAiJsonHandle>::Get()->ObjectAttrJsonRead(ObjectAttrMap);
+	GameStyle = &SlAiStyle::Get().GetWidgetStyle<FSlAiGameStyle>("BPSlAiGameStyle");
+
+	//Ìî³ä±ÊË¢Êý×é
+	ObjectBrushList.Add(&GameStyle->EmptyBrush);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_1);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_2);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_3);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_4);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_5);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_6);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
 }
 
 SlAiDataHandle::SlAiDataHandle()

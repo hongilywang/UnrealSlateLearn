@@ -10,6 +10,7 @@
 #include "STextBlock.h"
 #include "SUniformGridPanel.h"
 #include "SBorder.h"
+#include "SlAiDataHandle.h"
 
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -61,6 +62,8 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSlAiShortcutWidget::InitializeContainer()
 {
+	TArray<TSharedPtr<ShortcutContainer>> ContainerList;
+
 	for (int i = 0; i < 9; ++i)
 	{
 		//创建容器
@@ -86,5 +89,15 @@ void SSlAiShortcutWidget::InitializeContainer()
 		[
 			ContainerBorder->AsShared()
 		];
+
+		//实例化一个容器结构体
+		TSharedPtr<ShortcutContainer> Contanier = MakeShareable(new ShortcutContainer(ContainerBorder, ObjectImage, ObjectNumText, &GameStyle->NormalContainerBrush, &GameStyle->ChoosedContainerBrush, &SlAiDataHandle::Get()->ObjectBrushList));
+		
+		if (i == 0)
+			Contanier->SetChoosed(true);
+		ContainerList.Add(Contanier);
 	}
+
+	//将实例化的结果体注册到playerState的容器数组
+	RegisterShortcutContainer.ExecuteIfBound(&ContainerList, ShortcutInfoTextBlock);
 }

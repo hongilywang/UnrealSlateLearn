@@ -3,7 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SlAiTypes.h"
 #include "Widgets/SCompoundWidget.h"
+
+//注册快捷栏到PlayerState类的委托
+DECLARE_DELEGATE_TwoParams(FRegisterShortCutContainer, TArray<TSharedPtr<ShortcutContainer>>*, TSharedPtr<STextBlock>)
 
 /**
  * 
@@ -19,6 +23,9 @@ public:
 	void Construct(const FArguments& InArgs);
 
 	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
+public:
+	FRegisterShortCutContainer RegisterShortcutContainer;
 
 private:
 	//初始化所有容器
