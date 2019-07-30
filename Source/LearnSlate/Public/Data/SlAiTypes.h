@@ -176,7 +176,7 @@ struct ShortcutContainer
 	}
 
 	//设置数量
-	ShortcutContainer* SetObject(int Num = 0)
+	ShortcutContainer* SetObjectNum(int Num = 0)
 	{
 		ObjectNum = Num;
 		//如果数量为0或者1，不显示
