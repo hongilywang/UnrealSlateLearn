@@ -25,6 +25,7 @@ public:
 public:
 	//获取玩家角色
 	class ASlAiPlayerCharacter* SPCharacter;
+	class ASlAiPlayerState* SPState;
 
 protected:
 	virtual void BeginPlay() override;
@@ -39,10 +40,18 @@ private:
 	void RightEventStart();
 	void RightEventStop();
 
+	//滑轮上下滚动事件
+	void ScrollUpEvent();
+	void ScrollDownEvent();
+
 private:
 	//左键预动作
 	EUpperBody::Type LeftUpperType;
 
 	//右键预动作
 	EUpperBody::Type RightUpperType;
+
+	//是否按住左右鼠标键
+	bool IsLeftButtonDown;
+	bool IsRightButtonDown;
 };

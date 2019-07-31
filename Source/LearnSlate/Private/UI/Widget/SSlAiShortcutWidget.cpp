@@ -33,7 +33,7 @@ void SSlAiShortcutWidget::Construct(const FArguments& InArgs)
 			[
 				SAssignNew(ShortcutInfoTextBlock, STextBlock)
 				.Font(GameStyle->Font_Outline_16)
-				.ColorAndOpacity(GameStyle->FontColor_White)
+				.ColorAndOpacity(GameStyle->FontColor_Black)
 			]
 
 			+SOverlay::Slot()

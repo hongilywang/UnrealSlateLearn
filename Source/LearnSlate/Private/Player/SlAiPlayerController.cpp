@@ -4,6 +4,7 @@
 #include "SlAiPlayerController.h"
 #include "SlAiPlayerCharacter.h"
 #include "SlAiTypes.h"
+#include "SlAiPlayerState.h"
 
 ASlAiPlayerController::ASlAiPlayerController()
 {
@@ -26,6 +27,9 @@ void ASlAiPlayerController::SetupInputComponent()
 	InputComponent->BindAction("LeftEvent", IE_Released, this, &ASlAiPlayerController::LeftEventStop);
 	InputComponent->BindAction("RightEvent", IE_Pressed, this, &ASlAiPlayerController::RightEventStart);
 	InputComponent->BindAction("RightEvent", IE_Released, this, &ASlAiPlayerController::RightEventStop);
+	//绑定滑轮滚动事件
+	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASlAiPlayerController::ScrollUpEvent);
+	InputComponent->BindAction("ScrollDown", IE_Released, this, &ASlAiPlayerController::ScrollDownEvent);
 }
 
 void ASlAiPlayerController::BeginPlay()
@@ -34,6 +38,9 @@ void ASlAiPlayerController::BeginPlay()
 	//获取角色
 	if (!SPCharacter)
 		SPCharacter = Cast<ASlAiPlayerCharacter>(GetCharacter());
+	//获取状态
+	if (!SPState)
+		SPState = Cast<ASlAiPlayerState>(PlayerState);
 
 	//设置鼠标输入不显示
 	bShowMouseCursor = false;
@@ -45,6 +52,9 @@ void ASlAiPlayerController::BeginPlay()
 	//设置预动作
 	LeftUpperType = EUpperBody::Punch;
 	RightUpperType = EUpperBody::PickUp;
+	
+	IsLeftButtonDown = false;
+	IsRightButtonDown = false;
 }
 
 void ASlAiPlayerController::ChangeView()
@@ -66,20 +76,50 @@ void ASlAiPlayerController::ChangeView()
 
 void ASlAiPlayerController::LeftEventStart()
 {
+	IsLeftButtonDown = true;
 	SPCharacter->UpperType = LeftUpperType;
 }
 
 void ASlAiPlayerController::LeftEventStop()
 {
+	IsLeftButtonDown = false;
 	SPCharacter->UpperType = EUpperBody::None;
 }
 
 void ASlAiPlayerController::RightEventStart()
 {
+	IsRightButtonDown = true;
 	SPCharacter->UpperType = RightUpperType;
 }
 
 void ASlAiPlayerController::RightEventStop()
 {
+	IsRightButtonDown = false;
 	SPCharacter->UpperType = EUpperBody::None;
+}
+
+void ASlAiPlayerController::ScrollUpEvent()
+{
+	//如果不允许切换，直接返回
+	if (!SPCharacter->IsAllowSwitch)
+		return;
+	
+	if (IsLeftButtonDown || IsRightButtonDown)
+		return;
+
+	//告诉状态类切换快捷栏容器
+	SPState->ChooseShortcut(true);
+}
+
+void ASlAiPlayerController::ScrollDownEvent()
+{
+	//如果不允许切换，直接返回
+	if (!SPCharacter->IsAllowSwitch)
+		return;
+
+	if (IsLeftButtonDown || IsRightButtonDown)
+		return;
+
+	//告诉状态类切换快捷栏容器
+	SPState->ChooseShortcut(false);
 }
