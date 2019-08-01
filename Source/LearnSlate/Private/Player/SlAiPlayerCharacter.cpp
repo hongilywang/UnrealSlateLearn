@@ -122,7 +122,7 @@ void ASlAiPlayerCharacter::BeginPlay()
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 
 	//Ìí¼ÓActorµ½HandeObject
-	HandObject->SetChildActorClass(ASlAiHandObject::StaticClass());
+	//HandObject->SetChildActorClass(ASlAiHandObject::StaticClass());
 }
 
 // Called every frame
