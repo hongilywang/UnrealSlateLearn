@@ -15,6 +15,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/ChildActorComponent.h"
 
+#include "SlAiHandObject.h"
+
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 {
@@ -118,6 +120,9 @@ void ASlAiPlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	//把手持物品组件绑定到第三人模型右手插槽上
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
+
+	//添加Actor到HandeObject
+	HandObject->SetChildActorClass(ASlAiHandObject::StaticClass());
 }
 
 // Called every frame
