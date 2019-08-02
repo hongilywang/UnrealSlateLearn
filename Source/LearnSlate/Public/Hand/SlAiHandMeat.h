@@ -13,5 +13,11 @@ UCLASS()
 class LEARNSLATE_API ASlAiHandMeat : public ASlAiHandObject
 {
 	GENERATED_BODY()
-	
+
+public:
+	ASlAiHandMeat();
+
+protected:
+
+	virtual void BeginPlay() override;
 };

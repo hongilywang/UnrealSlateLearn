@@ -13,5 +13,16 @@ UCLASS()
 class LEARNSLATE_API ASlAiHandHammer : public ASlAiHandObject
 {
 	GENERATED_BODY()
+
+public:
+	ASlAiHandHammer();
+
+protected:
+
+	virtual void BeginPlay() override;
+
+protected:
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* ExtendMesh;
 };
