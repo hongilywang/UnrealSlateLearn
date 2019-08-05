@@ -25,6 +25,9 @@ public:
 	//修改视角
 	void ChangeView(EGameViewMode::Type NewGameView);
 
+	//修改当前的手持物品
+	void ChangeHandObject(TSubclassOf<class AActor> HandObjectClass);
+
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")

@@ -27,5 +27,5 @@ void ASlAiHandSword::BeginPlay()
 	Super::BeginPlay();
 
 	//定义物品序号
-	ObjectIndex = 4;
+	ObjectIndex = 7;
 }

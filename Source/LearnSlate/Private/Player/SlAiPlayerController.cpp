@@ -5,6 +5,7 @@
 #include "SlAiPlayerCharacter.h"
 #include "SlAiTypes.h"
 #include "SlAiPlayerState.h"
+#include "SlAiHandObject.h"
 
 ASlAiPlayerController::ASlAiPlayerController()
 {
@@ -30,6 +31,11 @@ void ASlAiPlayerController::SetupInputComponent()
 	//°ó¶¨»¬ÂÖ¹ö¶¯ÊÂ¼þ
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASlAiPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Released, this, &ASlAiPlayerController::ScrollDownEvent);
+}
+
+void ASlAiPlayerController::ChangeHandObject()
+{
+	SPCharacter->ChangeHandObject(ASlAiHandObject::SpawnHandObject(SPState->GetCurrentHandObjectIndex()));
 }
 
 void ASlAiPlayerController::BeginPlay()
@@ -109,6 +115,7 @@ void ASlAiPlayerController::ScrollUpEvent()
 
 	//¸æËß×´Ì¬ÀàÇÐ»»¿ì½ÝÀ¸ÈÝÆ÷
 	SPState->ChooseShortcut(true);
+	ChangeHandObject();
 }
 
 void ASlAiPlayerController::ScrollDownEvent()
@@ -122,4 +129,5 @@ void ASlAiPlayerController::ScrollDownEvent()
 
 	//¸æËß×´Ì¬ÀàÇÐ»»¿ì½ÝÀ¸ÈÝÆ÷
 	SPState->ChooseShortcut(false);
+	ChangeHandObject();
 }

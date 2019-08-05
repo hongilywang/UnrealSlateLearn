@@ -18,6 +18,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//根据物品ID返回物品的工厂方法
+	static TSubclassOf<AActor> SpawnHandObject(int ObjectID);
+
 public:
 
 	//物品ID

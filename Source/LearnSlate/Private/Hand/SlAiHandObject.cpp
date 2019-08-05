@@ -6,6 +6,15 @@
 #include "Components/BoxComponent.h"
 #include "ConstructorHelpers.h"
 
+#include "SlAiHandNone.h"
+#include "SlAiHandSword.h"
+#include "SlAiHandWood.h"
+#include "SlAiHandStone.h"
+#include "SlAiHandApple.h"
+#include "SlAiHandMeat.h"
+#include "SlAiHandAxe.h"
+#include "SlAiHandHammer.h"
+
 // Sets default values
 ASlAiHandObject::ASlAiHandObject()
 {
@@ -61,5 +70,29 @@ void ASlAiHandObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+TSubclassOf<AActor> ASlAiHandObject::SpawnHandObject(int ObjectID)
+{
+	switch (ObjectID)
+	{
+	case 0:
+		return ASlAiHandNone::StaticClass();
+	case 1:
+		return ASlAiHandWood::StaticClass();
+	case 2:
+		return ASlAiHandStone::StaticClass();
+	case 3:
+		return ASlAiHandApple::StaticClass();
+	case 4:
+		return ASlAiHandMeat::StaticClass();
+	case 5:
+		return ASlAiHandAxe::StaticClass();
+	case 6:
+		return ASlAiHandHammer::StaticClass();
+	case 7:
+		return ASlAiHandSword::StaticClass();
+	}
+	return ASlAiHandNone::StaticClass();
 }
 

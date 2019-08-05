@@ -22,6 +22,9 @@ public:
 
 	virtual void SetupInputComponent() override;
 
+	//对character的手持物品进行更改，这个函数在playerstate内会调用
+	void ChangeHandObject();
+
 public:
 	//获取玩家角色
 	class ASlAiPlayerCharacter* SPCharacter;
