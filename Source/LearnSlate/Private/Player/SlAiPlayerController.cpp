@@ -14,8 +14,9 @@ ASlAiPlayerController::ASlAiPlayerController()
 
 void ASlAiPlayerController::Tick(float DeltaSeconds)
 {
-	//允许
-	PrimaryActorTick.bCanEverTick = true;
+	Super::Tick(DeltaSeconds);
+	//临时代码
+	ChangePreUpperType(EUpperBody::None);
 }
 
 void ASlAiPlayerController::SetupInputComponent()
@@ -130,4 +131,28 @@ void ASlAiPlayerController::ScrollDownEvent()
 	//告诉状态类切换快捷栏容器
 	SPState->ChooseShortcut(false);
 	ChangeHandObject();
+}
+
+void ASlAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpperBody::None)
+{
+	//根据当前手持物品的类型来修改预动作
+	switch (SPState->GetCurrentObjectType())
+	{
+	case EObjectType::Normal:
+		LeftUpperType = EUpperBody::Punch;
+		RightUpperType = RightType;
+		break;
+	case EObjectType::Food:
+		LeftUpperType = EUpperBody::Eat;
+		RightUpperType = RightType == EUpperBody::None ? EUpperBody::Eat : RightType;
+		break;
+	case EObjectType::Tool:
+		LeftUpperType = EUpperBody::Hit;
+		RightUpperType = RightType;
+		break;
+	case EObjectType::Weapon:
+		LeftUpperType = EUpperBody::Fight;
+		RightUpperType = RightType;
+		break;
+	}
 }

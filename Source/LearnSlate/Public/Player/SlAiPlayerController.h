@@ -47,6 +47,9 @@ private:
 	void ScrollUpEvent();
 	void ScrollDownEvent();
 
+	//修改预动作
+	void ChangePreUpperType(EUpperBody::Type RightType);
+
 private:
 	//左键预动作
 	EUpperBody::Type LeftUpperType;
