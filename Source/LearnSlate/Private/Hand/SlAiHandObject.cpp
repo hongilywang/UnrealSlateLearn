@@ -96,3 +96,8 @@ TSubclassOf<AActor> ASlAiHandObject::SpawnHandObject(int ObjectID)
 	return ASlAiHandNone::StaticClass();
 }
 
+void ASlAiHandObject::ChangeOverlayDetect(bool IsOpen)
+{
+	AffectCollision->SetGenerateOverlapEvents(IsOpen);
+}
+
