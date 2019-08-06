@@ -22,7 +22,6 @@ public:
 
 	//解析物品属性
 	void ObjectAttrJsonRead(TMap<int, TSharedPtr<ObjectAttribute>>& ObjectAttrMap);
-	EObjectType::Type StringToObjectType(const FString ArgStr);
 
 private:
 	//读取Json文件到字符串
@@ -33,6 +32,11 @@ private:
 
 	//保存字符串到文件
 	bool WriteFileWithJsonData(const FString& JsonStr, const FString& RelaPath, const FString& FileName);
+
+	EObjectType::Type StringToObjectType(const FString ArgStr);
+
+	//定义一个从string转换到ResourceType的用法
+	EResourceType::Type StringToResourceType(const FString ArgStr);
 
 private:
 	//存档文件名

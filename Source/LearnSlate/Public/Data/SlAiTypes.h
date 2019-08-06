@@ -188,3 +188,41 @@ struct ShortcutContainer
 		return this;
 	}
 };
+
+//资源类型
+namespace EResourceType
+{
+	enum Type
+	{
+		Plant = 0,
+		Metal,
+		Animal
+	};
+}
+
+//资源属性结构体
+struct ResourceAttribute
+{
+	FText EN;
+	FText ZH;
+	EResourceType::Type ResourceType;
+	int HP;
+	TArray<TArray<int>> FlobObjectInfo;
+
+	ResourceAttribute(const FText ENName, const FText ZHName, const EResourceType::Type RT, const int HPValue, TArray<TArray<int>>* FOI)
+	{
+		EN = ENName;
+		ZH = ZHName;
+		ResourceType = RT;
+		HP = HPValue;
+
+		//将数组原始迭代进本数组
+		for (TArray<TArray<int>>::TIterator It(*FOI); It; ++It)
+		{
+			TArray<int> FlobObjectInfoItem;
+			for (TArray<int>::TIterator Ih(*It); Ih; ++Ih)
+				FlobObjectInfoItem.Add(*Ih);
+			FlobObjectInfo.Add(FlobObjectInfoItem);
+		}
+	}
+};

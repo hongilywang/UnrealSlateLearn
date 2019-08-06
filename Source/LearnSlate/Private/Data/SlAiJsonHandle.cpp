@@ -188,3 +188,15 @@ bool SlAiJsonHandle::WriteFileWithJsonData(const FString& JsonStr, const FString
 	}
 
 }
+
+EResourceType::Type SlAiJsonHandle::StringToResourceType(const FString ArgStr)
+{
+	if (ArgStr.Equals(FString("Plant")))
+		return EResourceType::Plant;
+	if (ArgStr.Equals(FString("Metal")))
+		return EResourceType::Metal;
+	if (ArgStr.Equals(FString("Animal")))
+		return EResourceType::Animal;
+
+	return EResourceType::Plant;
+}
