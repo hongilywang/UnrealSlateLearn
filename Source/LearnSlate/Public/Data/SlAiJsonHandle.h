@@ -23,6 +23,9 @@ public:
 	//解析物品属性
 	void ObjectAttrJsonRead(TMap<int, TSharedPtr<ObjectAttribute>>& ObjectAttrMap);
 
+	//解析资源属性
+	void ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>>& ResourceAttrMap);
+
 private:
 	//读取Json文件到字符串
 	bool LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString);
@@ -44,6 +47,9 @@ private:
 
 	//物品属性文件名
 	FString ObjectAttrFileName;
+
+	//资源属性文件名
+	FString ResourceAttrFileName;
 
 	//相对路径
 	FString RelativePath;

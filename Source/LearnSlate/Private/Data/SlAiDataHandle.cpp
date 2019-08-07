@@ -117,6 +117,8 @@ void SlAiDataHandle::InitializeGameData()
 {
 	//初始化物品属性
 	InitializeObjectAttr();
+	//初始化资源属性
+	InitializeResourceAttr();
 }
 
 
@@ -134,6 +136,11 @@ void SlAiDataHandle::InitializeObjectAttr()
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_5);
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_6);
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
+}
+
+void SlAiDataHandle::InitializeResourceAttr()
+{
+	SlAiSingleton<SlAiJsonHandle>::Get()->ResourceAttrJsonRead(ResourceAttrMap);
 }
 
 SlAiDataHandle::SlAiDataHandle()
