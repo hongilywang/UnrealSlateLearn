@@ -15,12 +15,26 @@ public:
 	// Sets default values for this actor's properties
 	ASlAiResourceObject();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+public:
+	//资源ID
+	int ResourceIndex;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+protected:
+
+	//根组件
+	USceneComponent* RootScene;
+
+	//静态模型
+	UStaticMeshComponent* BaseMesh;
+	
+	//保存资源地址，用于随机刷资源
+	TArray<FString> ResourcePath;
 
 };

@@ -14,4 +14,6 @@ class LEARNSLATE_API ASlAiResourceTree : public ASlAiResourceObject
 {
 	GENERATED_BODY()
 	
+public:
+	ASlAiResourceTree();
 };

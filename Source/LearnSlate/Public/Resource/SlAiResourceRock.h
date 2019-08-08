@@ -13,5 +13,8 @@ UCLASS()
 class LEARNSLATE_API ASlAiResourceRock : public ASlAiResourceObject
 {
 	GENERATED_BODY()
+
+public:
+	ASlAiResourceRock();
 	
 };
