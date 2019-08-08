@@ -7,6 +7,7 @@
 #include "SDPIScaler.h"
 #include "SOverlay.h"
 #include "SSlAiShortcutWidget.h"
+#include "SSlAiRayInfoWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
@@ -20,11 +21,20 @@ void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
 		[
 			SNew(SOverlay)
 
+			//快捷栏
 			+SOverlay::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Bottom)
 			[
 				SAssignNew(ShortcutWidget, SSlAiShortcutWidget)
+			]
+
+			//射线信息
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(RayInfoWidget, SSlAiRayInfoWidget)
 			]
 		]
 	];
