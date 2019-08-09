@@ -17,19 +17,30 @@ void SSlAiRayInfoWidget::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 		SNew(SBox)
-.WidthOverride(400.f)
-.HeightOverride(100.f)
-[
-	SNew(SBorder)
-.BorderImage(&GameStyle->RayInfoBrush)
-.HAlign(HAlign_Center)
-.VAlign(VAlign_Center)
-[
-	SAssignNew(RayInfoTextBlock, STextBlock)
-.Font()
-]
-]
+		.WidthOverride(400.f)
+		.HeightOverride(100.f)
+		[
+			SNew(SBorder)
+			.BorderImage(&GameStyle->RayInfoBrush)
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SAssignNew(RayInfoTextBlock, STextBlock)
+				.Font(GameStyle->Font_Outline_50)
+				.ColorAndOpacity(GameStyle->FontColor_Black)
+			]
+		]
 	];
 	
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SSlAiRayInfoWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	if (!IsInitRayInfoEvent)
+	{
+		RegisterRayInfoEvent.ExecuteIfBound(RayInfoTextBlock);
+		IsInitRayInfoEvent = true;
+	}
+
+}

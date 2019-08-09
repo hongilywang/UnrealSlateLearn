@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 
-class STextBlock
+class STextBlock;
+
+DECLARE_DELEGATE_OneParam(FRegisterRayInfoEvent, TSharedPtr<STextBlock>)
 /**
  * 
  */
@@ -19,8 +21,16 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
+public:
+	FRegisterRayInfoEvent RegisterRayInfoEvent;
+
 private:
 	TSharedPtr<STextBlock> RayInfoTextBlock;
 
 	const struct FSlAiGameStyle* GameStyle;
+
+	//是否已经初始化事件
+	bool IsInitRayInfoEvent;
 };

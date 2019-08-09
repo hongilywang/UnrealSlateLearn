@@ -8,6 +8,7 @@
 
 #include "SSlAiGameHUDWidget.h"
 #include "SSlAiShortcutWidget.h"
+#include "SSlAiRayInfoWidget.h"
 
 #include "SlAiPlayerController.h"
 #include "SlAiPlayerState.h"
@@ -34,4 +35,6 @@ void ASlAiGameHUD::BeginPlay()
 	GM->InitGamePlayModule();
 	//°ó¶¨×¢²á¿ì½ÝÀ¸ÈÝÆ÷
 	GameHUDWidget->ShortcutWidget->RegisterShortcutContainer.BindUObject(GM->SPState, &ASlAiPlayerState::RegisterShortcutContainer);
+	//°ó¶¨RayInfo
+	GameHUDWidget->RayInfoWidget->RegisterRayInfoEvent.BindUObject(GM->SPState, &ASlAiPlayerState::RegisterRayInfoEvent);
 }

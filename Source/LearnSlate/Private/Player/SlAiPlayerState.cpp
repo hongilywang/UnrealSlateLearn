@@ -61,6 +61,12 @@ EObjectType::Type ASlAiPlayerState::GetCurrentObjectType()
 	return ObjectAttr->ObjectType;
 }
 
+void ASlAiPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock)
+{
+	RayInfoTextAttr.BindUObject(this, &ASlAiPlayerState::GetRayInfoText);
+	RayInfoTextBlock->SetText(RayInfoTextAttr);
+}
+
 FText ASlAiPlayerState::GetShortcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;
@@ -73,4 +79,9 @@ FText ASlAiPlayerState::GetShortcutInfoText() const
 		return ObjectAttr->ZH;
 	}
 	return ObjectAttr->ZH;
+}
+
+FText ASlAiPlayerState::GetRayInfoText() const
+{
+	return FText::FromString("hahaha");
 }
