@@ -9,8 +9,8 @@ ASlAiHandNone::ASlAiHandNone()
 	//不给模型组件添加模型
 
 	//设置碰撞体属性
-	AffectCollision->SetRelativeLocation(FVector(10.f, 10.f, 10.f));
-	AffectCollision->SetRelativeScale3D(FVector(0.f, 0.f, 10.f));
+	AffectCollision->SetBoxExtent(FVector(10.f, 10.f, 10.f));
+	AffectCollision->SetRelativeLocation(FVector(0.f, 0.f, 10.f));
 }
 
 void ASlAiHandNone::BeginPlay()

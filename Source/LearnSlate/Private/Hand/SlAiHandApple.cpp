@@ -17,8 +17,8 @@ ASlAiHandApple::ASlAiHandApple()
 	BaseMesh->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
 
 	//ÉèÖÃÅö×²ÌåÊôÐÔ
-	AffectCollision->SetRelativeLocation(FVector(10.f, 10.f, 10.f));
-	AffectCollision->SetRelativeScale3D(FVector(0.f, 0.f, 10.f));
+	AffectCollision->SetBoxExtent(FVector(10.f, 10.f, 10.f));
+	AffectCollision->SetRelativeLocation(FVector(0.f, 0.f, 10.f));
 }
 
 void ASlAiHandApple::BeginPlay()

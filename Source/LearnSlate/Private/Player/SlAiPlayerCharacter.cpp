@@ -16,6 +16,7 @@
 #include "Components/ChildActorComponent.h"
 
 #include "SlAiHandObject.h"
+#include "SlAiHelper.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()

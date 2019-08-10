@@ -17,8 +17,8 @@ ASlAiHandMeat::ASlAiHandMeat()
 	BaseMesh->SetRelativeScale3D(FVector(0.75f, 0.75f, 0.75f));
 
 	//ÉèÖÃÅö×²ÌåÊôÐÔ
-	AffectCollision->SetRelativeLocation(FVector(10.f, 10.f, 10.f));
-	AffectCollision->SetRelativeScale3D(FVector(0.f, 0.f, 10.f));
+	AffectCollision->SetBoxExtent(FVector(10.f, 10.f, 10.f));
+	AffectCollision->SetRelativeLocation(FVector(0.f, 0.f, 10.f));
 }
 
 void ASlAiHandMeat::BeginPlay()
