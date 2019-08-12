@@ -58,6 +58,10 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Info)
 		FSlateBrush RayInfoBrush;
 
+	//×¼ÐÇ²ÄÖÊ
+	UPROPERTY(EditAnywhere, Category = Info)
+		FSlateBrush PointerBrush;
+
 	//60ºÅ×ÖÌå
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_60;

@@ -9,6 +9,7 @@
 #include "SSlAiGameHUDWidget.h"
 #include "SSlAiShortcutWidget.h"
 #include "SSlAiRayInfoWidget.h"
+#include "SSlAiPointerWidget.h"
 
 #include "SlAiPlayerController.h"
 #include "SlAiPlayerState.h"
@@ -37,4 +38,6 @@ void ASlAiGameHUD::BeginPlay()
 	GameHUDWidget->ShortcutWidget->RegisterShortcutContainer.BindUObject(GM->SPState, &ASlAiPlayerState::RegisterShortcutContainer);
 	//绑定RayInfo
 	GameHUDWidget->RayInfoWidget->RegisterRayInfoEvent.BindUObject(GM->SPState, &ASlAiPlayerState::RegisterRayInfoEvent);
+	//绑定修改准星委托
+	GM->SPController->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SSlAiPointerWidget::UpdatePointer);
 }

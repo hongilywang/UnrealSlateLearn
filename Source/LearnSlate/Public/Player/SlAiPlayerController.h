@@ -7,6 +7,9 @@
 #include "SlAiTypes.h"
 #include "SlAiPlayerController.generated.h"
 
+//修改准星委托
+DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
+
 /**
  * 
  */
@@ -29,6 +32,9 @@ public:
 	//获取玩家角色
 	class ASlAiPlayerCharacter* SPCharacter;
 	class ASlAiPlayerState* SPState;
+
+	//实时修改准星的委托，注册的函数Pointerwidget的UpdatePointer
+	FUpdatePointer UpdatePointer;
 
 protected:
 	virtual void BeginPlay() override;

@@ -8,6 +8,7 @@
 #include "SOverlay.h"
 #include "SSlAiShortcutWidget.h"
 #include "SSlAiRayInfoWidget.h"
+#include "SSlAiPointerWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
@@ -35,6 +36,14 @@ void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Top)
 			[
 				SAssignNew(RayInfoWidget, SSlAiRayInfoWidget)
+			]
+
+			//×¼ÐÇ
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SAssignNew(PointerWidget, SSlAiPointerWidget)
 			]
 		]
 	];

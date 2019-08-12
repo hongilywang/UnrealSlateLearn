@@ -27,6 +27,8 @@ public:
 	TSharedPtr<class SSlAiShortcutWidget> ShortcutWidget;
 	//射线信息框
 	TSharedPtr<class SSlAiRayInfoWidget> RayInfoWidget;
+	//准星
+	TSharedPtr<class SSlAiPointerWidget> PointerWidget;
 
 private:
 	//获取屏幕size
