@@ -36,6 +36,14 @@ public:
 	//实时修改准星的委托，注册的函数Pointerwidget的UpdatePointer
 	FUpdatePointer UpdatePointer;
 
+	//射线检测结果
+	FHitResult RayGetHitResult(FVector TraceStart, FVector TraceEnd);
+
+	//射线检测绘制
+	void DrawRayLine(FVector StartPos, FVector EndPos, float Duration);
+	//进行射线检测
+	void RunRayCast();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -66,4 +74,7 @@ private:
 	//是否按住左右鼠标键
 	bool IsLeftButtonDown;
 	bool IsRightButtonDown;
+
+	//检测到资源
+	AActor* RayActor;
 };

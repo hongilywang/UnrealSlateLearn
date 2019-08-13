@@ -6,6 +6,9 @@
 #include "SlAiTypes.h"
 #include "SlAiPlayerState.h"
 #include "SlAiHandObject.h"
+#include "CollisionQueryParams.h"
+#include "Components/LineBatchComponent.h"
+#include "Camera/CameraComponent.h"
 
 ASlAiPlayerController::ASlAiPlayerController()
 {
@@ -17,6 +20,9 @@ void ASlAiPlayerController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	//临时代码
 	ChangePreUpperType(EUpperBody::None);
+
+	//射线检测
+	RunRayCast();
 }
 
 void ASlAiPlayerController::SetupInputComponent()
@@ -37,6 +43,56 @@ void ASlAiPlayerController::SetupInputComponent()
 void ASlAiPlayerController::ChangeHandObject()
 {
 	SPCharacter->ChangeHandObject(ASlAiHandObject::SpawnHandObject(SPState->GetCurrentHandObjectIndex()));
+}
+
+FHitResult ASlAiPlayerController::RayGetHitResult(FVector TraceStart, FVector TraceEnd)
+{
+	FCollisionQueryParams TraceParams(true);
+	TraceParams.AddIgnoredActor(SPCharacter);
+	//TraceParams.bTraceAsyncScene = true;
+	TraceParams.bReturnPhysicalMaterial = false;
+	TraceParams.bTraceComplex = true;
+
+	FHitResult Hit(ForceInit);
+	if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECollisionChannel::ECC_GameTraceChannel1, TraceParams))
+	{
+		DrawRayLine(TraceStart, TraceEnd, 5.f);
+	}
+
+	return Hit;
+}
+
+void ASlAiPlayerController::DrawRayLine(FVector StartPos, FVector EndPos, float Duration)
+{
+	ULineBatchComponent* const LineBatcher = GetWorld()->PersistentLineBatcher;
+	if (LineBatcher != nullptr)
+	{
+		float LineDurationTime = (Duration > 0.f) ? Duration : LineBatcher->DefaultLifeTime;
+		LineBatcher->DrawLine(StartPos, EndPos, FLinearColor::Red, 10, 0.f, LineDurationTime);
+	}
+}
+
+void ASlAiPlayerController::RunRayCast()
+{
+	FVector StartPos(0.f);
+	FVector EndPos(0.f);
+
+	switch (SPCharacter->GameView)
+	{
+	case EGameViewMode::First:
+		StartPos = SPCharacter->FirstCamera->K2_GetComponentLocation();
+		EndPos = StartPos + SPCharacter->FirstCamera->GetForwardVector() * 2000.f;
+	case EGameViewMode::Third:
+		StartPos = SPCharacter->ThirdCamera->K2_GetComponentLocation();
+		StartPos = StartPos + SPCharacter->ThirdCamera->GetForwardVector() * 300.f;
+		EndPos = StartPos + SPCharacter->ThirdCamera->GetForwardVector() * 2000.f;
+		break;
+	}
+
+	//是否检测到物品
+	bool IsDetected = false;
+	FHitResult Hit = RayGetHitResult(StartPos, EndPos);
+	RayActor = Hit.GetActor();
 }
 
 void ASlAiPlayerController::BeginPlay()
