@@ -43,6 +43,8 @@ public:
 	void DrawRayLine(FVector StartPos, FVector EndPos, float Duration);
 	//进行射线检测
 	void RunRayCast();
+	//行为状态机
+	void StateMachine();
 
 protected:
 	virtual void BeginPlay() override;

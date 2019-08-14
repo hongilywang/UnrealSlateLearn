@@ -67,6 +67,32 @@ void ASlAiPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBl
 	RayInfoTextBlock->SetText(RayInfoTextAttr);
 }
 
+int ASlAiPlayerState::GetAffectRange()
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+
+	return ObjectAttr->AffectRange;
+}
+
+//根据正在敲的资源的类型以及手持物品的类型来返回伤害
+int ASlAiPlayerState::GetDamageValue(EResourceType::Type ResouceType)
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+
+	switch (ResouceType)
+	{
+	case EResourceType::Plant:
+		return ObjectAttr->PlantAttack;
+	case EResourceType::Metal:
+		return ObjectAttr->MetalAttack;
+	case EResourceType::Animal:
+		return ObjectAttr->AnimalAttack;
+	}
+	return ObjectAttr->PlantAttack;
+}
+
 FText ASlAiPlayerState::GetShortcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;
@@ -83,5 +109,5 @@ FText ASlAiPlayerState::GetShortcutInfoText() const
 
 FText ASlAiPlayerState::GetRayInfoText() const
 {
-	return FText::FromString("hahaha");
+	return RayInfoText;
 }

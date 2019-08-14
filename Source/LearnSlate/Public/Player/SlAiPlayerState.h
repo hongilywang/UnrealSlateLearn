@@ -34,9 +34,18 @@ public:
 	//提供给RayInfowidget的注册射线信息事件
 	void RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock);
 
+	//获取手上物品的攻击范围
+	int GetAffectRange();
+
+	//获取伤害
+	int GetDamageValue(EResourceType::Type ResouceType);
+
 public:
 	//当前被选中的快捷栏序号
 	int CurrentShortcutIndex;
+
+	//射线检测信息
+	FText RayInfoText;
 
 private:
 	//获取快捷栏物品信息

@@ -3,6 +3,8 @@
 
 #include "SlAiResourceObject.h"
 #include "Components/StaticMeshComponent.h"
+#include "SlAiTypes.h"
+#include "SlAiDataHandle.h"
 
 // Sets default values
 ASlAiResourceObject::ASlAiResourceObject()
@@ -28,6 +30,42 @@ void ASlAiResourceObject::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	HP = BaseHP = ResourceAttr->HP;
+}
+
+FText ASlAiResourceObject::GetInfoText() const
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+
+	switch (SlAiDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ResourceAttr->EN;
+	case ECultureTeam::ZH:
+		return ResourceAttr->ZH;
+	}
+	return ResourceAttr->ZH;
+}
+
+float ASlAiResourceObject::GetHPRange()
+{
+	return FMath::Clamp<float>((float)HP / (float)BaseHP, 0.f, 1.f);
+}
+
+ASlAiResourceObject* ASlAiResourceObject::TakeObjectDamage(int Damge)
+{
+	HP = FMath::Clamp<int>(HP - Damge, 0, BaseHP);
+
+	if (HP <= 0)
+	{
+		//检测失效
+		BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+		//销毁物体
+		GetWorld()->DestroyActor(this);
+	}
+	return this;
 }
 
 // Called every frame
@@ -35,5 +73,11 @@ void ASlAiResourceObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+EResourceType::Type ASlAiResourceObject::GetResourceType()
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+	return ResourceAttr->ResourceType;
 }
 
