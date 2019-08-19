@@ -26,6 +26,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "SlAi")
 		void ChangeDetection(bool IsOpen);
 
+	//开启和关闭手上物品的显示与否，在捡东西的时候调用
+	UFUNCTION(BlueprintCallable, Category = "SlAi")
+		void RenderHandObject(bool IsRender);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)
 		float Speed;

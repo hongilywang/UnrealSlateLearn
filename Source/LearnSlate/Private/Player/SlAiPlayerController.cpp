@@ -140,19 +140,18 @@ void ASlAiPlayerController::StateMachine()
 			//更新准星
 			UpdatePointer.ExecuteIfBound(true, Range);
 		}
-
-		//如果检测到可拾物品，并且距离小于300
-		else if (Cast<ASlAiPickupObject>(RayActor) && FVector::Distance(RayActor->GetActorLocation(), SPCharacter->GetActorLocation()) < 300.f)
+	}
+	//如果检测到可拾物品，并且距离小于300
+	else if (Cast<ASlAiPickupObject>(RayActor) && FVector::Distance(RayActor->GetActorLocation(), SPCharacter->GetActorLocation()) < 300.f)
+	{
+		//改变右键预状态为拾取
+		ChangePreUpperType(EUpperBody::PickUp);
+		//修改准星锁定模式
+		UpdatePointer.ExecuteIfBound(false, 0);
+		//如右键按下
+		if (IsRightButtonDown)
 		{
-			//改变右键预状态为拾取
-			ChangePreUpperType(EUpperBody::PickUp);
-			//修改准星锁定模式
-			UpdatePointer.ExecuteIfBound(false, 0);
-			//如右键按下
-			if (IsRightButtonDown)
-			{
-				Cast<ASlAiPickupObject>(RayActor)->TakePickup();
-			}
+			Cast<ASlAiPickupObject>(RayActor)->TakePickup();
 		}
 	}
 }

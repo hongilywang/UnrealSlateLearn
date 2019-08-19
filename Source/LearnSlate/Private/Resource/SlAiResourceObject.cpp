@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "SlAiTypes.h"
 #include "SlAiDataHandle.h"
+#include "SlAiHelper.h"
 
 // Sets default values
 ASlAiResourceObject::ASlAiResourceObject()
@@ -30,6 +31,8 @@ void ASlAiResourceObject::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SlAiHelper::Debug(FString("ResourceObject Begin Play"), 10.f);
+
 	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
 
 	HP = BaseHP = ResourceAttr->HP;

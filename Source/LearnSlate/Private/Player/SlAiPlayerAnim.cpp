@@ -27,6 +27,13 @@ void USlAiPlayerAnim::ChangeDetection(bool IsOpen)
 	SPCharacter->ChangeHandObjectDetect(IsOpen);
 }
 
+void USlAiPlayerAnim::RenderHandObject(bool IsRender)
+{
+	if (!SPCharacter)
+		return;
+	SPCharacter->RenderHandObject(IsRender);
+}
+
 void USlAiPlayerAnim::InitSPCharacter()
 {
 	if (!SPCharacter)

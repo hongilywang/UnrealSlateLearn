@@ -39,6 +39,7 @@ void ASlAiGameMode::InitGamePlayModule()
 
 void ASlAiGameMode::BeginPlay()
 {
+	SlAiHelper::Debug(FString("ASlAiGameMode Begin Play"), 10.f);
 	//初始化游戏数据
 	SlAiDataHandle::Get()->InitializeGameData();
 
