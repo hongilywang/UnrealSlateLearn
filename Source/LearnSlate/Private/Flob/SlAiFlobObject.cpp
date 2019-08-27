@@ -15,7 +15,7 @@ ASlAiFlobObject::ASlAiFlobObject()
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	RootComponent = (USceneComponent*)BoxCollision;
 	//设置碰撞属性
-	BoxCollision->SetCollisionProfileName(Name("FlobProfile"));
+	BoxCollision->SetCollisionProfileName(FName("FlobProfile"));
 	//启动物理模拟
 	BoxCollision->SetSimulatePhysics(true);
 	//锁定旋转
