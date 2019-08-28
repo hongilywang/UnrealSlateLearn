@@ -6,6 +6,7 @@
 #include "SlAiTypes.h"
 #include "SlAiDataHandle.h"
 #include "SlAiHelper.h"
+#include "SlAiFlobObject.h"
 
 // Sets default values
 ASlAiResourceObject::ASlAiResourceObject()
@@ -24,6 +25,8 @@ ASlAiResourceObject::ASlAiResourceObject()
 
 	//开启交互检测
 	BaseMesh->SetGenerateOverlapEvents(true);
+
+	HP = BaseHP = 0;
 }
 
 // Called when the game starts or when spawned
@@ -33,14 +36,39 @@ void ASlAiResourceObject::BeginPlay()
 	
 	SlAiHelper::Debug(FString("ResourceObject Begin Play"), 10.f);
 
-	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
-
-	HP = BaseHP = ResourceAttr->HP;
 }
 
-FText ASlAiResourceObject::GetInfoText() const
+void ASlAiResourceObject::CreateFlobObject()
 {
 	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+	//遍历生成掉落物
+	for (TArray<TArray<int>>::TIterator It(ResourceAttr->FlobObjectInfo); It; ++It)
+	{
+		//随机生成的数量
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		//生成数量
+		int Num = Stream.RandRange((*It)[1], (*It)[2]);
+
+		if (GetWorld())
+		{
+			for (int i = 0; i < Num; ++i) 
+			{
+				//生成掉落物
+				ASlAiFlobObject* FlobObject = GetWorld()->SpawnActor<ASlAiFlobObject>(GetActorLocation(), FRotator::ZeroRotator);
+				FlobObject->CreateFlobObject((*It)[0]);
+			}
+		}
+	}
+}
+
+FText ASlAiResourceObject::GetInfoText()
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+	if (HP <= 0)
+	{
+		HP = BaseHP = ResourceAttr->HP;
+	}
 
 	switch (SlAiDataHandle::Get()->CurrentCulture)
 	{
@@ -65,6 +93,8 @@ ASlAiResourceObject* ASlAiResourceObject::TakeObjectDamage(int Damge)
 	{
 		//检测失效
 		BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+		//创建掉落物
+		CreateFlobObject();
 		//销毁物体
 		GetWorld()->DestroyActor(this);
 	}

@@ -30,6 +30,7 @@ ASlAiFlobObject::ASlAiFlobObject()
 	BaseMesh->SetupAttachment(RootComponent);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticBaseMesh(TEXT("StaticMesh'/Engine/BasicShapes/Plane.Plane'"));
+	BaseMesh->SetStaticMesh(StaticBaseMesh.Object);
 	BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
 	BaseMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	//设置变换
@@ -51,6 +52,9 @@ void ASlAiFlobObject::BeginPlay()
 void ASlAiFlobObject::RenderTexture()
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+	ObjectIconTex = LoadObject<UTexture>(nullptr, *ObjectAttr->TexPath);
+	ObjectIconMatDynamic->SetTextureParameterValue(FName("ObjectTex"), ObjectIconTex);
+	BaseMesh->SetMaterial(0, ObjectIconMatDynamic);
 }
 
 // Called every frame
@@ -64,5 +68,17 @@ void ASlAiFlobObject::CreateFlobObject(int ObjectID)
 {
 	//指定ID
 	ObjectIndex = ObjectID;
+
+	//渲染贴图
+	RenderTexture();
+
+	//做随机方向的力
+	FRandomStream Stream;
+	Stream.GenerateNewSeed();
+	int DirYaw = Stream.RandRange(-180, 180);
+	FRotator ForceRot = FRotator(0.f, DirYaw, 0.f);
+
+	//添加力
+	BoxCollision->AddForce(FVector(0.f, 0.f, 4.f) + ForceRot.Vector() * 60000.f);
 }
 

@@ -24,7 +24,7 @@ public:
 	EResourceType::Type GetResourceType();
 
 	//获取物品信息
-	FText GetInfoText() const;
+	FText GetInfoText();
 
 	//获取血量百分比
 	float GetHPRange();
@@ -40,6 +40,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//生成掉落物
+	void CreateFlobObject();
 protected:
 
 	//根组件
