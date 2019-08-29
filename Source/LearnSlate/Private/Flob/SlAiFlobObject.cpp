@@ -6,6 +6,8 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "TimerManager.h"
+#include "../Player/SlAiPlayerCharacter.h"
 
 // Sets default values
 ASlAiFlobObject::ASlAiFlobObject()
@@ -47,6 +49,21 @@ void ASlAiFlobObject::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//监测世界是否存在
+	if (!GetWorld())
+		return;
+	
+	//注册监测事件
+	FTimerDelegate DetectPlayerDele;
+	DetectPlayerDele.BindUObject(this, &ASlAiFlobObject::DetectPlayer);
+	//每秒运行一次，循环运行，延迟3秒运行
+	GetWorld()->GetTimerManager().SetTimer(DetectTimer, DetectPlayerDele, 1.f, true, 3.f);
+	//注册销毁事件
+	FTimerDelegate DestroyDele;
+	DestroyDele.BindUObject(this, &ASlAiFlobObject::DestroyEvent);
+	GetWorld()->GetTimerManager().SetTimer(DestroyTimer, DestroyDele, 10.f, false);
+
+	SPCharacter = nullptr;
 }
 
 void ASlAiFlobObject::RenderTexture()
@@ -57,11 +74,89 @@ void ASlAiFlobObject::RenderTexture()
 	BaseMesh->SetMaterial(0, ObjectIconMatDynamic);
 }
 
+void ASlAiFlobObject::DetectPlayer()
+{
+	if (!GetWorld())
+		return;
+
+	//保存检查结果
+	TArray<FOverlapResult> Overlaps;
+	FCollisionObjectQueryParams ObjectParams;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	//bTraceAysncScene已经在4.22被彻底干掉了
+	//Params.bTraceAsyncScene = true;
+	
+	//进行动态监测，监测范围是200,
+	if (GetWorld()->OverlapMultiByObjectType(Overlaps, GetActorLocation(), FQuat::Identity, ObjectParams, FCollisionShape::MakeSphere(200.f), Params))
+	{
+		for (TArray<FOverlapResult>::TIterator It(Overlaps); It; ++It)
+		{
+			//如果检测到了玩家
+			if (Cast<ASlAiPlayerCharacter>(It->GetActor()))
+			{
+				SPCharacter = Cast<ASlAiPlayerCharacter>(It->GetActor());
+				//TODO背包空间判断
+				if (true)
+				{
+					//停止检测定时器
+					GetWorld()->GetTimerManager().PauseTimer(DetectTimer);
+					//停止销毁定时器
+					GetWorld()->GetTimerManager().PauseTimer(DestroyTimer);
+					//关闭物理模拟
+					BoxCollision->SetSimulatePhysics(false);
+				}
+				return;
+			}
+		}
+	}
+}
+
+void ASlAiFlobObject::DestroyEvent()
+{
+	if (!GetWorld())
+		return;
+	
+	//注销定时器
+	GetWorld()->GetTimerManager().ClearTimer(DetectTimer);
+	GetWorld()->GetTimerManager().ClearTimer(DestroyTimer);
+	//销毁自己
+	GetWorld()->DestroyActor(this);
+}
+
 // Called every frame
 void ASlAiFlobObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	//一直旋转
+	BaseMesh->AddLocalRotation(FRotator(DeltaTime * 60.f, 0.f, 0.f));
+	//如果检测到玩家
+	if (SPCharacter)
+	{
+		//看见玩家
+		SetActorLocation(FMath::VInterpTo(GetActorLocation(), SPCharacter->GetActorLocation() + FVector(0.f, 0.f, 40.f), DeltaTime, 5.f));
+		//如果距离接近
+		if (FVector::Distance(GetActorLocation(), SPCharacter->GetActorLocation() + FVector(0.f, 0.f, 40.f)) < 10.f)
+		{
+			//判断玩家背包是否有空间
+			if (true)
+			{
+				//TODO添加对应的物品到背包
+				//销毁自己
+				DestroyEvent();
+			}
+			else
+			{
+				SPCharacter = nullptr;
+				//开启检测定时器
+				GetWorld()->GetTimerManager().UnPauseTimer(DetectTimer);
+				//开启销毁定时器
+				GetWorld()->GetTimerManager().UnPauseTimer(DestroyTimer);
+				//开启物理模拟
+				BoxCollision->SetSimulatePhysics(true);
+			}
+		}
+	}
 }
 
 void ASlAiFlobObject::CreateFlobObject(int ObjectID)
@@ -79,6 +174,6 @@ void ASlAiFlobObject::CreateFlobObject(int ObjectID)
 	FRotator ForceRot = FRotator(0.f, DirYaw, 0.f);
 
 	//添加力
-	BoxCollision->AddForce(FVector(0.f, 0.f, 4.f) + ForceRot.Vector() * 60000.f);
+	BoxCollision->AddForce((FVector(0.f, 0.f, 4.f) + ForceRot.Vector()) * 100000.f);
 }
 

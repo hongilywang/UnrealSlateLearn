@@ -30,6 +30,12 @@ private:
 	//渲染贴图
 	void RenderTexture();
 
+	//动态监测事件
+	void DetectPlayer();
+
+	//销毁事件
+	void DestroyEvent();
+		
 private:
 	class UBoxComponent* BoxCollision;
 	class UStaticMeshComponent* BaseMesh;
@@ -39,4 +45,13 @@ private:
 
 	class UTexture* ObjectIconTex;
 	class UMaterialInstanceDynamic* ObjectIconMatDynamic;
+
+	//玩家指针
+	class ASlAiPlayerCharacter* SPCharacter;
+
+	//动态监测Timer
+	FTimerHandle DetectTimer;
+
+	//销毁Timer
+	FTimerHandle DestroyTimer;
 };
