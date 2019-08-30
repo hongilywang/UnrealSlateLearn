@@ -17,4 +17,17 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	//更新状态事件
+	void UpdateStateWidget(float HPValue, float HungerValue);
+
+private:
+	//获取GameStyle
+	const struct FSlAiGameStyle* GameStyle;
+
+	//血条
+	TSharedPtr<class SProgressBar> HPBar;
+
+	//饥饿度
+	TSharedPtr<class SProgressBar> HungerBar;
 };

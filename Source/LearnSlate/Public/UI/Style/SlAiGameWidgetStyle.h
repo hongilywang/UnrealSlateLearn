@@ -62,6 +62,26 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Info)
 		FSlateBrush PointerBrush;
 
+	//玩家属性背景图
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerStateBGBrush;
+
+	//玩家头像背景图
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerStateHeadBGBrush;
+
+	//血条Brush
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush HPBrush;
+
+	//饥饿Brush
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush HungerBrush;
+
+	//玩家头像
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerHeadBrush;
+
 	//60号字体
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_60;

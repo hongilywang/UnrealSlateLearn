@@ -8,6 +8,10 @@
 #include "SlAiPlayerState.generated.h"
 
 class STextBlock;
+
+//更新玩家状态UI委托
+DECLARE_DELEGATE_TwoParams(FUpdateStateWidget, float, float)
+
 /**
  * 
  */
@@ -18,6 +22,8 @@ class LEARNSLATE_API ASlAiPlayerState : public APlayerState
 	
 public:
 	ASlAiPlayerState();
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	//提供给ShortcutWidget的添加快捷栏容器委托
 	void RegisterShortcutContainer(TArray<TSharedPtr<ShortcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShortcutInfoTextBlock);
@@ -47,6 +53,9 @@ public:
 	//射线检测信息
 	FText RayInfoText;
 
+	//更新玩家状态UI，绑定的方法是PlayerStateWidget的UpdateStateWidget
+	FUpdateStateWidget UpdateStateWidget;
+
 private:
 	//获取快捷栏物品信息
 	FText GetShortcutInfoText() const;
@@ -63,4 +72,8 @@ private:
 
 	//射线信息参数
 	TAttribute<FText> RayInfoTextAttr;
+
+	//血值 饥饿度
+	float HP;
+	float Hunger;
 };
