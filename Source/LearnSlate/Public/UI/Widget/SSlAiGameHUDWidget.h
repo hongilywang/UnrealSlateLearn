@@ -31,6 +31,12 @@ public:
 	TSharedPtr<class SSlAiPointerWidget> PointerWidget;
 	//玩家状态指针
 	TSharedPtr<class SSlAiPlayerStateWidget> PlayerStateWidget;
+	//游戏菜单
+	TSharedPtr<class SSlAiGameMenuWidget> GameMenuWidget;
+	//聊天室
+	TSharedPtr<class SSlAiChatRoomWidget> ChatRoomWidget;
+	//背包
+	TSharedPtr<class SSlAiPackageWidget> PackageWidget;
 
 private:
 	//获取屏幕size
