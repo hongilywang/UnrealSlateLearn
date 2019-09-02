@@ -10,6 +10,10 @@
 #include "SSlAiRayInfoWidget.h"
 #include "SSlAiPointerWidget.h"
 #include "SSlAiPlayerStateWidget.h"
+#include "SImage.h"
+#include "SSlAiGameMenuWidget.h"
+#include "SSlAiChatRoomWidget.h"
+#include "SSlAiPackageWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
@@ -54,15 +58,63 @@ void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
 			[
 				SAssignNew(PlayerStateWidget, SSlAiPlayerStateWidget)
 			]
+
+			//暗黑色遮罩，放在事件界面和游戏UI中间
+			+SOverlay::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			[
+				SAssignNew(BlackShade, SBorder)
+				//黑色透明
+				.ColorAndOpacity(TAttribute<FLinearColor>(FLinearColor(0.2f, 0.2f, 0.2f, 0.5f)))
+				//开始涉足不显示
+				.Visibility(EVisibility::Hidden)
+				[
+					SNew(SImage)
+				]
+			]
+			
+			//GameMenu
+			+SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SAssignNew(GameMenuWidget, SSlAiGameMenuWidget)
+				.Visibility(EVisibility::Hidden)
+			]
+
+			//ChatRoom
+			+SOverlay::Slot()
+			.HAlign(HAlign_Left)
+			.VAlign(VAlign_Bottom)
+			[
+				SAssignNew(ChatRoomWidget, SSlAiChatRoomWidget)
+				.Visibility(EVisibility::Hidden)
+			]
+
+			//Package
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			[
+				SAssignNew(PackageWidget, SSlAiPackageWidget)
+				.Visibility(EVisibility::Hidden)
+			]
 		]
 	];
 	
+	InitUIMap();
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 float SSlAiGameHUDWidget::GetUIScaler() const
 {
 	return GetViewportSize().Y / 1080.f;
+}
+
+void SSlAiGameHUDWidget::ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type NextUI)
+{
+
 }
 
 FVector2D SSlAiGameHUDWidget::GetViewportSize() const
@@ -72,4 +124,12 @@ FVector2D SSlAiGameHUDWidget::GetViewportSize() const
 		GEngine->GameViewport->GetViewportSize(Result);
 
 	return Result;
+}
+
+void SSlAiGameHUDWidget::InitUIMap()
+{
+	UIMap.Add(EGameUIType::Pause, GameMenuWidget);
+	UIMap.Add(EGameUIType::Package, PackageWidget);
+	UIMap.Add(EGameUIType::ChatRoom, ChatRoomWidget);
+	UIMap.Add(EGameUIType::Lose, GameMenuWidget);
 }

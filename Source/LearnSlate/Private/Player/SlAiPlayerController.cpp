@@ -41,6 +41,13 @@ void ASlAiPlayerController::SetupInputComponent()
 	//绑定滑轮滚动事件
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASlAiPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Released, this, &ASlAiPlayerController::ScrollDownEvent);
+
+	//绑定Esc事件，暂停游戏,并且该事件在游戏暂停的时候依然可以运行
+	InputComponent->BindAction("EscEvent", IE_Pressed, this, &ASlAiPlayerController::EscEvent).bExecuteWhenPaused = true;
+	//绑定背包
+	InputComponent->BindAction("PackageEvent", IE_Pressed, this, &ASlAiPlayerController::PackageEvent);
+	//聊天室
+	InputComponent->BindAction("ChatRoomEvent", IE_Pressed, this, &ASlAiPlayerController::ChatRoomEvent);
 }
 
 void ASlAiPlayerController::ChangeHandObject()
@@ -156,6 +163,65 @@ void ASlAiPlayerController::StateMachine()
 	}
 }
 
+void ASlAiPlayerController::EscEvent()
+{
+	switch (CurrentUIType)
+	{
+	case EGameUIType::Game:
+		//设置游戏暂停
+		SetPause(true);
+		//设置输入模式为GameAndUI
+		SwitchInputMode(false);
+		//更新界面
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Pause);
+		//更新当前UI
+		CurrentUIType = EGameUIType::Pause;
+		break;
+	case EGameUIType::Pause:
+	case EGameUIType::Package:
+	case EGameUIType::ChatRoom:
+		//解除暂停
+		SetPause(false);
+		SwitchInputMode(true);
+		ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Game);
+		CurrentUIType = EGameUIType::Game;
+		break;
+	}
+}
+
+void ASlAiPlayerController::PackageEvent()
+{
+
+}
+
+void ASlAiPlayerController::ChatRoomEvent()
+{
+
+}
+
+void ASlAiPlayerController::SwitchInputMode(bool IsGameOnly)
+{
+	if (IsGameOnly)
+	{
+		//隐藏鼠标
+		bShowMouseCursor = false;
+		//设置输入模式为OnlyGame;
+		FInputModeGameOnly InputMode;
+		InputMode.SetConsumeCaptureMouseDown(true);
+		SetInputMode(InputMode);
+	}
+	else
+	{
+		//显示鼠标
+		bShowMouseCursor = true;
+		//设置输入模式为GameAndUI;
+		FInputModeGameAndUI InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
+		InputMode.SetHideCursorDuringCapture(false);
+		SetInputMode(InputMode);
+	}
+}
+
 void ASlAiPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -179,6 +245,8 @@ void ASlAiPlayerController::BeginPlay()
 	
 	IsLeftButtonDown = false;
 	IsRightButtonDown = false;
+
+	CurrentUIType = EGameUIType::Game;
 }
 
 void ASlAiPlayerController::ChangeView()

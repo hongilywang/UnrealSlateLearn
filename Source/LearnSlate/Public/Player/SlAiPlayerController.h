@@ -9,6 +9,8 @@
 
 //修改准星委托
 DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
+//显示UI委托
+DECLARE_DELEGATE_TwoParams(FShowGameUI, EGameUIType::Type, EGameUIType::Type)
 
 /**
  * 
@@ -35,6 +37,8 @@ public:
 
 	//实时修改准星的委托，注册的函数Pointerwidget的UpdatePointer
 	FUpdatePointer UpdatePointer;
+	//显示游戏UI界面委托，绑定的方法是GameHUDWidget的ShowGameUI
+	FShowGameUI ShowGameUI;
 
 	//射线检测结果
 	FHitResult RayGetHitResult(FVector TraceStart, FVector TraceEnd);
@@ -45,6 +49,16 @@ public:
 	void RunRayCast();
 	//行为状态机
 	void StateMachine();
+	
+	//ESC按下事件
+	void EscEvent();
+	//E键背包
+	void PackageEvent();
+	//T键聊天室
+	void ChatRoomEvent();
+
+	//切换游戏输入模式，true为游戏模式，false为混合模式
+	void SwitchInputMode(bool IsGameOnly);
 
 protected:
 	virtual void BeginPlay() override;
@@ -79,4 +93,7 @@ private:
 
 	//检测到资源
 	AActor* RayActor;
+
+	//保存当前UI状态
+	EGameUIType::Type CurrentUIType;
 };

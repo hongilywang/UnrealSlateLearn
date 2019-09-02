@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "SlAiTypes.h"
 
 /**
  * 
@@ -20,6 +21,9 @@ public:
 
 	//绑定到UIScaler的方法
 	float GetUIScaler() const;
+
+	//显示游戏UI，被PlayerController的ShowGameUI委托绑定
+	void ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type NextUI);
 
 public:
 
@@ -42,9 +46,17 @@ private:
 	//获取屏幕size
 	FVector2D GetViewportSize() const;
 
+	//将UI绑定到UIMap
+	void InitUIMap();
 
 private:
 
 	//DPI缩放
 	TAttribute<float> UIScaler;
+
+	//遮罩
+	TSharedPtr<class SBorder> BlackShade;
+
+	//UIMap
+	TMap<EGameUIType::Type, TSharedPtr<SCompoundWidget>> UIMap;
 };
