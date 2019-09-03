@@ -60,6 +60,9 @@ public:
 	//切换游戏输入模式，true为游戏模式，false为混合模式
 	void SwitchInputMode(bool IsGameOnly);
 
+	//设置锁住输入
+	void LockedInput(bool IsLocked);
+
 protected:
 	virtual void BeginPlay() override;
 

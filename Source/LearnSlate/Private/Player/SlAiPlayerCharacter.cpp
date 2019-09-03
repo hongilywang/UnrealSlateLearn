@@ -113,6 +113,8 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	UpperType = EUpperBody::None;
 	//一开始允许切换视角
 	IsAllowSwitch = true;
+
+	IsInputLocked = false;
 }
 
 // Called when the game starts or when spawned
@@ -201,6 +203,10 @@ void ASlAiPlayerCharacter::RenderHandObject(bool IsRender)
 
 void ASlAiPlayerCharacter::MoveForward(float Value)
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	if (Value != 0.f && Controller)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -211,6 +217,10 @@ void ASlAiPlayerCharacter::MoveForward(float Value)
 
 void ASlAiPlayerCharacter::MoveRight(float Value)
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	if (Value != 0)
 	{
 		const FQuat Rotation = GetActorQuat();
@@ -221,36 +231,64 @@ void ASlAiPlayerCharacter::MoveRight(float Value)
 
 void ASlAiPlayerCharacter::LookUpAtRate(float Value)
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	AddControllerPitchInput(Value * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void ASlAiPlayerCharacter::Turn(float Value)
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	AddControllerYawInput(Value);
 }
 
 void ASlAiPlayerCharacter::TurnAtRate(float Value)
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	AddControllerYawInput(Value * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
 void ASlAiPlayerCharacter::OnStartJump()
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	bPressedJump = true;
 }
 
 void ASlAiPlayerCharacter::OnStopJump()
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	bPressedJump = false;
 	StopJumping();
 }
 
 void ASlAiPlayerCharacter::OnStartRun()
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	GetCharacterMovement()->MaxWalkSpeed = 375.f;
 }
 
 void ASlAiPlayerCharacter::OnStopRun()
 {
+	//如果操作被锁住，直接返回
+	if (IsInputLocked)
+		return;
+
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 }

@@ -114,7 +114,17 @@ float SSlAiGameHUDWidget::GetUIScaler() const
 
 void SSlAiGameHUDWidget::ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type NextUI)
 {
+	//如果前一个模式是Game
+	if (PreUI == EGameUIType::Game)
+		BlackShade->SetVisibility(EVisibility::Visible);
+	else
+		UIMap.Find(PreUI)->Get()->SetVisibility(EVisibility::Hidden);
 
+	//如果下一个模式是Game
+	if (NextUI == EGameUIType::Game)
+		BlackShade->SetVisibility(EVisibility::Hidden);
+	else
+		UIMap.Find(NextUI)->Get()->SetVisibility(EVisibility::Visible);
 }
 
 FVector2D SSlAiGameHUDWidget::GetViewportSize() const
