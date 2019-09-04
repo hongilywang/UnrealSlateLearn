@@ -13,6 +13,9 @@ class LEARNSLATE_API SSlAiContainerInputWidget : public SSlAiContainerBaseWidget
 public:
 	SLATE_BEGIN_ARGS(SSlAiContainerInputWidget)
 	{}
+
+	SLATE_ATTRIBUTE(int, WorkIndex)
+
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */

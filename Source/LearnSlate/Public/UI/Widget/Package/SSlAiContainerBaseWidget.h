@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "SlAiTypes.h"
 
 /**
  * 
@@ -21,7 +22,15 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
+	//获取实例
+	static TSharedPtr<SSlAiContainerBaseWidget> CreateContainer(EContainerType::Type NeedType, int WorkID);
+
 protected:
+
+	//容器各个组件
+	TSharedPtr<class SBorder> ContainerBorder;
+	TSharedPtr<class SBorder> ObjectImage;
+	TSharedPtr<class STextBlock> ObjectNumText;
 
 	//获取GameStyle
 	const struct FSlAiGameStyle* GameStyle;

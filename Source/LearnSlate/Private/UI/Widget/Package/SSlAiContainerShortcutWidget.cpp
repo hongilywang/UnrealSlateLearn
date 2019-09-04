@@ -7,11 +7,8 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiContainerShortcutWidget::Construct(const FArguments& InArgs)
 {
-	/*
-	ChildSlot
-	[
-		// Populate the widget
-	];
-	*/
+	SSlAiContainerBaseWidget::Construct(
+		SSlAiContainerBaseWidget::FArguments().WorkIndex(InArgs._WorkIndex)
+	);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
