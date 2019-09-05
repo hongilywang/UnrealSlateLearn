@@ -13,10 +13,13 @@ class LEARNSLATE_API SSlAiPackageWidget : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SSlAiPackageWidget)
 	{}
+	SLATE_ATTRIBUTE(float, UIScaler)
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
 
 	//注册背包管理器事件，由playercharacter的InitPackageManager委托进行调用
 	void InitPackageManager();
@@ -34,4 +37,9 @@ private:
 	//输出容器
 	TSharedPtr<class SBorder> OutputBorder;
 
+	//鼠标位置
+	FVector2D MousePosition;
+
+	//DPI缩放
+	TAttribute<float> UIScaler;
 };

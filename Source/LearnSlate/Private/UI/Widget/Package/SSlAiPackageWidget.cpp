@@ -10,12 +10,15 @@
 #include "STextBlock.h"
 #include "SImage.h"
 #include "SSlAiContainerBaseWidget.h"
+#include "Engine/Engine.h"
+#include "SlAiHelper.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiPackageWidget::Construct(const FArguments& InArgs)
 {
 	//获取GameStyle
 	GameStyle = &SlAiStyle::Get().GetWidgetStyle<FSlAiGameStyle>("BPSlAiGameStyle");
+	UIScaler = InArgs._UIScaler;
 
 	ChildSlot
 	[
@@ -91,7 +94,21 @@ void SSlAiPackageWidget::Construct(const FArguments& InArgs)
 		]
 	];
 	
+	MousePosition = FVector2D(0.f, 0.f);
 }
+
+void SSlAiPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	//如果背包显示并且实际存在，实时更新鼠标位置
+	if (GetVisibility() == EVisibility::Visible && GEngine)
+	{
+		GEngine->GameViewport->GetMousePosition(MousePosition);
+		//SlAiHelper::Debug(FString("AbsoMousePos : ") + MousePosition.ToString(), 0.f);
+		MousePosition = MousePosition / UIScaler.Get();
+		//SlAiHelper::Debug(FString("RelaMousePos : ") + MousePosition.ToString(), 0.f);
+	}
+}
+
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSlAiPackageWidget::InitPackageManager()

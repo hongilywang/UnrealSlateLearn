@@ -98,6 +98,8 @@ void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Fill)
 			[
 				SAssignNew(PackageWidget, SSlAiPackageWidget)
+				//…Ë÷√DPI
+				.UIScaler(UIScaler)
 				.Visibility(EVisibility::Hidden)
 			]
 		]
