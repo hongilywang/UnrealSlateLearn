@@ -22,11 +22,15 @@ ASlAiGameMode::ASlAiGameMode()
 	PlayerControllerClass = ASlAiPlayerController::StaticClass();
 	PlayerStateClass = ASlAiPlayerState::StaticClass();
 	DefaultPawnClass = ASlAiPlayerCharacter::StaticClass();
+
+	//是否已经初始化背包
+	IsInitPackage = false;
 }
 
 void ASlAiGameMode::Tick(float DeltaSeconds)
 {
-
+	//TODO这样做好吗，每帧斗湖运行
+	InitializePackage();
 }
 
 void ASlAiGameMode::InitGamePlayModule()
@@ -45,4 +49,12 @@ void ASlAiGameMode::BeginPlay()
 
 	if (!SPController)
 		InitGamePlayModule();
+}
+
+void ASlAiGameMode::InitializePackage()
+{
+	if (IsInitPackage)
+		return;
+	InitPackageManager.ExecuteIfBound();
+	IsInitPackage = true;
 }

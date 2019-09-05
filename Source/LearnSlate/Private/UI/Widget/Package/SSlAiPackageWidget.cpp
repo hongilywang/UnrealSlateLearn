@@ -9,6 +9,7 @@
 #include "SBox.h"
 #include "STextBlock.h"
 #include "SImage.h"
+#include "SSlAiContainerBaseWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiPackageWidget::Construct(const FArguments& InArgs)
@@ -28,7 +29,7 @@ void SSlAiPackageWidget::Construct(const FArguments& InArgs)
 		[
 			SNew(SBox)
 			.WidthOverride(800.f)
-			.HeightOverride(880.f)
+			.HeightOverride(800.f)
 			[
 				SNew(SOverlay)
 
@@ -95,4 +96,34 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSlAiPackageWidget::InitPackageManager()
 {
+	//初始化快捷栏
+	for (int i = 0; i < 9; ++i)
+	{
+		//创建容器实例
+		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Shortcut, i);
+		//将容器添加到UI
+		ShortcutGrid->AddSlot(i, 0)[NewContainer->AsShared()];
+	}
+
+	//初始化背包
+	for (int i = 0; i < 36; ++i)
+	{
+		//创建容器实例
+		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Normal, i);
+		//将容器添加到UI
+		PackageGrid->AddSlot(i % 9, i / 9)[NewContainer->AsShared()];
+	}
+
+	//初始化合成台
+	for (int i = 0; i < 9; ++i)
+	{
+		//创建容器实例
+		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Input, i);
+		//将容器添加到UI
+		CompoundGrid->AddSlot(i % 3, i / 3)[NewContainer->AsShared()];
+	}
+
+	//初始化输出容器
+	TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Input, 1);
+	OutputBorder->SetContent(NewContainer->AsShared());
 }

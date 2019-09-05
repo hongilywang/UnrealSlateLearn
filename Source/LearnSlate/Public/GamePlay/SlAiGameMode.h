@@ -6,6 +6,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "SlAiGameMode.generated.h"
 
+//初始化背包管理类委托
+DECLARE_DELEGATE(FInitPackageManager)
+
 /**
  * 
  */
@@ -27,7 +30,15 @@ public:
 	class ASlAiPlayerController* SPController;
 	class ASlAiPlayerCharacter* SPCharacter;
 	class ASlAiPlayerState* SPState;
+	//初始化背包管理委托，绑定的方式PackageWidget的InitPackageManager方法
+	FInitPackageManager InitPackageManager;
 
 protected:
 	virtual void BeginPlay() override;
+
+	void InitializePackage();
+
+private:
+	//是否已经初始化背包
+	bool IsInitPackage;
 };
