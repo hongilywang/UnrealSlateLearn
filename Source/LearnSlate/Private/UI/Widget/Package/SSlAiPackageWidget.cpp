@@ -13,6 +13,8 @@
 #include "Engine/Engine.h"
 #include "SlAiHelper.h"
 
+#include "SlAiPackageManager.h"
+
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiPackageWidget::Construct(const FArguments& InArgs)
 {
@@ -95,6 +97,7 @@ void SSlAiPackageWidget::Construct(const FArguments& InArgs)
 	];
 	
 	MousePosition = FVector2D(0.f, 0.f);
+	IsInitPackageMana = false;
 }
 
 void SSlAiPackageWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
@@ -106,6 +109,12 @@ void SSlAiPackageWidget::Tick(const FGeometry& AllottedGeometry, const double In
 		//SlAiHelper::Debug(FString("AbsoMousePos : ") + MousePosition.ToString(), 0.f);
 		MousePosition = MousePosition / UIScaler.Get();
 		//SlAiHelper::Debug(FString("RelaMousePos : ") + MousePosition.ToString(), 0.f);
+	}
+
+	//如果背包管理器已经初始化
+	if (IsInitPackageMana)
+	{
+		SlAiPackageManager::Get()->UpdateHovered(MousePosition, AllottedGeometry);
 	}
 }
 
@@ -120,6 +129,8 @@ void SSlAiPackageWidget::InitPackageManager()
 		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Shortcut, i);
 		//将容器添加到UI
 		ShortcutGrid->AddSlot(i, 0)[NewContainer->AsShared()];
+		//注册容器到背包管理器
+		SlAiPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Shortcut);
 	}
 
 	//初始化背包
@@ -129,6 +140,8 @@ void SSlAiPackageWidget::InitPackageManager()
 		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Normal, i);
 		//将容器添加到UI
 		PackageGrid->AddSlot(i % 9, i / 9)[NewContainer->AsShared()];
+		//注册容器到背包管理器
+		SlAiPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Normal);
 	}
 
 	//初始化合成台
@@ -138,9 +151,14 @@ void SSlAiPackageWidget::InitPackageManager()
 		TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Input, i);
 		//将容器添加到UI
 		CompoundGrid->AddSlot(i % 3, i / 3)[NewContainer->AsShared()];
+		//注册容器到背包管理器
+		SlAiPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Input);
 	}
 
 	//初始化输出容器
-	TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Input, 1);
+	TSharedPtr<SSlAiContainerBaseWidget> NewContainer = SSlAiContainerBaseWidget::CreateContainer(EContainerType::Output, 1);
 	OutputBorder->SetContent(NewContainer->AsShared());
+	SlAiPackageManager::Get()->InsertContainer(NewContainer, EContainerType::Output);
+
+	IsInitPackageMana = true;
 }

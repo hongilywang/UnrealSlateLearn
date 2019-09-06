@@ -42,4 +42,7 @@ private:
 
 	//DPI缩放
 	TAttribute<float> UIScaler;
+
+	//是否已经初始化背包管理器
+	bool IsInitPackageMana;
 };

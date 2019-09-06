@@ -25,6 +25,9 @@ public:
 	//获取实例
 	static TSharedPtr<SSlAiContainerBaseWidget> CreateContainer(EContainerType::Type NeedType, int WorkID);
 
+	//鼠标是不移动到上面的状态
+	void UpdateHovered(bool IsHovered);
+
 protected:
 
 	//容器各个组件
@@ -37,4 +40,7 @@ protected:
 
 	//工作序号，用于标定在背包中的位置作用
 	TAttribute<int> WorkIndex;
+
+	//是否有鼠标Hover状态
+	bool IsHover;
 };

@@ -40,7 +40,7 @@ void SSlAiContainerBaseWidget::Construct(const FArguments& InArgs)
 			]
 		]
 	];
-	
+	IsHover = false;
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -64,4 +64,17 @@ TSharedPtr<SSlAiContainerBaseWidget> SSlAiContainerBaseWidget::CreateContainer(E
 	}
 
 	return ResultContainer;
+}
+
+void SSlAiContainerBaseWidget::UpdateHovered(bool IsHovered)
+{
+	if (IsHovered == IsHover)
+		return;
+
+	if (IsHovered)
+		ContainerBorder->SetBorderImage(&GameStyle->ChoosedContainerBrush);
+	else
+		ContainerBorder->SetBorderImage(&GameStyle->NormalContainerBrush);
+
+	IsHover = IsHovered;
 }

@@ -21,10 +21,15 @@ public:
 	//添加容器
 	void InsertContainer(TSharedPtr<SSlAiContainerBaseWidget> Container, EContainerType::Type InsertType);
 
+	//更新悬停的容器颜色
+	void UpdateHovered(FVector2D MousePos, FGeometry PackGeo);
+
 private:
 	//创建实例方法
 	static TSharedRef<SlAiPackageManager> Create();
 
+	//获取鼠标指向的容器
+	TSharedPtr<SSlAiContainerBaseWidget> LocateContainer(FVector2D MousePos, FGeometry PackGeo);
 private:
 	//单例指针
 	static TSharedPtr<SlAiPackageManager> PackageInstance;
@@ -35,4 +40,7 @@ private:
 	TArray<TSharedPtr<SSlAiContainerBaseWidget>> ShortcutContainerList;
 	//输入容器只有一个
 	TSharedPtr<SSlAiContainerBaseWidget> OutputContainer;
+
+	//上一个悬停的容器
+	TSharedPtr<SSlAiContainerBaseWidget> LastHoveredCon;
 };
