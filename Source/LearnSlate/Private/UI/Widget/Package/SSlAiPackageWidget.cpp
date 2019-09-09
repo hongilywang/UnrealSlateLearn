@@ -14,6 +14,8 @@
 #include "SlAiHelper.h"
 
 #include "SlAiPackageManager.h"
+#include "DrawElements.h"
+#include "SlAiDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiPackageWidget::Construct(const FArguments& InArgs)
@@ -117,8 +119,35 @@ void SSlAiPackageWidget::Tick(const FGeometry& AllottedGeometry, const double In
 		SlAiPackageManager::Get()->UpdateHovered(MousePosition, AllottedGeometry);
 	}
 }
-
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+int32 SSlAiPackageWidget::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
+{
+	//调用父类的函数
+	SCompoundWidget::OnPaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
+
+	//如果背包管理没有初始化
+	if (!IsInitPackageMana)
+		return LayerId;
+
+	//如果背包管理器的手上物品不为0， 就进行渲染
+	if (GetVisibility() == EVisibility::Visible && SlAiPackageManager::Get()->ObjectIndex != 0 && SlAiPackageManager::Get()->ObjectNum != 0)
+	{
+		//渲染物品图标
+		FSlateDrawElement::MakeBox(OutDrawElements, LayerId + 30, AllottedGeometry.ToPaintGeometry(MousePosition - FVector2D(32.f, 32.f), FVector2D(64.f, 64.f)), SlAiDataHandle::Get()->ObjectBrushList[SlAiPackageManager::Get()->ObjectIndex], ESlateDrawEffect::None, FLinearColor(1.f, 1.f, 1.f));
+		
+		//获取物品属性
+		TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(SlAiPackageManager::Get()->ObjectIndex);
+		//渲染数量，如果数量不可以叠加物品就不渲染
+		if (ObjectAttr->ObjectType != EObjectType::Tool && ObjectAttr->ObjectType != EObjectType::Type::Weapon)
+		{
+			//渲染数量文字
+			FSlateDrawElement::MakeText(OutDrawElements, LayerId + 30, AllottedGeometry.ToPaintGeometry(MousePosition + FVector2D(12.f, 16.f), FVector2D(16.f, 16.f)), FString::FromInt(SlAiPackageManager::Get()->ObjectNum), GameStyle->Font_Outline_16, ESlateDrawEffect::None, GameStyle->FontColor_Black);
+		}
+	}
+
+	return LayerId;
+}
 
 void SSlAiPackageWidget::InitPackageManager()
 {

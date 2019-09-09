@@ -24,6 +24,12 @@ public:
 	//更新悬停的容器颜色
 	void UpdateHovered(FVector2D MousePos, FGeometry PackGeo);
 
+public:
+	//鼠标物品ID
+	int ObjectIndex;
+	//鼠标物品数量
+	int ObjectNum;
+
 private:
 	//创建实例方法
 	static TSharedRef<SlAiPackageManager> Create();
