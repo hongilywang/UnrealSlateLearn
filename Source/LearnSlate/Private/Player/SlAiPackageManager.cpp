@@ -65,6 +65,15 @@ void SlAiPackageManager::UpdateHovered(FVector2D MousePos, FGeometry PackGeo)
 	LastHoveredCon = CurrHoveredCon;
 }
 
+void SlAiPackageManager::LeftOption(FVector2D MousePos, FGeometry PackGeo)
+{
+}
+
+void SlAiPackageManager::RightOption(FVector2D MousePos, FGeometry PackGeo)
+{
+
+}
+
 TSharedRef<SlAiPackageManager> SlAiPackageManager::Create()
 {
 	TSharedRef<SlAiPackageManager> PackageRef = MakeShareable(new SlAiPackageManager());

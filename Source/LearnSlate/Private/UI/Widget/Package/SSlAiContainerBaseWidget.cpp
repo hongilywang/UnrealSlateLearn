@@ -13,6 +13,7 @@
 #include "SSlAiContainerNormalWidget.h"
 #include "SSlAiContainerOutputWidget.h"
 #include "SSlAiContainerShortcutWidget.h"
+#include "SlAiDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiContainerBaseWidget::Construct(const FArguments& InArgs)
@@ -41,6 +42,8 @@ void SSlAiContainerBaseWidget::Construct(const FArguments& InArgs)
 		]
 	];
 	IsHover = false;
+	ObjectIndex = 0;
+	ObjectNum = 0;
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -77,4 +80,64 @@ void SSlAiContainerBaseWidget::UpdateHovered(bool IsHovered)
 		ContainerBorder->SetBorderImage(&GameStyle->NormalContainerBrush);
 
 	IsHover = IsHovered;
+}
+
+void SSlAiContainerBaseWidget::ResetContainerPara(int ObjectID, int Num)
+{
+	//如果输入ID不同，更新贴图
+	if (ObjectIndex != ObjectID)
+		ObjectImage->SetBorderImage(SlAiDataHandle::Get()->ObjectBrushList[ObjectID]);
+	ObjectIndex = ObjectID;
+	ObjectNum = Num;
+
+	//如果物品ID为0
+	if (ObjectNum == 0)
+	{
+		ObjectNumText->SetText(FText::FromString(""));
+	}
+	else
+	{
+		//判断物品是否可以叠加，是的话显示数量
+		if (MultiplyAble(ObjectIndex))
+			ObjectNumText->SetText(FText::FromString(FString::FromInt(ObjectNum)));
+		else
+			ObjectNumText->SetText(FText::FromString(""));
+	}
+}
+
+int SSlAiContainerBaseWidget::GetIndex() const
+{
+	return ObjectIndex;
+}
+
+int SSlAiContainerBaseWidget::GetNum() const
+{
+	return ObjectNum;
+}
+
+void SSlAiContainerBaseWidget::LeftOperate(int InputID, int InputNum, int& OutputID, int& OutputNum)
+{
+	//如果输入物品与本地物品相同并且可以叠加
+	if (InputID == ObjectIndex && MultiplyAble(ObjectIndex))
+	{
+		//可叠加的上限是64
+		OutputID = (ObjectNum + InputNum) <= 64 ? 0 : InputID;
+		OutputNum = (OutputNum + InputNum) <= 64 ? 0 : (ObjectNum + InputNum - 64);
+		ObjectNum = (ObjectNum + InputNum) <= 64 ? (ObjectNum + InputNum) : 64;
+		//更新属性
+		ResetContainerPara(ObjectIndex, ObjectNum);
+	}
+}
+
+void SSlAiContainerBaseWidget::RightOperate(int InputID, int InputNum, int& OutputID, int& OutputNum)
+{
+
+}
+
+bool SSlAiContainerBaseWidget::MultiplyAble(int ObjectID)
+{
+	//获取物品属性
+	TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ObjectID);
+	//返回是否是武器或者工具
+	return (ObjectAttr->ObjectType != EObjectType::Tool && ObjectAttr->ObjectType != EObjectType::Weapon);
 }
