@@ -126,12 +126,41 @@ void SSlAiContainerBaseWidget::LeftOperate(int InputID, int InputNum, int& Outpu
 		ObjectNum = (ObjectNum + InputNum) <= 64 ? (ObjectNum + InputNum) : 64;
 		//更新属性
 		ResetContainerPara(ObjectIndex, ObjectNum);
+		return;
 	}
+
+	//直接更换数据
+	OutputID = ObjectIndex;
+	OutputNum = ObjectNum;
+	//更新属性
+	ResetContainerPara(InputID, InputNum);
 }
 
 void SSlAiContainerBaseWidget::RightOperate(int InputID, int InputNum, int& OutputID, int& OutputNum)
 {
-
+	//如果输入为空，直接把本地的一半给出去，使用进一半
+	if (InputID == 0)
+	{
+		OutputID = ObjectIndex;
+		//区分单双数
+		OutputNum = (ObjectNum % 2 == 1) ? (ObjectNum / 2 + 1) : (ObjectNum / 2);
+		//更新属性
+		ResetContainerPara(ObjectNum - OutputNum == 0 ? 0 : ObjectIndex, ObjectNum - OutputNum);
+		return;
+	}
+	//如果物品相同并且和可以合并，或者本地物品为空，添加一个到本地
+	if (ObjectIndex == 0 || (InputID == ObjectIndex && MultiplyAble(InputID)))
+	{
+		OutputNum = (ObjectNum + 1 <= 64) ? (InputNum - 1) : InputNum;
+		OutputID = (OutputNum == 0) ? 0 : InputID;
+		ResetContainerPara(InputID, (ObjectNum + 1 <= 64) ? (ObjectNum + 1) : ObjectNum);
+		return;
+	}
+	//如果物品不相同或者相同但是不能合并，直接交换
+	OutputID = ObjectIndex;
+	OutputNum = ObjectNum;
+	//更新属性
+	ResetContainerPara(InputID, InputNum);
 }
 
 bool SSlAiContainerBaseWidget::MultiplyAble(int ObjectID)
