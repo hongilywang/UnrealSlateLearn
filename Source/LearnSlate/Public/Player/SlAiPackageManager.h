@@ -42,6 +42,16 @@ private:
 
 	//获取鼠标指向的容器
 	TSharedPtr<SSlAiContainerBaseWidget> LocateContainer(FVector2D MousePos, FGeometry PackGeo);
+
+	//丢弃物品事件
+	void ThrowObject(int ObjectID, int Num);
+	//合成提前事件
+	void CompoundOutput(int ObjectID, int Num);
+	//合成输入事件
+	void CompoundInput();
+	//快捷栏委托事件
+	void PackShortChange(int ShortcutID, int ObjectID, int ObjectNum);
+
 private:
 	//单例指针
 	static TSharedPtr<SlAiPackageManager> PackageInstance;

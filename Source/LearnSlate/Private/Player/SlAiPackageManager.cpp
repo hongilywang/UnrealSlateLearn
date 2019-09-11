@@ -31,14 +31,18 @@ void SlAiPackageManager::InsertContainer(TSharedPtr<SSlAiContainerBaseWidget> Co
 	{
 	case EContainerType::Output:
 		OutputContainer = Container;
+		OutputContainer->CompoundInput.BindRaw(this, &SlAiPackageManager::CompoundInput);
+		OutputContainer->ThrowObject.BindRaw(this, &SlAiPackageManager::ThrowObject);
 		break;
 	case EContainerType::Input:
+		Container->CompoundInput.BindRaw(this, &SlAiPackageManager::CompoundInput);
 		InputContainerList.Add(Container);
 		break;
 	case EContainerType::Normal:
 		NormalContainerList.Add(Container);
 		break;
 	case EContainerType::Shortcut:
+		Container->PackShortChange.BindRaw(this, &SlAiPackageManager::PackShortChange);
 		ShortcutContainerList.Add(Container);
 		break;
 	}
@@ -137,4 +141,20 @@ TSharedPtr<SSlAiContainerBaseWidget> SlAiPackageManager::LocateContainer(FVector
 
 	//∑µªÿø’÷∏’Î
 	return nullptr;
+}
+
+void SlAiPackageManager::ThrowObject(int ObjectID, int Num)
+{
+}
+
+void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)
+{
+}
+
+void SlAiPackageManager::CompoundInput()
+{
+}
+
+void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int ObjectNum)
+{
 }
