@@ -36,6 +36,11 @@ public:
 	//鼠标物品数量
 	int ObjectNum;
 
+	//丢弃物品委托，绑定的方法是PlayerState的PlayerThrowObject
+	FThrowObject PlayerThrowObject;
+	//修改快捷栏信息委托
+	FPackShortChange ChangeHandObject;
+
 private:
 	//创建实例方法
 	static TSharedRef<SlAiPackageManager> Create();

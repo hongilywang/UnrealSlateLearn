@@ -22,6 +22,9 @@ public:
 	//初始化
 	void CreateFlobObject(int ObjectID);
 
+	//丢弃物品初始化，丢弃的物品ID和丢弃方向
+	void ThrowFlobObject(int ObjectID, float DirYaw);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -177,3 +177,21 @@ void ASlAiFlobObject::CreateFlobObject(int ObjectID)
 	BoxCollision->AddForce((FVector(0.f, 0.f, 4.f) + ForceRot.Vector()) * 100000.f);
 }
 
+void ASlAiFlobObject::ThrowFlobObject(int ObjectID, float DirYaw)
+{
+	//指定ID
+	ObjectIndex = ObjectID;
+
+	//渲染贴图
+	RenderTexture();
+
+	//做随机方向的力
+	FRandomStream Stream;
+	Stream.GenerateNewSeed();
+	DirYaw += Stream.RandRange(-30, 30);
+	FRotator ForceRot = FRotator(0.f, DirYaw, 0.f);
+
+	//添加力
+	BoxCollision->AddForce((FVector(0.f, 0.f, 2.f) + ForceRot.Vector()) * 120000.f);
+}
+

@@ -46,6 +46,12 @@ public:
 	//获取伤害
 	int GetDamageValue(EResourceType::Type ResouceType);
 
+	//更改快捷栏物品信息
+	void ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum);
+
+protected:
+	virtual void BeginPlay() override;
+
 public:
 	//当前被选中的快捷栏序号
 	int CurrentShortcutIndex;
@@ -55,6 +61,9 @@ public:
 
 	//更新玩家状态UI，绑定的方法是PlayerStateWidget的UpdateStateWidget
 	FUpdateStateWidget UpdateStateWidget;
+
+	//获取控制器指针
+	class ASlAiPlayerController* SPController;
 
 private:
 	//获取快捷栏物品信息

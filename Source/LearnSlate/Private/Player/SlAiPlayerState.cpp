@@ -4,6 +4,8 @@
 #include "SlAiPlayerState.h"
 #include "STextBlock.h"
 #include "SlAiDataHandle.h"
+#include "Kismet/GameplayStatics.h"
+#include "SlAiPlayerController.h"
 
 ASlAiPlayerState::ASlAiPlayerState()
 {
@@ -120,6 +122,20 @@ int ASlAiPlayerState::GetDamageValue(EResourceType::Type ResouceType)
 		return ObjectAttr->AnimalAttack;
 	}
 	return ObjectAttr->PlantAttack;
+}
+
+void ASlAiPlayerState::ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum)
+{
+	//更改快捷栏信息
+	ShortcutContainerList[ShortcutID]->SetObject(ObjectID)->SetObjectNum(ObjectNum);
+	//告诉SPController更新一次手持物品
+	SPController->ChangeHandObject();
+}
+
+void ASlAiPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+	SPController = Cast<ASlAiPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 FText ASlAiPlayerState::GetShortcutInfoText() const

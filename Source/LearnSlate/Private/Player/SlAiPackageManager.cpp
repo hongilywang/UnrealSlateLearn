@@ -80,8 +80,9 @@ void SlAiPackageManager::LeftOption(FVector2D MousePos, FGeometry PackGeo)
 	//如果容器不存在并且手上物品不为空
 	if (!ClickedContainer.IsValid() && ObjectIndex != 0)
 	{
-		//TODO丢弃物品
-		
+		//丢弃物品
+		ThrowObject(ObjectIndex, ObjectNum);
+
 		//重置物品
 		ObjectIndex = ObjectNum = 0;
 	}
@@ -145,7 +146,14 @@ TSharedPtr<SSlAiContainerBaseWidget> SlAiPackageManager::LocateContainer(FVector
 
 void SlAiPackageManager::ThrowObject(int ObjectID, int Num)
 {
+	PlayerThrowObject.ExecuteIfBound(ObjectID, Num);
 }
+
+void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int ObjectNum)
+{
+	ChangeHandObject.ExecuteIfBound(ShortcutID, ObjectID, ObjectNum);
+}
+
 
 void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)
 {
@@ -155,6 +163,3 @@ void SlAiPackageManager::CompoundInput()
 {
 }
 
-void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int ObjectNum)
-{
-}

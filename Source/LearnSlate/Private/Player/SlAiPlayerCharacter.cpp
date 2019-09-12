@@ -17,6 +17,7 @@
 
 #include "SlAiHandObject.h"
 #include "SlAiHelper.h"
+#include "SlAiFlobObject.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
@@ -199,6 +200,19 @@ void ASlAiPlayerCharacter::RenderHandObject(bool IsRender)
 		return;
 
 	HandObject->GetChildActor()->SetActorHiddenInGame(!IsRender);
+}
+
+void ASlAiPlayerCharacter::PlayerThrowObject(int ObjectID, int Num)
+{
+	if (GetWorld())
+	{
+		for (int i = 0; i < Num; ++i)
+		{
+			//生成掉落资源
+			ASlAiFlobObject* FlobObject = GetWorld()->SpawnActor<ASlAiFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 40.f), FRotator::ZeroRotator);
+			FlobObject->ThrowFlobObject(ObjectID, GetActorRotation().Yaw);
+		}
+	}
 }
 
 void ASlAiPlayerCharacter::MoveForward(float Value)
