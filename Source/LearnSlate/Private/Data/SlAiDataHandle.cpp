@@ -119,6 +119,8 @@ void SlAiDataHandle::InitializeGameData()
 	InitializeObjectAttr();
 	//初始化资源属性
 	InitializeResourceAttr();
+	//初始化合成表
+	InitCompoundTableMap();
 }
 
 
@@ -141,6 +143,11 @@ void SlAiDataHandle::InitializeObjectAttr()
 void SlAiDataHandle::InitializeResourceAttr()
 {
 	SlAiSingleton<SlAiJsonHandle>::Get()->ResourceAttrJsonRead(ResourceAttrMap);
+}
+
+void SlAiDataHandle::InitCompoundTableMap()
+{
+	SlAiSingleton<SlAiJsonHandle>::Get()->CompundTableJsonRead(CompoundTableMap);
 }
 
 SlAiDataHandle::SlAiDataHandle()

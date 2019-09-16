@@ -2,6 +2,7 @@
 
 
 #include "SlAiPackageManager.h"
+#include "SlAiDataHandle.h"
 
 //开始对单例指针赋值
 TSharedPtr<SlAiPackageManager> SlAiPackageManager::PackageInstance = nullptr;
@@ -155,11 +156,72 @@ void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int Objec
 }
 
 
+bool SlAiPackageManager::MultiplyAble(int ObjectID)
+{
+	//获取物品属性
+	TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ObjectID);
+	//返回是否是武器或者工具
+	return (ObjectAttr->ObjectType != EObjectType::Tool && ObjectAttr->ObjectType != EObjectType::Weapon);
+}
+
 void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)
 {
+	//如果生成为0
+	if (ObjectID == 0)
+		return;
+
+	//合成表结构数组
+	TArray<int> TableMap;
+	for (TArray<TSharedPtr<SSlAiContainerBaseWidget>>::TIterator It(InputContainerList); It; ++It)
+	{
+		TableMap.Add((*It)->GetIndex());
+	}
+	TableMap.Add(ObjectID);
+	//消耗数量数组
+	TArray<int> ExpendMap;
+	for (TArray<TSharedPtr<CompoundTable>>::TIterator It(SlAiDataHandle::Get()->CompoundTableMap); It; ++It)
+	{
+		if ((*It)->DetectExpend(&TableMap, Num, ExpendMap))
+			break;
+	}
+
+	//如果消耗数组元素是否是9
+	if (ExpendMap.Num() != 9)
+		return;
+
+	for (int i = 0; i < 9; ++i)
+	{
+		int InputID = (InputContainerList[i]->GetNum() - ExpendMap[i] <= 0) ? 0 : InputContainerList[i]->GetIndex();
+		int InputNum = (InputID == 0) ? 0 : (InputContainerList[i]->GetNum() - ExpendMap[i]);
+		InputContainerList[i]->ResetContainerPara(InputID, InputNum);
+	}
 }
 
 void SlAiPackageManager::CompoundInput()
 {
+	//获取合成台9个容器的物品id和数量写进两个数组
+	TArray<int> IDMap;
+	TArray<int> NumMap;
+	for (TArray<TSharedPtr<SSlAiContainerBaseWidget>>::TIterator It(InputContainerList); It; ++It)
+	{
+		IDMap.Add((*It)->GetIndex);
+		NumMap.Add((*It)->GetNum());
+	}
+
+	int OutputIndex = 0;
+	int OutputNum = 0;
+	for (TArray<TSharedPtr<CompoundTable>>::TIterator It(SlAiDataHandle::Get()->CompoundTableMap); It; ++It)
+	{
+		(*It)->DetectTable(&IDMap, &NumMap, OutputIndex, OutputNum);
+		//如果检测出来了，直接跳出循环
+		if (OutputIndex != 0 && OutputNum != 0)
+			break;
+	}
+
+	//对OutputContainer进行赋值
+	if (MultiplyAble(OutputIndex))
+		OutputContainer->ResetContainerPara(OutputIndex, OutputNum);
+	else
+		OutputContainer->ResetContainerPara(OutputIndex, 1);
 }
 

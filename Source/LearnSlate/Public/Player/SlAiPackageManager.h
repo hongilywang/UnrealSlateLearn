@@ -56,6 +56,8 @@ private:
 	void CompoundInput();
 	//快捷栏委托事件
 	void PackShortChange(int ShortcutID, int ObjectID, int ObjectNum);
+	//获取是否可以叠加
+	bool MultiplyAble(int ObjectID);
 
 private:
 	//单例指针

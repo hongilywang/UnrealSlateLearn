@@ -26,6 +26,9 @@ public:
 	//解析资源属性
 	void ResourceAttrJsonRead(TMap<int, TSharedPtr<ResourceAttribute>>& ResourceAttrMap);
 
+	//解析合成表
+	void CompundTableJsonRead(TArray<TSharedPtr<CompoundTable>>& CompoundTableMap);
+
 private:
 	//读取Json文件到字符串
 	bool LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString);
@@ -50,6 +53,9 @@ private:
 
 	//资源属性文件名
 	FString ResourceAttrFileName;
+
+	//合成表文件名
+	FString CompoundTableName;
 
 	//相对路径
 	FString RelativePath;

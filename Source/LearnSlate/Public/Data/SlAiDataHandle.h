@@ -43,6 +43,8 @@ private:
 	void InitializeObjectAttr();
 	//初始化资源属性
 	void InitializeResourceAttr();
+	//初始化合成表
+	void InitCompoundTableMap();
 
 public:
 	//语言
@@ -64,6 +66,8 @@ public:
 	TArray<const FSlateBrush*> ObjectBrushList;
 	//资源属性
 	TMap<int, TSharedPtr<ResourceAttribute>> ResourceAttrMap;
+	//合成表图
+	TArray<TSharedPtr<CompoundTable>> CompoundTableMap;
 
 private:
 	static TSharedPtr<SlAiDataHandle> DataInstance;
