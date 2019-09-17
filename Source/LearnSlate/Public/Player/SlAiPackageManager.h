@@ -55,7 +55,7 @@ private:
 	//合成输入事件
 	void CompoundInput();
 	//快捷栏委托事件
-	void PackShortChange(int ShortcutID, int ObjectID, int ObjectNum);
+	void PackShortChange(int ShortcutID, int ObjectID, int Num);
 	//获取是否可以叠加
 	bool MultiplyAble(int ObjectID);
 

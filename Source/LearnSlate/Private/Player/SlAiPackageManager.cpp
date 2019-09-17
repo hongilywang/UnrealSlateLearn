@@ -10,7 +10,7 @@ TSharedPtr<SlAiPackageManager> SlAiPackageManager::PackageInstance = nullptr;
 SlAiPackageManager::SlAiPackageManager()
 {
 	//初始化物品和数量
-	ObjectIndex = 3;
+	ObjectIndex = 1;
 	ObjectNum = 35;
 }
 
@@ -32,7 +32,7 @@ void SlAiPackageManager::InsertContainer(TSharedPtr<SSlAiContainerBaseWidget> Co
 	{
 	case EContainerType::Output:
 		OutputContainer = Container;
-		OutputContainer->CompoundInput.BindRaw(this, &SlAiPackageManager::CompoundInput);
+		OutputContainer->CompoundOutput.BindRaw(this, &SlAiPackageManager::CompoundOutput);
 		OutputContainer->ThrowObject.BindRaw(this, &SlAiPackageManager::ThrowObject);
 		break;
 	case EContainerType::Input:
@@ -150,9 +150,9 @@ void SlAiPackageManager::ThrowObject(int ObjectID, int Num)
 	PlayerThrowObject.ExecuteIfBound(ObjectID, Num);
 }
 
-void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int ObjectNum)
+void SlAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int Num)
 {
-	ChangeHandObject.ExecuteIfBound(ShortcutID, ObjectID, ObjectNum);
+	ChangeHandObject.ExecuteIfBound(ShortcutID, ObjectID, Num);
 }
 
 
@@ -204,7 +204,7 @@ void SlAiPackageManager::CompoundInput()
 	TArray<int> NumMap;
 	for (TArray<TSharedPtr<SSlAiContainerBaseWidget>>::TIterator It(InputContainerList); It; ++It)
 	{
-		IDMap.Add((*It)->GetIndex);
+		IDMap.Add((*It)->GetIndex());
 		NumMap.Add((*It)->GetNum());
 	}
 

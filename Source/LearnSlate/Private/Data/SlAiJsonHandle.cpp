@@ -188,9 +188,9 @@ void SlAiJsonHandle::CompundTableJsonRead(TArray<TSharedPtr<CompoundTable>>& Com
 			for (int j = 0; j < 10; ++j)
 			{
 				CompoundTableArr.Add(ObjectAttr[j]->AsObject()->GetIntegerField(FString::FromInt(j)));
-				TSharedPtr<CompoundTable> NewTable = MakeShareable(new CompoundTable(&CompoundTableArr));
-				CompoundTableMap.Add(NewTable);
 			}
+			TSharedPtr<CompoundTable> NewTable = MakeShareable(new CompoundTable(&CompoundTableArr));
+			CompoundTableMap.Add(NewTable);
 		}
 	}
 	else
