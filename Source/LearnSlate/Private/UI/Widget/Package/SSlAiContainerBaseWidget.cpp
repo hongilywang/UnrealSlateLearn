@@ -122,7 +122,7 @@ void SSlAiContainerBaseWidget::LeftOperate(int InputID, int InputNum, int& Outpu
 	{
 		//可叠加的上限是64
 		OutputID = (ObjectNum + InputNum) <= 64 ? 0 : InputID;
-		OutputNum = (OutputNum + InputNum) <= 64 ? 0 : (ObjectNum + InputNum - 64);
+		OutputNum = (ObjectNum + InputNum) <= 64 ? 0 : (ObjectNum + InputNum - 64);
 		ObjectNum = (ObjectNum + InputNum) <= 64 ? (ObjectNum + InputNum) : 64;
 		//更新属性
 		ResetContainerPara(ObjectIndex, ObjectNum);
