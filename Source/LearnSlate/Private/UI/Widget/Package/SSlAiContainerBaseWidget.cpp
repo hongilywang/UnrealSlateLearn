@@ -163,6 +163,18 @@ void SSlAiContainerBaseWidget::RightOperate(int InputID, int InputNum, int& Outp
 	ResetContainerPara(InputID, InputNum);
 }
 
+bool SSlAiContainerBaseWidget::IsEmpty()
+{
+	return ObjectIndex == 0;
+}
+
+bool SSlAiContainerBaseWidget::IsRemainSpace(int ObjectID)
+{
+	if (ObjectIndex == ObjectID && ObjectNum < 64 && MultiplyAble(ObjectIndex))
+		return true;
+	return false;
+}
+
 bool SSlAiContainerBaseWidget::MultiplyAble(int ObjectID)
 {
 	//获取物品属性

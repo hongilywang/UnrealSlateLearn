@@ -164,6 +164,30 @@ bool SlAiPackageManager::MultiplyAble(int ObjectID)
 	return (ObjectAttr->ObjectType != EObjectType::Tool && ObjectAttr->ObjectType != EObjectType::Weapon);
 }
 
+bool SlAiPackageManager::SearchFreeSpace(int ObjectID, TSharedPtr<SSlAiContainerBaseWidget>& FreeContainer)
+{
+	//空容器引用
+	TSharedPtr<SSlAiContainerBaseWidget> EmptyContainer;
+	//先找快捷栏
+	for (TArray<TSharedPtr<SSlAiContainerBaseWidget>>::TIterator It(ShortcutContainerList); It; ++It)
+	{
+		if (!EmptyContainer.IsValid())
+		{
+			if ((*It)->IsEmpty())
+				EmptyContainer = *It;
+		}
+		
+		if (!FreeContainer.IsValid())
+		{
+			if ((*It)->IsRemainSpace(ObjectID))
+			{
+				FreeContainer = *It;
+				return;
+			}
+		}
+	}
+}
+
 void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)
 {
 	//如果生成为0

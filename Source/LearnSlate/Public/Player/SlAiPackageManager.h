@@ -58,6 +58,8 @@ private:
 	void PackShortChange(int ShortcutID, int ObjectID, int Num);
 	//获取是否可以叠加
 	bool MultiplyAble(int ObjectID);
+	//是否有插入物品的空间，每次只会插入一个，返回可以插入的按个容器
+	bool SearchFreeSpace(int ObjectID, TSharedPtr<SSlAiContainerBaseWidget>& FreeContainer);
 
 private:
 	//单例指针
