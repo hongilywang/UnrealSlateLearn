@@ -49,6 +49,9 @@ public:
 	//更改快捷栏物品信息
 	void ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum);
 
+	//提示饥饿度
+	void PromoteHunger();
+
 protected:
 	virtual void BeginPlay() override;
 

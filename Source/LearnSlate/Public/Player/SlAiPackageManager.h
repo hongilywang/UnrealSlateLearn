@@ -30,6 +30,14 @@ public:
 	//右键事件，参数是鼠标位置和PackageWidget的Geometry
 	void RightOption(FVector2D MousePos, FGeometry PackGeo);
 
+	//是否有插入物品的空间，提供给外部访问
+	bool SearchFreeSpace(int ObjectID);
+
+	//添加物品
+	void AddObject(int ObjectID);
+
+	//吃东西，传入快捷栏ID， 传回是否成功吃掉
+	bool EatUpEvent(int ShortcutID);
 public:
 	//鼠标物品ID
 	int ObjectIndex;

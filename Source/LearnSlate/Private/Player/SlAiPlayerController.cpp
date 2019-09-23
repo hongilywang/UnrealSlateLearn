@@ -57,7 +57,7 @@ void ASlAiPlayerController::ChangeHandObject()
 
 FHitResult ASlAiPlayerController::RayGetHitResult(FVector TraceStart, FVector TraceEnd)
 {
-	FCollisionQueryParams TraceParams(true);
+	FCollisionQueryParams TraceParams;
 	TraceParams.AddIgnoredActor(SPCharacter);
 	//TraceParams.bTraceAsyncScene = true;
 	TraceParams.bReturnPhysicalMaterial = false;
@@ -156,9 +156,9 @@ void ASlAiPlayerController::StateMachine()
 		//修改准星锁定模式
 		UpdatePointer.ExecuteIfBound(false, 0);
 		//如右键按下
-		if (IsRightButtonDown)
+		if (IsRightButtonDown && SPCharacter->IsPackageFree(Cast<ASlAiPickupObject>(RayActor)->ObjectIndex))
 		{
-			Cast<ASlAiPickupObject>(RayActor)->TakePickup();
+			SPCharacter->AddPackageObject(Cast<ASlAiPickupObject>(RayActor)->TakePickup());
 		}
 	}
 }

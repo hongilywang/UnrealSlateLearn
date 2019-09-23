@@ -37,6 +37,14 @@ public:
 	//丢弃物品
 	void PlayerThrowObject(int ObjectID, int Num);
 
+	//背包是否有空间
+	bool IsPackageFree(int ObjectID);
+
+	//添加物品到背包
+	void AddPackageObject(int ObjectID);
+
+	//吃完东西调用的事件，有Aim进行调用
+	void EatUpEvent();
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
@@ -47,6 +55,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
 		class UCameraComponent* ThirdCamera;
+
+	//玩家控制器指针
+	class ASlAiPlayerController* SPController;
 
 	//当前的视角模式
 	EGameViewMode::Type GameView;

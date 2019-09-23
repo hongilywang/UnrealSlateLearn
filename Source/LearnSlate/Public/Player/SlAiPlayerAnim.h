@@ -27,8 +27,12 @@ public:
 		void ChangeDetection(bool IsOpen);
 
 	//开启和关闭手上物品的显示与否，在捡东西的时候调用
-	UFUNCTION(BlueprintCallable, Category = "SlAi")
+	UFUNCTION(BlueprintCallable, Category = "PlayAnim")
 		void RenderHandObject(bool IsRender);
+
+	//吃完东西调用
+	UFUNCTION(BlueprintCallable, Category = "PlayAnim")
+		void EatUpEvent();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)

@@ -56,6 +56,9 @@ public:
 	//是否有空间
 	bool IsRemainSpace(int ObjectID);
 
+	//添加物品
+	void AddObject(int ObjectID);
+
 public:
 	//合成输入委托
 	FCompoundInput CompoundInput;

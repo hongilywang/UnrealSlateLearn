@@ -34,6 +34,13 @@ void USlAiPlayerAnim::RenderHandObject(bool IsRender)
 	SPCharacter->RenderHandObject(IsRender);
 }
 
+void USlAiPlayerAnim::EatUpEvent()
+{
+	if (!SPCharacter)
+		return;
+	SPCharacter->EatUpEvent();
+}
+
 void USlAiPlayerAnim::InitSPCharacter()
 {
 	if (!SPCharacter)

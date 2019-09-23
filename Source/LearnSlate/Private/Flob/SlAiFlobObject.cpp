@@ -61,7 +61,7 @@ void ASlAiFlobObject::BeginPlay()
 	//注册销毁事件
 	FTimerDelegate DestroyDele;
 	DestroyDele.BindUObject(this, &ASlAiFlobObject::DestroyEvent);
-	GetWorld()->GetTimerManager().SetTimer(DestroyTimer, DestroyDele, 10.f, false);
+	GetWorld()->GetTimerManager().SetTimer(DestroyTimer, DestroyDele, 30.f, false);
 
 	SPCharacter = nullptr;
 }
@@ -96,8 +96,8 @@ void ASlAiFlobObject::DetectPlayer()
 			if (Cast<ASlAiPlayerCharacter>(It->GetActor()))
 			{
 				SPCharacter = Cast<ASlAiPlayerCharacter>(It->GetActor());
-				//TODO背包空间判断
-				if (true)
+				//背包空间判断
+				if (SPCharacter->IsPackageFree(ObjectIndex))
 				{
 					//停止检测定时器
 					GetWorld()->GetTimerManager().PauseTimer(DetectTimer);
@@ -139,9 +139,10 @@ void ASlAiFlobObject::Tick(float DeltaTime)
 		if (FVector::Distance(GetActorLocation(), SPCharacter->GetActorLocation() + FVector(0.f, 0.f, 40.f)) < 10.f)
 		{
 			//判断玩家背包是否有空间
-			if (true)
+			if (SPCharacter->IsPackageFree(ObjectIndex))
 			{
-				//TODO添加对应的物品到背包
+				//添加对应的物品到背包
+				SPCharacter->AddPackageObject(ObjectIndex);
 				//销毁自己
 				DestroyEvent();
 			}

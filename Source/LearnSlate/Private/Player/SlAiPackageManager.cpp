@@ -10,8 +10,8 @@ TSharedPtr<SlAiPackageManager> SlAiPackageManager::PackageInstance = nullptr;
 SlAiPackageManager::SlAiPackageManager()
 {
 	//初始化物品和数量
-	ObjectIndex = 1;
-	ObjectNum = 35;
+	ObjectIndex = 0;
+	ObjectNum = 0;
 }
 
 void SlAiPackageManager::Initialize()
@@ -182,10 +182,73 @@ bool SlAiPackageManager::SearchFreeSpace(int ObjectID, TSharedPtr<SSlAiContainer
 			if ((*It)->IsRemainSpace(ObjectID))
 			{
 				FreeContainer = *It;
-				return;
+				return true;
 			}
 		}
 	}
+
+	//背包容器
+	for (TArray<TSharedPtr<SSlAiContainerBaseWidget>>::TIterator It(NormalContainerList); It; ++It)
+	{
+		if (!EmptyContainer.IsValid())
+		{
+			if ((*It)->IsEmpty())
+				EmptyContainer = *It;
+		}
+
+		if (!FreeContainer.IsValid())
+		{
+			if ((*It)->IsRemainSpace(ObjectID))
+			{
+				FreeContainer = *It;
+				return true;
+			}
+		}
+	}
+
+	//如果运行到这来说明需要指定空容器
+	if (EmptyContainer.IsValid())
+	{
+		FreeContainer = EmptyContainer;
+		return true;
+	}
+
+	return false;
+}
+
+bool SlAiPackageManager::SearchFreeSpace(int ObjectID)
+{
+	TSharedPtr<SSlAiContainerBaseWidget> FreeContainer;
+	return SearchFreeSpace(ObjectID, FreeContainer);
+}
+
+void SlAiPackageManager::AddObject(int ObjectID)
+{
+	TSharedPtr<SSlAiContainerBaseWidget> FreeContainer;
+	if (SearchFreeSpace(ObjectID, FreeContainer))
+	{
+		//添加物品到容器
+		FreeContainer->AddObject(ObjectID);
+	}
+}
+
+bool SlAiPackageManager::EatUpEvent(int ShortcutID)
+{
+	//获取物品属性
+	TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ShortcutContainerList[ShortcutID]->GetIndex());
+	//是否是食物
+	if (ObjectAttr->ObjectType == EObjectType::Food)
+	{
+		//更新物品数量
+		int NewNum = (ShortcutContainerList[ShortcutID]->GetNum() - 1) < 0 ? 0 : (ShortcutContainerList[ShortcutID]->GetNum() - 1);
+		//物品ID
+		int NewIndex = NewNum == 0 ? 0 : ShortcutContainerList[ShortcutID]->GetIndex();
+		//更新容器属性
+		ShortcutContainerList[ShortcutID]->ResetContainerPara(NewIndex, NewNum);
+		return true;
+	}
+
+	return false;
 }
 
 void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)

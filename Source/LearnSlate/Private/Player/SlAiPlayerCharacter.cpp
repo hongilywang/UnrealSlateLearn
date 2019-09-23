@@ -18,6 +18,10 @@
 #include "SlAiHandObject.h"
 #include "SlAiHelper.h"
 #include "SlAiFlobObject.h"
+#include "SlAiPackageManager.h"
+#include "SlAiPlayerController.h"
+#include "SlAiPlayerState.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASlAiPlayerCharacter::ASlAiPlayerCharacter()
@@ -122,6 +126,9 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 void ASlAiPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SPController = Cast<ASlAiPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
 	//把手持物品组件绑定到第三人模型右手插槽上
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 
@@ -213,6 +220,25 @@ void ASlAiPlayerCharacter::PlayerThrowObject(int ObjectID, int Num)
 			FlobObject->ThrowFlobObject(ObjectID, GetActorRotation().Yaw);
 		}
 	}
+}
+
+bool ASlAiPlayerCharacter::IsPackageFree(int ObjectID)
+{
+	return SlAiPackageManager::Get()->SearchFreeSpace(ObjectID);
+}
+
+void ASlAiPlayerCharacter::AddPackageObject(int ObjectID)
+{
+	SlAiPackageManager::Get()->AddObject(ObjectID);
+}
+
+void ASlAiPlayerCharacter::EatUpEvent()
+{
+	if (!SPController->SPState)
+		return;
+
+	if (SlAiPackageManager::Get()->EatUpEvent(SPController->SPState->CurrentShortcutIndex))
+		SPController->SPState->PromoteHunger();
 }
 
 void ASlAiPlayerCharacter::MoveForward(float Value)
