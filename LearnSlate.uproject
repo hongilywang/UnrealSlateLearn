@@ -12,7 +12,8 @@
 			"AdditionalDependencies": [
 				"Engine",
 				"Slate",
-				"SlateCore"
+				"SlateCore",
+				"AIModule"
 			]
 		}
 	]
