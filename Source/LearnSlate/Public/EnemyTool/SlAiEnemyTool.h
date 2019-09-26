@@ -15,12 +15,29 @@ public:
 	// Sets default values for this actor's properties
 	ASlAiEnemyTool();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	//是否运行检测
+	void ChangeOverlayDetect(bool IsOpen);
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	static TSubclassOf<AActor> SpawnEnemyWeapon();
+	static TSubclassOf<AActor> SpawnEnemySheild();
+
+protected:
+	UFUNCTION()
+		virtual void OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		virtual void OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+protected:
+
+	//根组件
+	class USceneComponent* RootScene;
+
+	UPROPERTY(EditAnywhere, Category = Mesh)
+		class UStaticMeshComponent* BaseMesh;
+
+	//盒子碰撞体
+	UPROPERTY(EditAnywhere, Category = Mesh)
+		class UBoxComponent* AffectCollision;
 
 };

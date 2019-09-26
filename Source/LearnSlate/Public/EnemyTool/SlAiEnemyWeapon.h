@@ -14,4 +14,7 @@ class LEARNSLATE_API ASlAiEnemyWeapon : public ASlAiEnemyTool
 {
 	GENERATED_BODY()
 	
+public:
+
+	ASlAiEnemyWeapon();
 };
