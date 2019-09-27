@@ -14,4 +14,18 @@ class LEARNSLATE_API ASlAiEnemyController : public AAIController
 {
 	GENERATED_BODY()
 	
+public:
+	ASlAiEnemyController();
+
+	virtual void Tick(float DeltaTime) override;
+
+	//获取玩家的位置
+	FVector GetPlayerLocation() const;
+
+protected:
+	virtual void BeginPlay() override;
+	
+
+private:
+	class ASlAiPlayerCharacter* SPCharacter;
 };

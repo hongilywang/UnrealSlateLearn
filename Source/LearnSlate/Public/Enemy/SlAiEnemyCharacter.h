@@ -34,4 +34,20 @@ protected:
 	//赌牌插槽
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class UChildActorComponent* SheildSocket;
+
+	//血条
+	UPROPERTY(EditAnywhere, Category = Mesh)
+		class UWidgetComponent* HPBar;
+
+	//敌人感知
+	UPROPERTY(EditAnywhere, Category = Mesh)
+		class UPawnSensingComponent* EnemySense;
+
+private:
+	//绑定到敌人感知的方法
+	UFUNCTION()
+		void OnSeePlayer(APawn* PlayerChar);
+
+	//控制器引用
+	class ASlAiEnemyController* SEController;
 };
