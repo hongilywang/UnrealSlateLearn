@@ -8,7 +8,7 @@
 
 ASlAiEnemySheild::ASlAiEnemySheild()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticBaseMesh(TEXT("StaticMesh'/Game/Res/PolygonAdventure/Meshes/SM_Wep_Sheild_01.SM_Wep_Sheild_01''"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticBaseMesh(TEXT("StaticMesh'/Game/Res/PolygonAdventure/Meshes/SM_Wep_Sheild_01.SM_Wep_Sheild_01'"));
 	BaseMesh->SetStaticMesh(StaticBaseMesh.Object);
 
 	BaseMesh->SetRelativeLocation(FVector(53.f, -3.f, -9.f));

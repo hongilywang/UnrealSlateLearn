@@ -36,7 +36,7 @@ ASlAiEnemyCharacter::ASlAiEnemyCharacter()
 	GetMesh()->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.f, 0.f, -90.f)));
 
 	//Ìí¼Ó¶¯»­À¶Í¼
-	static ConstructorHelpers::FClassFinder<UAnimationAsset> StaticEnemyAnim(TEXT("AnimBlueprint'/Game/Blueprint/Enemy/Enemy_Animation.Enemy_Animation_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticEnemyAnim(TEXT("AnimBlueprint'/Game/Blueprint/Enemy/Enemy_Animation.Enemy_Animation_C'"));
 	GetMesh()->AnimClass = StaticEnemyAnim.Class;
 
 	//ÊµÀý»¯²å²Û
