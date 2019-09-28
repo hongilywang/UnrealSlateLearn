@@ -26,6 +26,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//实时更新血条的朝向， 由controller调用，传入玩家位置
+	void UpdateHPBarRotation(FVector SPLocation);
+
 protected:
 	//武器插槽
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -48,6 +51,12 @@ private:
 	UFUNCTION()
 		void OnSeePlayer(APawn* PlayerChar);
 
+	//血条UI引用
+	TSharedPtr<class SSlAiEnemyHPWidget> HPBarWidget;
+
 	//控制器引用
 	class ASlAiEnemyController* SEController;
+
+	//血量
+	float HP;
 };

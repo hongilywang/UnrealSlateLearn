@@ -27,5 +27,8 @@ protected:
 	
 
 private:
+	//玩家角色
 	class ASlAiPlayerCharacter* SPCharacter;
+	//敌人角色
+	class ASlAiEnemyCharacter* SECharacter;
 };

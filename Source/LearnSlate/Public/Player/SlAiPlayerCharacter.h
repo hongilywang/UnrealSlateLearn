@@ -45,6 +45,9 @@ public:
 
 	//吃完东西调用的事件，有Aim进行调用
 	void EatUpEvent();
+
+	//获取当前相机的组件
+	class UCameraComponent* GetCurrentCamera();
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")

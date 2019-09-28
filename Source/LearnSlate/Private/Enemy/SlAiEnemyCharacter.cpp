@@ -12,6 +12,10 @@
 #include "ConstructorHelpers.h"
 
 #include "SlAiEnemyTool.h"
+#include "WidgetComponent.h"
+#include "SSlAiEnemyHPWidget.h"
+#include "SlAiPlayerCharacter.h"
+#include "SlAiHelper.h"
 
 // Sets default values
 ASlAiEnemyCharacter::ASlAiEnemyCharacter()
@@ -43,7 +47,12 @@ ASlAiEnemyCharacter::ASlAiEnemyCharacter()
 	WeaponSocket = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponSocket"));
 	SheildSocket = CreateDefaultSubobject<UChildActorComponent>(TEXT("SheildSocket"));
 
-	//
+	//实例化血条
+	HPBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBar"));
+	HPBar->AttachTo(RootComponent);
+
+	//实例化敌人感知组件
+	EnemySense = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("EnemySense"));
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +67,26 @@ void ASlAiEnemyCharacter::BeginPlay()
 	//给插槽添加物品
 	WeaponSocket->SetChildActorClass(ASlAiEnemyTool::SpawnEnemyWeapon());
 	SheildSocket->SetChildActorClass(ASlAiEnemyTool::SpawnEnemySheild());
+
+	//设置血条widget
+	SAssignNew(HPBarWidget, SSlAiEnemyHPWidget);
+	HPBar->SetSlateWidget(HPBarWidget);
+	HPBar->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
+	HPBar->SetDrawSize(FVector2D(100.f, 10.f));
+	//初始化血量
+	HP = 100.f;
+	HPBarWidget->ChangeHP(HP / 200.f);
+
+	//敌人感知参数设置
+	EnemySense->HearingThreshold = 0.f;
+	EnemySense->LOSHearingThreshold = 0.f;
+	EnemySense->SightRadius = 1000.f;
+	EnemySense->SetPeripheralVisionAngle(55.f);
+	EnemySense->bHearNoises = false;
+	//绑定看到玩家的方法
+	FScriptDelegate OnSeePlayerDele;
+	OnSeePlayerDele.BindUFunction(this, "OnSeePlayer");
+	EnemySense->OnSeePawn.Add(OnSeePlayerDele);
 }
 
 // Called every frame
@@ -72,5 +101,20 @@ void ASlAiEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ASlAiEnemyCharacter::UpdateHPBarRotation(FVector SPLocation)
+{
+	FVector StartPos(GetActorLocation().X, GetActorLocation().Y, 0);
+	FVector TargetPos(SPLocation.X, SPLocation.Y, 0);
+	HPBar->SetWorldRotation(FRotationMatrix::MakeFromX(TargetPos - StartPos).Rotator());
+}
+
+void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
+{
+	if (Cast<ASlAiPlayerCharacter>(PlayerChar))
+	{
+		SlAiHelper::Debug(FString("I See Player!"), 3.f);
+	}
 }
 

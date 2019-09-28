@@ -241,6 +241,20 @@ void ASlAiPlayerCharacter::EatUpEvent()
 		SPController->SPState->PromoteHunger();
 }
 
+
+class UCameraComponent* ASlAiPlayerCharacter::GetCurrentCamera()
+{
+	switch (GameView)
+	{
+	case EGameViewMode::First:
+		return FirstCamera;
+	case EGameViewMode::Third:
+		return ThirdCamera;
+	default:
+		return nullptr;
+	}
+}
+
 void ASlAiPlayerCharacter::MoveForward(float Value)
 {
 	//如果操作被锁住，直接返回

@@ -17,6 +17,7 @@ public class LearnSlate : ModuleRules
             "SlateCore",
             "Json",
             "JsonUtilities",
+            "UMG"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
