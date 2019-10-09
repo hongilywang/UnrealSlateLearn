@@ -17,6 +17,10 @@ class LEARNSLATE_API ASlAiEnemyController : public AAIController
 public:
 	ASlAiEnemyController();
 
+	virtual void Possess(APawn* InPawn) override;
+
+	virtual void UnPossess() override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	//获取玩家的位置
@@ -31,4 +35,8 @@ private:
 	class ASlAiPlayerCharacter* SPCharacter;
 	//敌人角色
 	class ASlAiEnemyCharacter* SECharacter;
+
+	class UBlackboardComponent* BlackBoardComp;
+
+	class UBehaviorTreeComponent* BehaviorComp;
 };

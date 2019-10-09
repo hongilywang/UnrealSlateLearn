@@ -14,4 +14,11 @@ class LEARNSLATE_API USlAiEnemyTaskBase : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
+protected:
+	//初始化控制器和角色，不成功返回false
+	bool InitEnemyElement(UBehaviorTreeComponent& OwnerComp);
+
+protected:
+	class ASlAiEnemyController* SEController;
+	class ASlAiEnemyCharacter* SECharacter;
 };
