@@ -17,9 +17,9 @@ class LEARNSLATE_API ASlAiEnemyController : public AAIController
 public:
 	ASlAiEnemyController();
 
-	virtual void Possess(APawn* InPawn) override;
+	virtual void OnPossess(APawn* InPawn) override;
 
-	virtual void UnPossess() override;
+	virtual void OnUnPossess() override;
 
 	virtual void Tick(float DeltaTime) override;
 

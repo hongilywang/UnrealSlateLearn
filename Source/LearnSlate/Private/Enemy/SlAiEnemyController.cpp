@@ -18,9 +18,9 @@ ASlAiEnemyController::ASlAiEnemyController()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void ASlAiEnemyController::Possess(APawn* InPawn)
+void ASlAiEnemyController::OnPossess(APawn* InPawn)
 {
-	Super::Possess(InPawn);
+	Super::OnPossess(InPawn);
 
 	//获取角色
 	SECharacter = Cast<ASlAiEnemyCharacter>(InPawn);
@@ -40,7 +40,7 @@ void ASlAiEnemyController::Possess(APawn* InPawn)
 
 	bool IsSuccess = true;
 
-	//绑定资源
+	//绑定资源 参考这个接口->RunBehaviorTree()
 	if (BehaviorTreeObject->BlackboardAsset && (Blackboard == nullptr || Blackboard->IsCompatibleWith(BehaviorTreeObject->BlackboardAsset) == false))
 	{
 		IsSuccess = UseBlackboard(BehaviorTreeObject->BlackboardAsset, BlackBoardComp);
@@ -49,12 +49,33 @@ void ASlAiEnemyController::Possess(APawn* InPawn)
 	if (IsSuccess)
 	{
 		BehaviorComp = Cast<UBehaviorTreeComponent>(BrainComponent);
+		if (!BehaviorComp)
+		{
+			BehaviorComp = NewObject<UBehaviorTreeComponent>(this, TEXT("BehaviorComp"));
+			BehaviorComp->RegisterComponent();
+		}
+		BrainComponent = BehaviorComp;
+		check(BehaviorComp != nullptr);
+		BehaviorComp->StartTree(*BehaviorTreeObject, EBTExecutionMode::Looped);
+
+		//设置预状态为巡逻
+		BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Patrol);
+		//也可以通过这种方式设置
+		/*int32 EnemyStateIndex = BlackBoardComp->GetKeyID("EnemyState");
+		BlackBoardComp->SetValue<UBlackboardKeyType_Enum>(EnemyStateIndex, (UBlackboardKeyType_Enum::FDataType)EEnemyAIState::ES_Patrol);*/
+
+		//修改敌人的初始移动速度100
+		SECharacter->SetMaxSpeed(100.f);
 	}
 }
 
-void ASlAiEnemyController::UnPossess()
+void ASlAiEnemyController::OnUnPossess()
 {
+	Super::OnUnPossess();
 
+	//停止行为树
+	if (BehaviorComp)
+		BehaviorComp->StopTree();
 }
 
 void ASlAiEnemyController::BeginPlay()

@@ -27,6 +27,12 @@ void USlAiEnemyBlackboard::PostLoad()
 	EnemyStateKeyType->EnumName = FString("EEnemyAIState");
 	EnemyState.KeyType = EnemyStateKeyType;
 
+	//µÈ´ýÊ±³¤
+	FBlackboardEntry WaitTime;
+	WaitTime.EntryName = FName("WaitTime");
+	WaitTime.KeyType = NewObject<UBlackboardKeyType_Float>();
+
 	Keys.Add(Destination);
 	Keys.Add(EnemyState);
+	Keys.Add(WaitTime);
 }

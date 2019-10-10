@@ -29,6 +29,12 @@ public:
 	//实时更新血条的朝向， 由controller调用，传入玩家位置
 	void UpdateHPBarRotation(FVector SPLocation);
 
+	//修改移动速度
+	void SetMaxSpeed(float Speed);
+
+	//获取等待时长
+	float GetIdleWaitTime();
+
 protected:
 	//武器插槽
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -59,4 +65,7 @@ private:
 
 	//血量
 	float HP;
+
+	//动作引用
+	class USlAiEnemyAnim* SEAnim;
 };

@@ -19,6 +19,9 @@ public:
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+	//设置Idle模式，返回动作时长
+	float SetIdelType(int NewType);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyAnim)
 		float Speed;
@@ -29,4 +32,10 @@ public:
 protected:
 	//保存角色
 	class ASlAiEnemyCharacter* SECharacter;
+
+	//等待动作指针
+	class UAnimSequence* AnimIdle_I;
+	class UAnimSequence* AnimIdle_II;
+	class UAnimSequence* AnimIdle_III;
+
 };

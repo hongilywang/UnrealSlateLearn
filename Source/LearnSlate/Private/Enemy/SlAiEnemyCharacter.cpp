@@ -16,6 +16,7 @@
 #include "SSlAiEnemyHPWidget.h"
 #include "SlAiPlayerCharacter.h"
 #include "SlAiHelper.h"
+#include "SlAiEnemyAnim.h"
 
 // Sets default values
 ASlAiEnemyCharacter::ASlAiEnemyCharacter()
@@ -60,6 +61,9 @@ void ASlAiEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//获取动作
+	SEAnim = Cast<USlAiEnemyAnim>(GetMesh()->GetAnimInstance());
+
 	//绑定插槽
 	WeaponSocket->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 	SheildSocket->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("LHSocket"));
@@ -108,6 +112,29 @@ void ASlAiEnemyCharacter::UpdateHPBarRotation(FVector SPLocation)
 	FVector StartPos(GetActorLocation().X, GetActorLocation().Y, 0);
 	FVector TargetPos(SPLocation.X, SPLocation.Y, 0);
 	HPBar->SetWorldRotation(FRotationMatrix::MakeFromX(TargetPos - StartPos).Rotator());
+}
+
+void ASlAiEnemyCharacter::SetMaxSpeed(float Speed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = Speed;
+}
+
+float ASlAiEnemyCharacter::GetIdleWaitTime()
+{
+	if (!SEAnim)
+		return 3.f;
+
+	//创建随机流
+	FRandomStream Stream;
+	Stream.GenerateNewSeed();
+	int IdleType = Stream.RandRange(0, 2);
+	float AnimLength = SEAnim->SetIdelType(IdleType);
+	//更新随机种子
+	Stream.GenerateNewSeed();
+	//随机动作次数
+	int AnimCount = Stream.RandRange(1, 4);
+	//返回全部动画时长
+	return AnimLength * AnimCount;
 }
 
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
