@@ -21,11 +21,11 @@ EBTNodeResult::Type USlAiEnemyTaskWander::ExecuteTask(UBehaviorTreeComponent& Ow
 	//保存随机的位置
 	FVector DesLoc(0.f);
 	//使用导航系统获取随机点
-	UNavigationSystem::K2_GetRandomReachablePointInRadius(SEController, WanderOrigin, DesLoc, WanderRadius);
+	UNavigationSystemV1::K2_GetRandomReachablePointInRadius(SEController, WanderOrigin, DesLoc, WanderRadius);
 	//当前距离小于500， 重新找点
 	while (FVector::Distance(WanderOrigin, DesLoc) < 500.f)
 	{
-		UNavigationSystem::K2_GetRandomReachablePointInRadius(SEController, WanderOrigin, DesLoc, WanderRadius);
+		UNavigationSystemV1::K2_GetRandomReachablePointInRadius(SEController, WanderOrigin, DesLoc, WanderRadius);
 	}
 	//修改速度为100
 	SECharacter->SetMaxSpeed(100.f);

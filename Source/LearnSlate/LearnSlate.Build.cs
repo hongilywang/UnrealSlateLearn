@@ -20,6 +20,7 @@ public class LearnSlate : ModuleRules
             "UMG",
             "AIModule",
             "GameplayTasks",
+            "NavigationSystem",
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
