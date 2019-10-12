@@ -334,3 +334,12 @@ enum class EEnemyAIState : uint8
 	ES_Defence UMETA(DisplayName = "Defence"),
 	ES_Dead UMETA(DisplayName = "Dead"),
 };
+
+//µÐÈË¹¥»÷×´Ì¬
+UENUM(BlueprintType)
+enum class EEnemyAttackType : uint8
+{
+	EA_Normal UMETA(DisplayName = "Normal"),
+	EA_Dash UMETA(DisplayName = "Dash"),
+	EA_Pursuit UMETA(DisplayName = "Pursuit")
+};

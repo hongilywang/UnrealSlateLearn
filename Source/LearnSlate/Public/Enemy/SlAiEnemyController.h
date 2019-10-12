@@ -26,9 +26,23 @@ public:
 	//获取玩家的位置
 	FVector GetPlayerLocation() const;
 
+	//玩家是否已经死亡
+	bool IsPlayerDead();
+
+	//看到了玩家，由character的OnSeePlayer调用
+	void OnSeePlayer();
+
+	//丢失玩家
+	void LoosePlayer();
+
+
 protected:
 	virtual void BeginPlay() override;
 	
+
+public:
+	//是否锁定了玩家
+	bool IsLockPlayer;
 
 private:
 	//玩家角色

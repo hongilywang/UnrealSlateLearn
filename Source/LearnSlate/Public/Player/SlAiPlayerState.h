@@ -52,6 +52,9 @@ public:
 	//提示饥饿度
 	void PromoteHunger();
 
+	//是否已经死亡
+	bool IsPlayerDead();
+
 protected:
 	virtual void BeginPlay() override;
 

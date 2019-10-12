@@ -255,6 +255,14 @@ class UCameraComponent* ASlAiPlayerCharacter::GetCurrentCamera()
 	}
 }
 
+bool ASlAiPlayerCharacter::IsPlayerDead()
+{
+	if (SPController->SPState)
+		return SPController->SPState->IsPlayerDead();
+
+	return false;
+}
+
 void ASlAiPlayerCharacter::MoveForward(float Value)
 {
 	//如果操作被锁住，直接返回

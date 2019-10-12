@@ -48,6 +48,9 @@ public:
 
 	//获取当前相机的组件
 	class UCameraComponent* GetCurrentCamera();
+
+	//玩家是否已经死亡
+	bool IsPlayerDead();
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")

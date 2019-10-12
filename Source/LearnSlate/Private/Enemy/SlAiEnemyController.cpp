@@ -87,6 +87,8 @@ void ASlAiEnemyController::BeginPlay()
 	SPCharacter = Cast<ASlAiPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if (!SECharacter)
 		SECharacter = Cast<ASlAiEnemyCharacter>(GetPawn());
+	//初始化，未锁定玩家
+	IsLockPlayer = false;
 }
 
 void ASlAiEnemyController::Tick(float DeltaTime)
@@ -106,4 +108,28 @@ FVector ASlAiEnemyController::GetPlayerLocation() const
 	return FVector::ZeroVector;
 }
 
+bool ASlAiEnemyController::IsPlayerDead()
+{
+	if (SPCharacter)
+		return SPCharacter->IsPlayerDead();
+	return false;
+}
+
+void ASlAiEnemyController::OnSeePlayer()
+{
+	//如果已经锁定了玩家或者玩家死亡，不再执行下面的函数
+	if (IsLockPlayer || IsPlayerDead())
+		return;
+
+	//设置锁定玩家
+	IsLockPlayer = true;
+	//修改预状态为追逐
+	BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Chase);
+	SECharacter->SetMaxSpeed(300.f);
+}
+
+void ASlAiEnemyController::LoosePlayer()
+{
+	IsLockPlayer = false;
+}
 
