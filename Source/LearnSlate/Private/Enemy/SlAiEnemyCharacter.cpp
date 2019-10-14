@@ -50,7 +50,9 @@ ASlAiEnemyCharacter::ASlAiEnemyCharacter()
 
 	//实例化血条
 	HPBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBar"));
-	HPBar->AttachTo(RootComponent);
+	//HPBar->AttachTo(RootComponent);
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::KeepRelative, false);
+	HPBar->AttachToComponent(RootComponent, AttachmentRules);
 
 	//实例化敌人感知组件
 	EnemySense = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("EnemySense"));
@@ -63,6 +65,7 @@ void ASlAiEnemyCharacter::BeginPlay()
 	
 	//获取动作
 	SEAnim = Cast<USlAiEnemyAnim>(GetMesh()->GetAnimInstance());
+	SEController = Cast<ASlAiEnemyController>(GetController());
 
 	//绑定插槽
 	WeaponSocket->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
@@ -141,7 +144,10 @@ void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
 {
 	if (Cast<ASlAiPlayerCharacter>(PlayerChar))
 	{
-		SlAiHelper::Debug(FString("I See Player!"), 3.f);
+		SlAiHelper::Debug(FString("See Player"), 1.0f);
+		//告诉控制器我看到玩家了
+		if (SEController)
+			SEController->OnSeePlayer();
 	}
 }
 
