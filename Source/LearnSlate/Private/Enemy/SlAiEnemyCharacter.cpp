@@ -140,6 +140,13 @@ float ASlAiEnemyCharacter::GetIdleWaitTime()
 	return AnimLength * AnimCount;
 }
 
+float ASlAiEnemyCharacter::PlayAttackAction(EEnemyAttackType AttackType)
+{
+	if (!SEAnim)
+		return 0.f;
+	return SEAnim->PlayAttackAction(AttackType);
+}
+
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
 {
 	if (Cast<ASlAiPlayerCharacter>(PlayerChar))

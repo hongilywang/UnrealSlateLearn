@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SlAiTypes.h"
 #include "SlAiEnemyCharacter.generated.h"
 
 UCLASS()
@@ -34,6 +35,9 @@ public:
 
 	//获取等待时长
 	float GetIdleWaitTime();
+
+	//播放攻击动画，返回攻击时长
+	float PlayAttackAction(EEnemyAttackType AttackType);
 
 protected:
 	//武器插槽
