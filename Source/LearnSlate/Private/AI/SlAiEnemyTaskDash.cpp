@@ -38,15 +38,21 @@ EBTNodeResult::Type USlAiEnemyTaskDash::ExecuteTask(UBehaviorTreeComponent& Owne
 	//添加事件委托
 	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &USlAiEnemyTaskDash::OnAnimationTimerDone);
 	//注册到事件管理器
-	SEController->GetWorld()->GetTimerManager()->SetTimer(TimerHandle, TimerDelegate, AttackDuration, false);
+	SEController->GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, AttackDuration, false);
 }
 
 EBTNodeResult::Type USlAiEnemyTaskDash::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	//如果初始化敌人参加不成功或者事件句柄没有激活，直接返回
+	if (!InitEnemyElement(OwnerComp) || !TimerHandle.IsValid())
+		return EBTNodeResult::Aborted;
 
+	//卸载时间委托
+	SEController->GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+	return EBTNodeResult::Aborted;
 }
 
 void USlAiEnemyTaskDash::OnAnimationTimerDone()
 {
-
+	SECharacter->SetMaxSpeed(300.f);
 }
