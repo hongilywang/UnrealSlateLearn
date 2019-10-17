@@ -35,10 +35,18 @@ public:
 	//丢失玩家
 	void LoosePlayer();
 
+	//判断玩家是否在远离
+	bool IsPlayerAway();
+
+	//获取玩家指针
+	UObject* GetPlayerPawn();
 
 protected:
 	virtual void BeginPlay() override;
 	
+private:
+	//更新状态序列
+	void UpdateStatePama();
 
 public:
 	//是否锁定了玩家
@@ -53,4 +61,10 @@ private:
 	class UBlackboardComponent* BlackBoardComp;
 
 	class UBehaviorTreeComponent* BehaviorComp;
+
+	//保存与玩家的距离序列
+	TArray<float> EPDisList;
+
+	//时间委托句柄
+	FTimerHandle EPDisHandle;
 };

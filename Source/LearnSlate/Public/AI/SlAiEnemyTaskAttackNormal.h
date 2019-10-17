@@ -13,5 +13,12 @@ UCLASS()
 class LEARNSLATE_API USlAiEnemyTaskAttackNormal : public USlAiEnemyTaskBase
 {
 	GENERATED_BODY()
-	
+		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+		struct FBlackboardKeySelector PlayerPawn;
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+		struct FBlackboardKeySelector WaitTime;
 };

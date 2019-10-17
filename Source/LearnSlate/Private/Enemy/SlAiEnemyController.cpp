@@ -89,6 +89,23 @@ void ASlAiEnemyController::BeginPlay()
 		SECharacter = Cast<ASlAiEnemyCharacter>(GetPawn());
 	//初始化，未锁定玩家
 	IsLockPlayer = false;
+	//进行委托绑定
+	FTimerDelegate EPDisDele = FTimerDelegate::CreateUObject(this, &ASlAiEnemyController::UpdateStatePama);
+	GetWorld()->GetTimerManager().SetTimer(EPDisHandle, EPDisDele, 0.3f, true);
+}
+
+void ASlAiEnemyController::UpdateStatePama()
+{
+	//更新与玩家的距离序列
+	if (EPDisList.Num() < 6)
+	{
+		EPDisList.Push(FVector::Distance(SECharacter->GetActorLocation(), GetPlayerLocation()));
+	}
+	else
+	{
+		EPDisList.RemoveAt(0);
+		EPDisList.Push(FVector::Distance(SECharacter->GetActorLocation(), GetPlayerLocation()));
+	}
 }
 
 void ASlAiEnemyController::Tick(float DeltaTime)
@@ -131,5 +148,29 @@ void ASlAiEnemyController::OnSeePlayer()
 void ASlAiEnemyController::LoosePlayer()
 {
 	IsLockPlayer = false;
+}
+
+bool ASlAiEnemyController::IsPlayerAway()
+{
+	if (!IsLockPlayer || !SPCharacter || EPDisList.Num() < 6 || IsPlayerDead())
+	{
+		return false;
+	}
+
+	int BiggerNum = 0;
+	float LastDis = -1.f;
+	//只要偶3个比前面的大，判断远离
+	for (TArray<float>::TIterator It(EPDisList); It; ++It)
+	{
+		if (*It < LastDis)
+			BiggerNum += 1;
+		LastDis = *It;
+	}
+	return BiggerNum > 3;
+}
+
+UObject* ASlAiEnemyController::GetPlayerPawn()
+{
+	return SPCharacter;
 }
 
