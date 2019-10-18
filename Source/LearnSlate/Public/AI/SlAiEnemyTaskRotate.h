@@ -13,5 +13,5 @@ UCLASS()
 class LEARNSLATE_API USlAiEnemyTaskRotate : public USlAiEnemyTaskBase
 {
 	GENERATED_BODY()
-	
+		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

@@ -41,6 +41,8 @@ public:
 	//获取玩家指针
 	UObject* GetPlayerPawn();
 
+	void ResetProcess(bool IsFinish);
+
 protected:
 	virtual void BeginPlay() override;
 	

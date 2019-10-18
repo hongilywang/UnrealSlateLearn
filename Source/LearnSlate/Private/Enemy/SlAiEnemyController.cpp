@@ -174,3 +174,9 @@ UObject* ASlAiEnemyController::GetPlayerPawn()
 	return SPCharacter;
 }
 
+void ASlAiEnemyController::ResetProcess(bool IsFinish)
+{
+	//ÐÞ¸ÄÍê³É×´Ì¬
+	BlackBoardComp->SetValueAsBool("ProcessFinish", IsFinish);
+}
+

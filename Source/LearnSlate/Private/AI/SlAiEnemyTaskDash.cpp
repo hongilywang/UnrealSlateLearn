@@ -39,6 +39,7 @@ EBTNodeResult::Type USlAiEnemyTaskDash::ExecuteTask(UBehaviorTreeComponent& Owne
 	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &USlAiEnemyTaskDash::OnAnimationTimerDone);
 	//注册到事件管理器
 	SEController->GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, AttackDuration, false);
+	return EBTNodeResult::Succeeded;
 }
 
 EBTNodeResult::Type USlAiEnemyTaskDash::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

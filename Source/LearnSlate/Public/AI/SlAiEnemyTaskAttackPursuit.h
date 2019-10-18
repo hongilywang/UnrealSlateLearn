@@ -14,4 +14,18 @@ class LEARNSLATE_API USlAiEnemyTaskAttackPursuit : public USlAiEnemyTaskBase
 {
 	GENERATED_BODY()
 	
+		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	//重写任务终止函数
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+protected:
+	//动作结束后事件
+	void OnAnimationTimerDone();
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+		struct FBlackboardKeySelector IsActionFinish;
+
+	//攻击动作结束后委托
+	FTimerHandle TimerHandle;
 };

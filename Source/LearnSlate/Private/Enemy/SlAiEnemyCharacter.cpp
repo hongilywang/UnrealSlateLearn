@@ -101,6 +101,14 @@ void ASlAiEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//更新朝向
+	if (NeedRotate)
+	{
+		SetActorRotation(FMath::RInterpTo(GetActorRotation(), NextRotation, DeltaTime, 10.f));
+		//如果已经接近，不再旋转
+		if (FMath::Abs(GetActorRotation().Yaw - NextRotation.Yaw) < 5)
+			NeedRotate = false;
+	}
 }
 
 // Called to bind functionality to input
@@ -145,6 +153,12 @@ float ASlAiEnemyCharacter::PlayAttackAction(EEnemyAttackType AttackType)
 	if (!SEAnim)
 		return 0.f;
 	return SEAnim->PlayAttackAction(AttackType);
+}
+
+void ASlAiEnemyCharacter::UpdateRotation(FRotator NewRotator)
+{
+	NextRotation = NewRotator;
+	NeedRotate = true;
 }
 
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)

@@ -39,6 +39,9 @@ public:
 	//播放攻击动画，返回攻击时长
 	float PlayAttackAction(EEnemyAttackType AttackType);
 
+	//更新朝向
+	void UpdateRotation(FRotator NewRotator);
+
 protected:
 	//武器插槽
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -72,4 +75,8 @@ private:
 
 	//动作引用
 	class USlAiEnemyAnim* SEAnim;
+
+	//朝向设置
+	FRotator NextRotation;
+	bool NeedRotate;
 };
