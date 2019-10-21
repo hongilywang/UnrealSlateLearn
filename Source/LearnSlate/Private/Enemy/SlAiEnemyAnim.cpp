@@ -32,6 +32,9 @@ USlAiEnemyAnim::USlAiEnemyAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimSequence> StaticAnimAttackSeq_IV(TEXT("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/Enemy_Attack_IV.Enemy_Attack_IV'"));
 	AnimAttackSeq_IV = StaticAnimAttackSeq_IV.Object;
 
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> StaticAnimHurt(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/MonEnemy_Hurt.MonEnemy_Hurt'"));
+	AnimHurt = StaticAnimHurt.Object;
+
 	//³õÊ¼»¯
 	Speed = 0.f;
 	IdleType = 0.f;
@@ -140,4 +143,12 @@ float USlAiEnemyAnim::PlayAttackAction(EEnemyAttackType AttackType)
 	}
 
 	return 0.f;
+}
+
+float USlAiEnemyAnim::PlayHurtAction()
+{
+	if (!Montage_IsPlaying(AnimHurt))
+		Montage_Play(AnimHurt);
+
+	return AnimHurt->GetPlayLength();
 }

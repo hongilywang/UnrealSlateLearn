@@ -26,6 +26,9 @@ public:
 	//播放攻击动画，返回动画时长
 	float PlayAttackAction(EEnemyAttackType AttackType);
 
+	//播放受伤动画返回动画时长
+	float PlayHurtAction();
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyAnim)
 		float Speed;
@@ -56,6 +59,8 @@ protected:
 
 	class UAnimSequence* AnimAttackSeq_III;
 	class UAnimSequence* AnimAttackSeq_IV;
+
+	class UAnimMontage* AnimHurt;
 
 	//动作计时器
 	float CurrentPlayTime;

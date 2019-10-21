@@ -42,6 +42,12 @@ public:
 	//更新朝向
 	void UpdateRotation(FRotator NewRotator);
 
+	//接受攻击，可以重写APawn的TaskDamage函数
+	void AcceptDamage(int DamageValue);
+
+	//播放受伤动画
+	float PlayHurtAction();
+
 protected:
 	//武器插槽
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)

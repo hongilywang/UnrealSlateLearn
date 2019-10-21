@@ -161,6 +161,31 @@ void ASlAiEnemyCharacter::UpdateRotation(FRotator NewRotator)
 	NeedRotate = true;
 }
 
+void ASlAiEnemyCharacter::AcceptDamage(int DamageValue)
+{
+	//血条更新
+	HP = FMath::Clamp<float>(HP - DamageValue, 0.f, 500.f);
+	HPBarWidget->ChangeHP(HP / 200.f);
+	//如果血值小于0
+	if (HP <= 0.f)
+	{
+		//TODO
+	}
+	else
+	{
+		if (SEController)
+			SEController->UpdateDamageRatio(HP / 200.f);
+	}
+}
+
+float ASlAiEnemyCharacter::PlayHurtAction()
+{
+	if (!SEAnim)
+		return 0.f;
+
+	return SEAnim->PlayHurtAction();
+}
+
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
 {
 	if (Cast<ASlAiPlayerCharacter>(PlayerChar))

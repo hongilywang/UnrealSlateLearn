@@ -43,6 +43,12 @@ public:
 
 	void ResetProcess(bool IsFinish);
 
+	//接受伤害，传入剩余生命值
+	void UpdateDamageRatio(float HPRatioValue);
+
+	//完成伤害状态
+	void FinishStateHurt();
+
 protected:
 	virtual void BeginPlay() override;
 	
@@ -69,4 +75,10 @@ private:
 
 	//时间委托句柄
 	FTimerHandle EPDisHandle;
+
+	//血值百分比
+	float HPRatio;
+
+	bool IsAllowHurt;
+	float HurtTimeCount;
 };

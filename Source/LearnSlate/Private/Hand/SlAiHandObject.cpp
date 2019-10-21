@@ -14,6 +14,8 @@
 #include "SlAiHandMeat.h"
 #include "SlAiHandAxe.h"
 #include "SlAiHandHammer.h"
+#include "SlAiEnemyCharacter.h"
+#include "SlAiDataHandle.h"
 
 // Sets default values
 ASlAiHandObject::ASlAiHandObject()
@@ -57,7 +59,13 @@ void ASlAiHandObject::BeginPlay()
 
 void ASlAiHandObject::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	if (Cast<ASlAiEnemyCharacter>(OtherActor))
+	{
+		//获取物品属性
+		TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+		//获取伤害值
+		Cast<ASlAiEnemyCharacter>(OtherActor)->AcceptDamage(ObjectAttr->AnimalAttack);
+	}
 }
 
 void ASlAiHandObject::OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

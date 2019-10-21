@@ -92,6 +92,12 @@ void ASlAiEnemyController::BeginPlay()
 	//进行委托绑定
 	FTimerDelegate EPDisDele = FTimerDelegate::CreateUObject(this, &ASlAiEnemyController::UpdateStatePama);
 	GetWorld()->GetTimerManager().SetTimer(EPDisHandle, EPDisDele, 0.3f, true);
+
+	//初始化血量百分比
+	HPRatio = 1.f;
+	//设置状态计时器
+	IsAllowHurt = false;
+	HurtTimeCount = 0.f;
 }
 
 void ASlAiEnemyController::UpdateStatePama()
@@ -106,6 +112,17 @@ void ASlAiEnemyController::UpdateStatePama()
 		EPDisList.RemoveAt(0);
 		EPDisList.Push(FVector::Distance(SECharacter->GetActorLocation(), GetPlayerLocation()));
 	}
+
+	if (HurtTimeCount < 6.f)
+	{
+		HurtTimeCount += 0.3f;
+	}
+	else
+	{
+		HurtTimeCount = 0.f;
+		IsAllowHurt = true;
+	}
+
 }
 
 void ASlAiEnemyController::Tick(float DeltaTime)
@@ -178,5 +195,40 @@ void ASlAiEnemyController::ResetProcess(bool IsFinish)
 {
 	//修改完成状态
 	BlackBoardComp->SetValueAsBool("ProcessFinish", IsFinish);
+}
+
+void ASlAiEnemyController::UpdateDamageRatio(float HPRatioValue)
+{
+	//更新血量百分比
+	HPRatio = HPRatioValue;
+	//修改状态为受伤
+	if (IsAllowHurt)
+		BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Hurt);
+	IsAllowHurt = false;
+}
+
+void ASlAiEnemyController::FinishStateHurt()
+{
+	//如果没有锁定玩家
+	if (!IsLockPlayer)
+		IsLockPlayer = true;
+
+	if (HPRatio < 0.2f)
+	{
+		BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
+	}
+	else
+	{
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		int ActionRatio = Stream.RandRange(0, 10);
+		//if (ActionRatio < 4)
+		//	//进入防御状态
+		//	BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+		//else
+			//进入攻击状态
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
+	}
+
 }
 
