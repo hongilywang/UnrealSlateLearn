@@ -14,6 +14,9 @@ EBTNodeResult::Type USlAiEnemyTaskAttackSwitch::ExecuteTask(UBehaviorTreeCompone
 	if (!InitEnemyElement(OwnerComp))
 		return EBTNodeResult::Failed;
 
+	//给玩家指针赋值
+	OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerPawn.SelectedKeyName, SEController->GetPlayerPawn());
+
 	//如果玩家死亡
 	if (SEController->IsPlayerDead())
 	{

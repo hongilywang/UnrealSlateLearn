@@ -42,6 +42,7 @@ USlAiEnemyAnim::USlAiEnemyAnim()
 	RootBoneAlpha = 0.f;
 	CurrentPlayTime = 0.f;
 	StartYPos = 0.f;
+	IsDefence = false;
 }
 
 void USlAiEnemyAnim::NativeUpdateAnimation(float DeltaSeconds)

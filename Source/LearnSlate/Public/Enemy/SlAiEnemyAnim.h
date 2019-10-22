@@ -42,6 +42,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyAnim)
 		float RootBoneAlpha;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyAnim)
+		bool IsDefence;
+
 protected:
 	//±£´æ½ÇÉ«
 	class ASlAiEnemyCharacter* SECharacter;

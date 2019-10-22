@@ -39,14 +39,17 @@ public:
 	//播放攻击动画，返回攻击时长
 	float PlayAttackAction(EEnemyAttackType AttackType);
 
-	//更新朝向
-	void UpdateRotation(FRotator NewRotator);
-
 	//接受攻击，可以重写APawn的TaskDamage函数
 	void AcceptDamage(int DamageValue);
 
 	//播放受伤动画
 	float PlayHurtAction();
+
+	//开启防御
+	void StartDefence();
+
+	//停止防御
+	void StopDefence();
 
 protected:
 	//武器插槽
@@ -81,8 +84,4 @@ private:
 
 	//动作引用
 	class USlAiEnemyAnim* SEAnim;
-
-	//朝向设置
-	FRotator NextRotation;
-	bool NeedRotate;
 };

@@ -4,25 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "AI/SlAiEnemyTaskBase.h"
-#include "SlAiEnemyTaskAttackSwitch.generated.h"
+#include "SlAiEnemyTaskDefence.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class LEARNSLATE_API USlAiEnemyTaskAttackSwitch : public USlAiEnemyTaskBase
+class LEARNSLATE_API USlAiEnemyTaskDefence : public USlAiEnemyTaskBase
 {
 	GENERATED_BODY()
 
 		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+protected:
+	void OnAnimationTimerDone();
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-		struct FBlackboardKeySelector AttackType;
-
-	UPROPERTY(EditAnywhere, Category = "Blackboard")
-		struct FBlackboardKeySelector EnemyState;
+		struct FBlackboardKeySelector IsDefenceFinish;
 
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
 		struct FBlackboardKeySelector PlayerPawn;
+
+	//攻击动作结束后的委托
+	FTimerHandle TimerHandle;
 };

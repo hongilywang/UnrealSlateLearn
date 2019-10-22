@@ -81,7 +81,7 @@ void ASlAiEnemyCharacter::BeginPlay()
 	HPBar->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
 	HPBar->SetDrawSize(FVector2D(100.f, 10.f));
 	//初始化血量
-	HP = 100.f;
+	HP = 200.f;
 	HPBarWidget->ChangeHP(HP / 200.f);
 
 	//敌人感知参数设置
@@ -100,15 +100,6 @@ void ASlAiEnemyCharacter::BeginPlay()
 void ASlAiEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	//更新朝向
-	if (NeedRotate)
-	{
-		SetActorRotation(FMath::RInterpTo(GetActorRotation(), NextRotation, DeltaTime, 10.f));
-		//如果已经接近，不再旋转
-		if (FMath::Abs(GetActorRotation().Yaw - NextRotation.Yaw) < 5)
-			NeedRotate = false;
-	}
 }
 
 // Called to bind functionality to input
@@ -155,14 +146,12 @@ float ASlAiEnemyCharacter::PlayAttackAction(EEnemyAttackType AttackType)
 	return SEAnim->PlayAttackAction(AttackType);
 }
 
-void ASlAiEnemyCharacter::UpdateRotation(FRotator NewRotator)
-{
-	NextRotation = NewRotator;
-	NeedRotate = true;
-}
-
 void ASlAiEnemyCharacter::AcceptDamage(int DamageValue)
 {
+	//如果开启防御，直接返回
+	if (SEAnim && SEAnim->IsDefence)
+		return;
+
 	//血条更新
 	HP = FMath::Clamp<float>(HP - DamageValue, 0.f, 500.f);
 	HPBarWidget->ChangeHP(HP / 200.f);
@@ -184,6 +173,18 @@ float ASlAiEnemyCharacter::PlayHurtAction()
 		return 0.f;
 
 	return SEAnim->PlayHurtAction();
+}
+
+void ASlAiEnemyCharacter::StartDefence()
+{
+	if (SEAnim)
+		SEAnim->IsDefence = true;
+}
+
+void ASlAiEnemyCharacter::StopDefence()
+{
+	if (SEAnim)
+		SEAnim->IsDefence = false;
 }
 
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)

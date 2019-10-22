@@ -215,19 +215,54 @@ void ASlAiEnemyController::FinishStateHurt()
 
 	if (HPRatio < 0.2f)
 	{
-		BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		int ActionRatio = Stream.RandRange(0, 10);
+		if (ActionRatio < 3)
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+		else
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
 	}
 	else
 	{
 		FRandomStream Stream;
 		Stream.GenerateNewSeed();
 		int ActionRatio = Stream.RandRange(0, 10);
-		//if (ActionRatio < 4)
-		//	//进入防御状态
-		//	BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
-		//else
+		if (ActionRatio < 4)
+			//进入防御状态
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+		else
 			//进入攻击状态
 			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
+	}
+
+}
+
+void ASlAiEnemyController::FinishStateDefence()
+{
+	//获取与玩家的距离
+	float SEToSP =  FVector::Distance(SECharacter->GetActorLocation(), GetPlayerLocation());
+
+	//如果玩家还在攻击，并且距离小于200，继续防御
+	if (SPCharacter->IsAttack && SEToSP < 200.f)
+	{
+		//BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Defence);
+	}
+	else
+	{
+		//设置状态完成
+		ResetProcess(true);
+		//停止防御动作
+		SECharacter->StopDefence();
+		//如果血值小于0.2，逃跑
+		if (HPRatio < 0.2f)
+		{
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Escape);
+		}
+		else
+		{
+			BlackBoardComp->SetValueAsEnum("EnemyState", (uint8)EEnemyAIState::ES_Attack);
+		}
 	}
 
 }

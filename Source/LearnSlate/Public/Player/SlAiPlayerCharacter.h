@@ -77,6 +77,9 @@ public:
 	//是否锁住输入
 	bool IsInputLocked;
 
+	//是否还在攻击
+	bool IsAttack;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
