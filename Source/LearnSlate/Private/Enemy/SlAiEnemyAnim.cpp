@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Animation/AnimSequence.h"
 #include "ConstructorHelpers.h"
+#include "SlAiHelper.h"
 
 USlAiEnemyAnim::USlAiEnemyAnim()
 {
@@ -152,4 +153,17 @@ float USlAiEnemyAnim::PlayHurtAction()
 		Montage_Play(AnimHurt);
 
 	return AnimHurt->GetPlayLength();
+}
+
+void USlAiEnemyAnim::StopAllAction()
+{
+	//Í£Ö¹È«²¿¶¯»­
+	Montage_Stop(0);
+}
+
+void USlAiEnemyAnim::ChangeDetection(bool IsOpen)
+{
+	SlAiHelper::Debug(FString("ChangeDetection"));
+	if (SECharacter)
+		SECharacter->ChangeWeaponDetect(IsOpen);
 }

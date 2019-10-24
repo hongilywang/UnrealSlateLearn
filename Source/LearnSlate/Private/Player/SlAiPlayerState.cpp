@@ -18,6 +18,8 @@ ASlAiPlayerState::ASlAiPlayerState()
 	//³õÊ¼»¯
 	HP = 500.f;
 	Hunger = 600.f;
+
+	IsDead = false;
 }
 
 void ASlAiPlayerState::Tick(float DeltaSeconds)
@@ -40,6 +42,12 @@ void ASlAiPlayerState::Tick(float DeltaSeconds)
 	Hunger = FMath::Clamp<float>(Hunger, 0.f, 600.f);
 	//Ö´ÐÐÐÞ¸Ä×´Ì¬UIÎ¯ÍÐ
 	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+
+	//ÅÐ¶ÏËÀÍö
+	if (HP <= 0 && !IsDead)
+	{
+		IsDead = true;
+	}
 }
 
 void ASlAiPlayerState::RegisterShortcutContainer(TArray<TSharedPtr<ShortcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShortcutInfoTextBlock)
@@ -147,6 +155,18 @@ void ASlAiPlayerState::PromoteHunger()
 bool ASlAiPlayerState::IsPlayerDead()
 {
 	return HP <= 0.f;
+}
+
+void ASlAiPlayerState::AcceptDamage(int DamageValue)
+{
+	HP = FMath::Clamp<float>(HP - DamageValue, 0.f, 500.f);
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+
+	//ÅÐ¶ÏËÀÍö
+	if (HP == 0 && !IsDead)
+	{
+		IsDead = true;
+	}
 }
 
 void ASlAiPlayerState::BeginPlay()

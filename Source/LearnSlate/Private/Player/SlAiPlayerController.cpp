@@ -11,6 +11,7 @@
 #include "Camera/CameraComponent.h"
 #include "SlAiPickupObject.h"
 #include "SlAiResourceObject.h"
+#include "SlAiEnemyCharacter.h"
 
 ASlAiPlayerController::ASlAiPlayerController()
 {
@@ -114,6 +115,11 @@ void ASlAiPlayerController::RunRayCast()
 		IsDetected = true;
 		SPState->RayInfoText = Cast<ASlAiResourceObject>(RayActor)->GetInfoText();
 	}
+	else if (Cast<ASlAiEnemyCharacter>(RayActor))
+	{
+		IsDetected = true;
+		SPState->RayInfoText = Cast<ASlAiEnemyCharacter>(RayActor)->GetInfoText();
+	}
 
 	if (!IsDetected)
 	{
@@ -125,10 +131,15 @@ void ASlAiPlayerController::StateMachine()
 {
 	//普通模式
 	ChangePreUpperType(EUpperBody::None);
-	if (!Cast<ASlAiResourceObject>(RayActor) && !Cast<ASlAiPickupObject>(RayActor))
+	if (!Cast<ASlAiResourceObject>(RayActor) && !Cast<ASlAiPickupObject>(RayActor) && !Cast<ASlAiEnemyCharacter>(RayActor))
 	{
 		//准星显示为锁定
 		UpdatePointer.ExecuteIfBound(false, 1.f);
+	}
+	else if (Cast<ASlAiEnemyCharacter>(RayActor))
+	{
+		//准星显示为锁定
+		UpdatePointer.ExecuteIfBound(false, 0.f);
 	}
 	else if (Cast<ASlAiResourceObject>(RayActor))
 	{

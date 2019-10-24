@@ -133,6 +133,13 @@ void ASlAiEnemyController::Tick(float DeltaTime)
 		SECharacter->UpdateHPBarRotation(SPCharacter->GetCurrentCamera()->GetComponentLocation());
 }
 
+void ASlAiEnemyController::K2_DestroyActor()
+{
+	Super::K2_DestroyActor();
+	if (EPDisHandle.IsValid())
+		GetWorld()->GetTimerManager().ClearTimer(EPDisHandle);
+}
+
 FVector ASlAiEnemyController::GetPlayerLocation() const
 {
 	//如果玩家指针存在，返回玩家位置
@@ -265,5 +272,12 @@ void ASlAiEnemyController::FinishStateDefence()
 		}
 	}
 
+}
+
+void ASlAiEnemyController::EnemyDead()
+{
+	//停止行为树
+	if (BehaviorComp)
+		BehaviorComp->StopTree(EBTStopMode::Safe);
 }
 

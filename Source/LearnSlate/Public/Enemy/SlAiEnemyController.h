@@ -23,6 +23,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void K2_DestroyActor() override;
+
 	//获取玩家的位置
 	FVector GetPlayerLocation() const;
 
@@ -51,6 +53,9 @@ public:
 
 	//完成防御状态
 	void FinishStateDefence();
+
+	//死亡
+	void EnemyDead();
 
 protected:
 	virtual void BeginPlay() override;

@@ -29,6 +29,13 @@ public:
 	//播放受伤动画返回动画时长
 	float PlayHurtAction();
 
+	//停止所有动画
+	void StopAllAction();
+
+	//开启和关闭交互动作时的碰撞检测
+	UFUNCTION(BlueprintCallable, Category = EnemyAnim)
+		void ChangeDetection(bool IsOpen);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyAnim)
 		float Speed;

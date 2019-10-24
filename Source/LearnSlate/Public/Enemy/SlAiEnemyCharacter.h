@@ -20,6 +20,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//生成掉落物
+	void CreateFlobObject();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -50,6 +53,19 @@ public:
 
 	//停止防御
 	void StopDefence();
+
+	//销毁函数
+	void DestroyEvent();
+
+	//获取物品信息
+	FText GetInfoText() const;
+
+	//修改手持物品的碰撞检测是否开启
+	void ChangeWeaponDetect(bool IsOpen);
+
+public:
+	//资源ID
+	int ResourceIndex;
 
 protected:
 	//武器插槽
@@ -84,4 +100,11 @@ private:
 
 	//动作引用
 	class USlAiEnemyAnim* SEAnim;
+
+	//死亡动画资源
+	class UAnimationAsset* AnimDead_I;
+	class UAnimationAsset* AnimDead_II;
+
+	//死亡时间委托
+	FTimerHandle DeadHandle;
 };

@@ -6,6 +6,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 
+#include "SlAiPlayerCharacter.h"
+#include "SlAiHelper.h"
+
 ASlAiEnemyWeapon::ASlAiEnemyWeapon()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticBaseMesh(TEXT("StaticMesh'/Game/Res/PolygonAdventure/Meshes/SM_Wep_GreatAxe_01.SM_Wep_GreatAxe_01'"));
@@ -18,4 +21,13 @@ ASlAiEnemyWeapon::ASlAiEnemyWeapon()
 	//ÉèÖÃÅö×²ÌåÊôÐÔ
 	AffectCollision->SetRelativeLocation(FVector(0.f, 0.f, 158.f));
 	AffectCollision->SetRelativeScale3D(FVector(1.125f, 0.22f, 1.f));
+}
+
+void ASlAiEnemyWeapon::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	SlAiHelper::Debug(FString("On Overlay Begin"));
+	if (Cast<ASlAiPlayerCharacter>(OtherActor))
+	{
+		Cast<ASlAiPlayerCharacter>(OtherActor)->AcceptDamage(20);
+	}
 }

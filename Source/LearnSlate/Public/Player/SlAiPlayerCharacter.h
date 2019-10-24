@@ -51,6 +51,9 @@ public:
 
 	//玩家是否已经死亡
 	bool IsPlayerDead();
+
+	//接受伤害
+	void AcceptDamage(int DamageValue);
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")

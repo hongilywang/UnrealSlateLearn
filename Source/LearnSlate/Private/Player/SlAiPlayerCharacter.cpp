@@ -267,6 +267,12 @@ bool ASlAiPlayerCharacter::IsPlayerDead()
 	return false;
 }
 
+void ASlAiPlayerCharacter::AcceptDamage(int DamageValue)
+{
+	if (SPController->SPState)
+		SPController->SPState->AcceptDamage(DamageValue);
+}
+
 void ASlAiPlayerCharacter::MoveForward(float Value)
 {
 	//如果操作被锁住，直接返回
