@@ -35,6 +35,8 @@ public:
 	TSharedPtr<class SSlAiPointerWidget> PointerWidget;
 	//玩家状态指针
 	TSharedPtr<class SSlAiPlayerStateWidget> PlayerStateWidget;
+	//小地图引用
+	TSharedPtr<class SSlAiMiniMapWidget> MiniMapWidget;
 	//游戏菜单
 	TSharedPtr<class SSlAiGameMenuWidget> GameMenuWidget;
 	//聊天室

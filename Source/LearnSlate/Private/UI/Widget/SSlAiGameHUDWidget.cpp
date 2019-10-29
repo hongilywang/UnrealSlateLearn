@@ -14,6 +14,7 @@
 #include "SSlAiGameMenuWidget.h"
 #include "SSlAiChatRoomWidget.h"
 #include "SSlAiPackageWidget.h"
+#include "SSlAiMiniMapWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
@@ -57,6 +58,14 @@ void SSlAiGameHUDWidget::Construct(const FArguments& InArgs)
 			.VAlign(VAlign_Top)
 			[
 				SAssignNew(PlayerStateWidget, SSlAiPlayerStateWidget)
+			]
+
+			//小地图
+			+SOverlay::Slot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(MiniMapWidget, SSlAiMiniMapWidget)
 			]
 
 			//暗黑色遮罩，放在事件界面和游戏UI中间

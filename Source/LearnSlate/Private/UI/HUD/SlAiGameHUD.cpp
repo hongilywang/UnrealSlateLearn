@@ -12,6 +12,7 @@
 #include "SSlAiPointerWidget.h"
 #include "SSlAiPlayerStateWidget.h"
 #include "SSlAiPackageWidget.h"
+#include "SSlAiMiniMapWidget.h"
 
 #include "SlAiPlayerController.h"
 #include "SlAiPlayerState.h"
@@ -48,5 +49,7 @@ void ASlAiGameHUD::BeginPlay()
 	GM->SPController->ShowGameUI.BindRaw(GameHUDWidget.Get(), &SSlAiGameHUDWidget::ShowGameUI);
 	//初始化背包管理
 	GM->InitPackageManager.BindRaw(GameHUDWidget->PackageWidget.Get(), &SSlAiPackageWidget::InitPackageManager);
+	//绑定注册小地图贴图委托
+	GM->RegisterMiniMap.BindRaw(GameHUDWidget->MiniMapWidget.Get(), &SSlAiMiniMapWidget::RegisterMiniMap);
 }
 

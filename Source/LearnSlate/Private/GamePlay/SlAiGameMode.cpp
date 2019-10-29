@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SlAiGameInstance.h"
 #include "SlAiPackageManager.h"
+#include "SlAiSceneCapture2D.h"
 
 ASlAiGameMode::ASlAiGameMode()
 {
@@ -30,6 +31,8 @@ ASlAiGameMode::ASlAiGameMode()
 
 void ASlAiGameMode::Tick(float DeltaSeconds)
 {
+	InitializeMiniMapCamera();
+
 	//TODO这样做好吗，每帧斗湖运行
 	InitializePackage();
 }
@@ -62,4 +65,20 @@ void ASlAiGameMode::InitializePackage()
 	SlAiPackageManager::Get()->ChangeHandObject.BindUObject(SPState, &ASlAiPlayerState::ChangeHandObject);
 
 	IsInitPackage = true;
+}
+
+void ASlAiGameMode::InitializeMiniMapCamera()
+{
+	if (!IsCreateMiniMap && GetWorld())
+	{
+		//奢侈小地图摄像机
+		MiniMapCamera = GetWorld()->SpawnActor<ASlAiSceneCapture2D>(ASlAiSceneCapture2D::StaticClass());
+		RegisterMiniMap.ExecuteIfBound(MiniMapCamera->GetMiniMapTex());
+		IsCreateMiniMap = true;
+	}
+
+	if (IsCreateMiniMap)
+	{
+		MiniMapCamera->UpdateTransform(SPCharacter->GetActorLocation(), SPCharacter->GetActorRotation());
+	}
 }
