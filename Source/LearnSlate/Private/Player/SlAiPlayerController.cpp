@@ -27,6 +27,9 @@ void ASlAiPlayerController::Tick(float DeltaSeconds)
 
 	//处理动作状态
 	StateMachine();
+
+	//处理小地图更新
+	TickMiniMap();
 }
 
 void ASlAiPlayerController::SetupInputComponent()
@@ -49,6 +52,12 @@ void ASlAiPlayerController::SetupInputComponent()
 	InputComponent->BindAction("PackageEvent", IE_Pressed, this, &ASlAiPlayerController::PackageEvent);
 	//聊天室
 	InputComponent->BindAction("ChatRoomEvent", IE_Pressed, this, &ASlAiPlayerController::ChatRoomEvent);
+
+	//绑定缩放小地图事件
+	InputComponent->BindAction("AddMapSize", IE_Pressed, this, &ASlAiPlayerController::AddMapSizeStart);
+	InputComponent->BindAction("AddMapSize", IE_Released, this, &ASlAiPlayerController::AddMapSizeStop);
+	InputComponent->BindAction("ReduceMapSize", IE_Pressed, this, &ASlAiPlayerController::ReduceMapSizeStart);
+	InputComponent->BindAction("ReduceMapSize", IE_Released, this, &ASlAiPlayerController::ReduceMapSizeStop);
 }
 
 void ASlAiPlayerController::ChangeHandObject()
@@ -274,6 +283,51 @@ void ASlAiPlayerController::LockedInput(bool IsLocked)
 	SPCharacter->IsInputLocked = IsLocked;
 }
 
+void ASlAiPlayerController::AddMapSizeStart()
+{
+	//如果操作被锁住，直接返回
+	if (SPCharacter->IsInputLocked)
+		return;
+	MiniMapSizeMode = EMiniMapSizeMode::Add;
+}
+
+void ASlAiPlayerController::AddMapSizeStop()
+{
+	//如果操作被锁住，直接返回
+	if (SPCharacter->IsInputLocked)
+		return;
+	MiniMapSizeMode = EMiniMapSizeMode::None;
+}
+
+void ASlAiPlayerController::ReduceMapSizeStart()
+{
+	//如果操作被锁住，直接返回
+	if (SPCharacter->IsInputLocked)
+		return;
+	MiniMapSizeMode = EMiniMapSizeMode::Reduce;
+}
+
+void ASlAiPlayerController::ReduceMapSizeStop()
+{
+	//如果操作被锁住，直接返回
+	if (SPCharacter->IsInputLocked)
+		return;
+	MiniMapSizeMode = EMiniMapSizeMode::None;
+}
+
+void ASlAiPlayerController::TickMiniMap()
+{
+	switch (MiniMapSizeMode)
+	{
+	case EMiniMapSizeMode::Add:
+		UpdateMiniMapWidth.ExecuteIfBound(5);
+		break;
+	case EMiniMapSizeMode::Reduce:
+		UpdateMiniMapWidth.ExecuteIfBound(-5);
+		break;
+	}
+}
+
 void ASlAiPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -299,6 +353,8 @@ void ASlAiPlayerController::BeginPlay()
 	IsRightButtonDown = false;
 
 	CurrentUIType = EGameUIType::Game;
+
+	MiniMapSizeMode = EMiniMapSizeMode::None;
 }
 
 void ASlAiPlayerController::ChangeView()

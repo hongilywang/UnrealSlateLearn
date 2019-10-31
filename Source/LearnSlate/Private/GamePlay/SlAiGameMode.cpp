@@ -74,6 +74,8 @@ void ASlAiGameMode::InitializeMiniMapCamera()
 		//奢侈小地图摄像机
 		MiniMapCamera = GetWorld()->SpawnActor<ASlAiSceneCapture2D>(ASlAiSceneCapture2D::StaticClass());
 		RegisterMiniMap.ExecuteIfBound(MiniMapCamera->GetMiniMapTex());
+		//绑定修改小地图视野委托
+		SPController->UpdateMiniMapWidth.BindUObject(MiniMapCamera, &ASlAiSceneCapture2D::UpdateMiniMapWidth);
 		IsCreateMiniMap = true;
 	}
 

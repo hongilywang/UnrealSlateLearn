@@ -343,3 +343,14 @@ enum class EEnemyAttackType : uint8
 	EA_Dash UMETA(DisplayName = "Dash"),
 	EA_Pursuit UMETA(DisplayName = "Pursuit")
 };
+
+//Ð¡µØÍ¼Ëõ·Å×´Ì¬
+namespace EMiniMapSizeMode
+{
+	enum Type
+	{
+		None,
+		Add,
+		Reduce
+	};
+}

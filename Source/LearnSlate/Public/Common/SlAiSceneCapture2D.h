@@ -23,6 +23,8 @@ public:
 	//更新摄像机的位置和朝向
 	void UpdateTransform(FVector NormLocation, FRotator NormRotator);
 
+	void UpdateMiniMapWidth(int Delta);
+
 private:
 	class UTextureRenderTarget2D* MiniMapTex;
 };
