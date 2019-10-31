@@ -10,6 +10,9 @@
 DECLARE_DELEGATE(FInitPackageManager)
 //注册MiniMap的贴图和材质
 DECLARE_DELEGATE_OneParam(FRegisterMiniMap, class UTextureRenderTarget2D*)
+//注册更新MiniMap的数据
+DECLARE_DELEGATE_FiveParams(FUpdateMapData, const FRotator, const float, const TArray<FVector2D>*, const TArray<bool>*, const TArray<float>*)
+
 /**
  * 
  */
@@ -36,6 +39,8 @@ public:
 
 	//定义委托，绑定的方法是MiniMapWidget的RegisterMiniMap
 	FRegisterMiniMap RegisterMiniMap;
+	//定义委托， 用于更新小地图的方向文字位置，绑定的方法是MiniMapWidget的UpdateMapData
+	FUpdateMapData UpdateMapData;
 
 protected:
 	virtual void BeginPlay() override;

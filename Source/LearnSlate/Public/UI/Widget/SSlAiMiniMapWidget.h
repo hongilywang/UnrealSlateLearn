@@ -22,6 +22,9 @@ public:
 	//委托接受GameMode传过来的Texture资源
 	void RegisterMiniMap(class UTextureRenderTarget2D* MiniMapRender);
 
+	//委托接受GameMode传过来的玩家旋转，绑定的委托是GameMode的UpdateMapData
+	void UpdateMapData(const FRotator PlayerRotator, const float MiniMapSize, const TArray<FVector2D>* EnemyPosList, const TArray<bool>* EnemyLockList, const TArray<float>* EnemyRotateList);
+
 private:
 	//获取GameStyle
 	const struct FSlAiGameStyle* GameStyle;

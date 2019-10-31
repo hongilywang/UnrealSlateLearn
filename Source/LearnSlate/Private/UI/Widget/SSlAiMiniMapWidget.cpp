@@ -65,3 +65,8 @@ void SSlAiMiniMapWidget::RegisterMiniMap(class UTextureRenderTarget2D* MiniMapRe
 	//将笔刷制作为MiniMapImage的笔刷
 	MiniMapImage->SetImage(MiniMapBrush);
 }
+
+void SSlAiMiniMapWidget::UpdateMapData(const FRotator PlayerRotator, const float MiniMapSize, const TArray<FVector2D>* EnemyPosList, const TArray<bool>* EnemyLockList, const TArray<float>* EnemyRotateList)
+{
+
+}
