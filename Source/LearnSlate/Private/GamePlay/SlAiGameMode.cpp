@@ -82,5 +82,12 @@ void ASlAiGameMode::InitializeMiniMapCamera()
 	if (IsCreateMiniMap)
 	{
 		MiniMapCamera->UpdateTransform(SPCharacter->GetActorLocation(), SPCharacter->GetActorRotation());
+
+		TArray<FVector2D> EnemyPosList;
+		TArray<bool> EnemyLockList;
+		TArray<float> EnemyRotateList;
+
+		//每帧更新小地图的方向文字位置
+		UpdateMapData.ExecuteIfBound(SPCharacter->GetActorRotation(), MiniMapCamera->GetMapSize(), &EnemyPosList, &EnemyLockList, &EnemyRotateList);
 	}
 }

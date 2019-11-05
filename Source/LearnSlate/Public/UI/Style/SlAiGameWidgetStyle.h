@@ -70,8 +70,13 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = Info)
 		FSlateBrush PointerBrush;
 
+	//Ð¡µØÍ¼±³¾°Í¼Æ¬
 	UPROPERTY(EditAnywhere, Category = MiniMap)
 		FSlateBrush MiniMapBGBrush;
+
+	//Ö÷½ÇÍ¼±ê
+	UPROPERTY(EditAnywhere, Category = MiniMap)
+		FSlateBrush PawnPointBrush;
 
 	//Íæ¼ÒÊôÐÔ±³¾°Í¼
 	UPROPERTY(EditAnywhere, Category = PlayerState)

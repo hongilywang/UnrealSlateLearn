@@ -16,8 +16,10 @@ public:
 	{}
 	SLATE_END_ARGS()
 
-	/** Constructs this widget with InArgs */
-	void Construct(const FArguments& InArgs);
+		/** Constructs this widget with InArgs */
+		void Construct(const FArguments& InArgs);
+
+	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 
 	//委托接受GameMode传过来的Texture资源
 	void RegisterMiniMap(class UTextureRenderTarget2D* MiniMapRender);
@@ -36,4 +38,10 @@ private:
 	class UMaterialInstanceDynamic* EnemyViewMatDynamic;
 
 	struct FSlateBrush* MiniMapBrush;
+
+	//四个方向的渲染位置
+	FVector2D NorthLocation;
+	FVector2D SouthLocation;
+	FVector2D EastLocation;
+	FVector2D WestLocation;
 };

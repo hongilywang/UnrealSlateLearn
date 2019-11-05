@@ -13,7 +13,7 @@ UCLASS()
 class LEARNSLATE_API ASlAiSceneCapture2D : public ASceneCapture2D
 {
 	GENERATED_BODY()
-	
+
 public:
 	ASlAiSceneCapture2D();
 
@@ -24,6 +24,9 @@ public:
 	void UpdateTransform(FVector NormLocation, FRotator NormRotator);
 
 	void UpdateMiniMapWidth(int Delta);
+
+	//获取小地图尺寸
+	float GetMapSize();
 
 private:
 	class UTextureRenderTarget2D* MiniMapTex;
