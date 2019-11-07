@@ -34,6 +34,9 @@ private:
 	//显示MiniMap的图片
 	TSharedPtr<SImage> MiniMapImage;
 
+	//玩家视野的图片
+	TSharedPtr<SImage> EnemyViewImage;
+
 	//敌人视野材质
 	class UMaterialInstanceDynamic* EnemyViewMatDynamic;
 
@@ -44,4 +47,11 @@ private:
 	FVector2D SouthLocation;
 	FVector2D EastLocation;
 	FVector2D WestLocation;
+
+	//小地图尺寸
+	float MapSize;
+	//敌人相对于玩家的位置
+	TArray<FVector2D> EnemyPos;
+	//敌人是否锁定玩家
+	TArray<bool> EnemyLock;
 };
