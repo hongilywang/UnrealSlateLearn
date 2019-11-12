@@ -98,6 +98,10 @@ struct LEARNSLATE_API FSlAiGameStyle : public FSlateWidgetStyle
 	UPROPERTY(EditAnywhere, Category = PlayerState)
 		FSlateBrush PlayerHeadBrush;
 
+	//¡ƒÃÏ “±≥æ∞Õº∆¨
+	UPROPERTY(EditAnywhere, Category = ChatRoom)
+		FSlateBrush ChatRoomBGBrush;
+
 	//60∫≈◊÷ÃÂ
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_60;

@@ -136,6 +136,7 @@ void SSlAiGameHUDWidget::Tick(const FGeometry& AllottedGeometry, const double In
 	else
 	{
 		ChatShowWidget->AddMessage(NSLOCTEXT("SlAiGame", "Enemy", "Enemy"), NSLOCTEXT("SlAiGame", "EnemyDialogue", ": Fight with me !"));
+		ChatRoomWidget->AddMessage(NSLOCTEXT("SlAiGame", "Enemy", "Enemy"), NSLOCTEXT("SlAiGame", "EnemyDialogue", ": Fight with me !"));
 		MessageTimeCount = 0.f;
 	}
 }
@@ -159,7 +160,12 @@ void SSlAiGameHUDWidget::ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type N
 	if (NextUI == EGameUIType::Game)
 		BlackShade->SetVisibility(EVisibility::Hidden);
 	else
+	{
 		UIMap.Find(NextUI)->Get()->SetVisibility(EVisibility::Visible);
+		//显示现在状态对应的UI
+		if (NextUI == EGameUIType::ChatRoom)
+			ChatRoomWidget->ScrollToEnd();
+	}
 }
 
 FVector2D SSlAiGameHUDWidget::GetViewportSize() const
@@ -177,6 +183,9 @@ void SSlAiGameHUDWidget::InitUIMap()
 	UIMap.Add(EGameUIType::Package, PackageWidget);
 	UIMap.Add(EGameUIType::ChatRoom, ChatRoomWidget);
 	UIMap.Add(EGameUIType::Lose, GameMenuWidget);
+
+	//委托绑定
+	ChatRoomWidget->PushMessage.BindRaw(ChatShowWidget.Get(), &SSlAiChatShowWidget::AddMessage);
 
 	MessageTimeCount = 0.f;
 }
