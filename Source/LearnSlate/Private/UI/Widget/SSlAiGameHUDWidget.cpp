@@ -165,6 +165,12 @@ void SSlAiGameHUDWidget::ShowGameUI(EGameUIType::Type PreUI, EGameUIType::Type N
 		//显示现在状态对应的UI
 		if (NextUI == EGameUIType::ChatRoom)
 			ChatRoomWidget->ScrollToEnd();
+		//
+		if (NextUI == EGameUIType::Lose)
+			GameMenuWidget->GameLose();
+
+		if (NextUI == EGameUIType::Pause)
+			GameMenuWidget->ResetMenu();
 	}
 }
 
