@@ -20,6 +20,8 @@ public:
 	void ChangeLocalizationCulture(ECultureTeam Culture);
 	//修改菜单音量
 	void ResetMenuVolume(float MusicVol, float SoundVol);
+	//修改游戏音量
+	void ResetGameVolume(float MusicVol, float SoundVol);
 	//游戏数据初始化
 	void InitializeGameData();
 
@@ -45,7 +47,8 @@ private:
 	void InitializeResourceAttr();
 	//初始化合成表
 	void InitCompoundTableMap();
-
+	//初始化Game声音数据
+	void InitializeGameAudio();
 public:
 	//语言
 	ECultureTeam CurrentCulture;
@@ -77,4 +80,9 @@ private:
 	const struct FSlAiMenuStyle* MenuStyle;
 	//获取MenuStyle 里面存放有声音文件
 	const struct FSlAiGameStyle* GameStyle;
+	//音乐组件
+	class USoundMix* SlAiSoundMix;
+	class USoundClass* SlAiMusicClass;
+	class USoundClass* SlAiSoundClass;
+	class FAudioDevice* AudioDevice;
 };

@@ -12,6 +12,7 @@
 #include "SlAiPickupObject.h"
 #include "SlAiResourceObject.h"
 #include "SlAiEnemyCharacter.h"
+#include "TimerManager.h"
 
 ASlAiPlayerController::ASlAiPlayerController()
 {
@@ -63,6 +64,20 @@ void ASlAiPlayerController::SetupInputComponent()
 void ASlAiPlayerController::ChangeHandObject()
 {
 	SPCharacter->ChangeHandObject(ASlAiHandObject::SpawnHandObject(SPState->GetCurrentHandObjectIndex()));
+}
+
+void ASlAiPlayerController::PlayerDead()
+{
+	//转换到第三人称视角
+	SPCharacter->ChangeView(EGameViewMode::Third);
+	//
+	float DeadDuration = SPCharacter->PlayDeadAnim();
+	//锁住输入
+	LockedInput(true);
+	//添加事件
+	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &ASlAiPlayerController::DeadTimeOut);
+	//延迟显示UI
+	GetWorld()->GetTimerManager().SetTimer(DeadHandle, TimerDelegate, DeadDuration, false);
 }
 
 FHitResult ASlAiPlayerController::RayGetHitResult(FVector TraceStart, FVector TraceEnd)
@@ -326,6 +341,20 @@ void ASlAiPlayerController::TickMiniMap()
 		UpdateMiniMapWidth.ExecuteIfBound(-5);
 		break;
 	}
+}
+
+void ASlAiPlayerController::DeadTimeOut()
+{
+	//设置游戏暂停
+	SetPause(true);
+	//设置游戏模式为混合
+	SwitchInputMode(false);
+	//更新界面
+	ShowGameUI.ExecuteIfBound(CurrentUIType, EGameUIType::Lose);
+	//更新当前UI
+	CurrentUIType = EGameUIType::Lose;
+	//锁住输入
+	LockedInput(true);
 }
 
 void ASlAiPlayerController::BeginPlay()

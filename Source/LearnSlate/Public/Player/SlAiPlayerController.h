@@ -32,6 +32,9 @@ public:
 	//对character的手持物品进行更改，这个函数在playerstate内会调用
 	void ChangeHandObject();
 
+	//死亡
+	void PlayerDead();
+
 public:
 	//获取玩家角色
 	class ASlAiPlayerCharacter* SPCharacter;
@@ -76,6 +79,9 @@ public:
 	//在tick函数处理小地图事件
 	void TickMiniMap();
 
+	//死亡时间函数
+	void DeadTimeOut();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -115,4 +121,7 @@ private:
 
 	//小地图缩放状态
 	EMiniMapSizeMode::Type MiniMapSizeMode;
+
+	//死亡时间委托
+	FTimerHandle DeadHandle;
 };

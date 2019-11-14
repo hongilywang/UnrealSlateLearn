@@ -31,7 +31,7 @@ void ASlAiPlayerState::Tick(float DeltaSeconds)
 	{
 		HP -= DeltaSeconds * 2;
 	}
-	else
+	else if(!IsDead)
 	{
 		//如果饥饿度大于0，持续扣饥饿度，每秒减2
 		//血量持续增加，每秒为1
@@ -46,6 +46,8 @@ void ASlAiPlayerState::Tick(float DeltaSeconds)
 	//判断死亡
 	if (HP <= 0 && !IsDead)
 	{
+		if (SPController)
+			SPController->PlayerDead();
 		IsDead = true;
 	}
 }
@@ -165,6 +167,9 @@ void ASlAiPlayerState::AcceptDamage(int DamageValue)
 	//判断死亡
 	if (HP == 0 && !IsDead)
 	{
+		if (SPController)
+			SPController->PlayerDead();
+
 		IsDead = true;
 	}
 }

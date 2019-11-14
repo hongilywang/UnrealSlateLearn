@@ -40,4 +40,6 @@ void ASlAiHandHammer::BeginPlay()
 
 	//定义物品序号
 	ObjectIndex = 6;
+
+	OverlaySound = LoadObject<USoundWave>(nullptr, TEXT("SoundWave'/Game/Res/Sound/GameSound/Hammer.Hammer'"));
 }

@@ -15,6 +15,7 @@
 #include "SlAiSceneCapture2D.h"
 #include "SlAiEnemyCharacter.h"
 #include "EngineUtils.h"
+#include "Sound/SoundWave.h"
 
 ASlAiGameMode::ASlAiGameMode()
 {
@@ -54,6 +55,11 @@ void ASlAiGameMode::BeginPlay()
 
 	if (!SPController)
 		InitGamePlayModule();
+
+	//≤•∑≈±≥æ∞“Ù¿÷
+	USoundWave* BGMusic = LoadObject<USoundWave>(nullptr, TEXT("SoundWave'/Game/Res/Sound/GameSound/GameBG.GameBG'"));
+	BGMusic->bLooping = true;
+	UGameplayStatics::PlaySound2D(GetWorld(), BGMusic, 0.1f);
 }
 
 void ASlAiGameMode::InitializePackage()

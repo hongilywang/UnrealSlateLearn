@@ -10,6 +10,9 @@
 #include "SlAiMenuWidgetStyle.h"
 #include "SlAiGameWidgetStyle.h"
 #include "Sound/SoundCue.h"
+#include "AudioDevice.h"
+#include "Sound/SoundMix.h"
+#include "Sound/SoundClass.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = nullptr;
 
@@ -63,6 +66,24 @@ void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 		}
 	}
 
+	SlAiSingleton<SlAiJsonHandle>::Get()->UpdateRecodeData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
+}
+
+void SlAiDataHandle::ResetGameVolume(float MusicVol, float SoundVol)
+{
+	if (MusicVol > 0)
+	{
+		MusicVolume = MusicVol;
+		//使用混音器设置
+		AudioDevice->SetSoundMixClassOverride(SlAiSoundMix, SlAiMusicClass, MusicVolume, 1.f, 0.2f, false);
+	}
+
+	if (SoundVol > 0)
+	{
+		SoundVolume = SoundVol;
+		//使用混音器设置
+		AudioDevice->SetSoundMixClassOverride(SlAiSoundMix, SlAiSoundClass, SoundVolume, 1.f, 0.2f, false);
+	}
 	SlAiSingleton<SlAiJsonHandle>::Get()->UpdateRecodeData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
@@ -121,6 +142,8 @@ void SlAiDataHandle::InitializeGameData()
 	InitializeResourceAttr();
 	//初始化合成表
 	InitCompoundTableMap();
+	//初始化游戏声音数据
+	InitializeGameAudio();
 }
 
 
@@ -148,6 +171,23 @@ void SlAiDataHandle::InitializeResourceAttr()
 void SlAiDataHandle::InitCompoundTableMap()
 {
 	SlAiSingleton<SlAiJsonHandle>::Get()->CompundTableJsonRead(CompoundTableMap);
+}
+
+void SlAiDataHandle::InitializeGameAudio()
+{
+	SlAiSoundClass = LoadObject<USoundClass>(nullptr, TEXT("SoundClass'/Game/Blueprint/Sound/SlAiSoundClass.SlAiSoundClass'"));
+	SlAiMusicClass = LoadObject<USoundClass>(nullptr, TEXT("SoundClass'/Game/Blueprint/Sound/SlAiMusicClass.SlAiMusicClass'"));
+	SlAiSoundMix = LoadObject<USoundMix>(nullptr, TEXT("SoundMix'/Game/Blueprint/Sound/SlAiSoundMix.SlAiSoundMix'"));
+
+	//获取因为设备
+	AudioDevice = GEngine->GetMainAudioDevice();
+
+	//推送混音器到设备
+	AudioDevice->PushSoundMixModifier(SlAiSoundMix);
+
+	//根据音量设置一次声音
+	ResetGameVolume(MusicVolume, SoundVolume);
+
 }
 
 SlAiDataHandle::SlAiDataHandle()

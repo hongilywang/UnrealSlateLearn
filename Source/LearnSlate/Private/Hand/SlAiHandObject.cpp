@@ -16,6 +16,7 @@
 #include "SlAiHandHammer.h"
 #include "SlAiEnemyCharacter.h"
 #include "SlAiDataHandle.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASlAiHandObject::ASlAiHandObject()
@@ -48,6 +49,10 @@ ASlAiHandObject::ASlAiHandObject()
 	FScriptDelegate OverlayEnd;
 	OverlayEnd.BindUFunction(this, "OnOverlayEnd");
 	AffectCollision->OnComponentEndOverlap.Add(OverlayEnd);
+
+	//默认拳头音效
+	static ConstructorHelpers::FObjectFinder<USoundWave> StaticSound(TEXT("SoundWave'/Game/Res/Sound/GameSound/Punch.Punch'"));
+	OverlaySound = StaticSound.Object;
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +71,9 @@ void ASlAiHandObject::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, A
 		//获取伤害值
 		Cast<ASlAiEnemyCharacter>(OtherActor)->AcceptDamage(ObjectAttr->AnimalAttack);
 	}
+
+	if (OverlaySound)
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), OverlaySound, OtherActor->GetActorLocation());
 }
 
 void ASlAiHandObject::OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

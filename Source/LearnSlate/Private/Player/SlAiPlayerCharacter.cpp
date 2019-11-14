@@ -107,6 +107,9 @@ ASlAiPlayerCharacter::ASlAiPlayerCharacter()
 	//实例化手上物品
 	HandObject = CreateDefaultSubobject<UChildActorComponent>(TEXT("HandObject"));
 
+	//获取死亡动作资源
+	AnimDead = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), nullptr, *FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Player/Animation/Player_Death.Player_Death'")));
+
 	//初始化参数
 	BaseLookUpRate = 45.f;
 	BaseTurnRate = 45.f;
@@ -271,6 +274,12 @@ void ASlAiPlayerCharacter::AcceptDamage(int DamageValue)
 {
 	if (SPController->SPState)
 		SPController->SPState->AcceptDamage(DamageValue);
+}
+
+float ASlAiPlayerCharacter::PlayDeadAnim()
+{
+	GetMesh()->PlayAnimation(AnimDead, false);
+	return AnimDead->GetMaxCurrentTime();
 }
 
 void ASlAiPlayerCharacter::MoveForward(float Value)

@@ -54,6 +54,9 @@ public:
 
 	//接受伤害
 	void AcceptDamage(int DamageValue);
+
+	//播放死亡动画，返回播放时长
+	float PlayDeadAnim();
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SlAi")
@@ -111,4 +114,7 @@ private:
 	//旋转比例
 	float BaseLookUpRate;
 	float BaseTurnRate;
+
+	//死亡动画资源
+	class UAnimationAsset* AnimDead;
 };

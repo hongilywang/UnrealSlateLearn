@@ -27,4 +27,6 @@ void ASlAiHandAxe::BeginPlay()
 
 	//定义物品序号
 	ObjectIndex = 5;
+
+	OverlaySound = LoadObject<USoundWave>(nullptr, TEXT("SoundWave'/Game/Res/Sound/GameSound/Axe.Axe'"));
 }
