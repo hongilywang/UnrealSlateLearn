@@ -66,9 +66,15 @@ public:
 	//获取是否已经锁定了玩家
 	bool IsLockPlayer();
 
+	//加载血量
+	void LoadHP(float HPValue);
+
 public:
 	//资源ID
 	int ResourceIndex;
+
+	//是否在下一帧销毁自己，由GameMode加载游戏存档时进行设置
+	bool IsDestroyNextTick;
 
 protected:
 	//武器插槽

@@ -20,6 +20,7 @@ ASlAiPickupObject::ASlAiPickupObject()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BaseMesh"));
 	BaseMesh->SetupAttachment(RootComponent);
 	BaseMesh->SetCollisionProfileName(FName("PickupProfile"));
+	IsDestroyNextTick = false;
 }
 
 // Called when the game starts or when spawned
@@ -33,7 +34,8 @@ void ASlAiPickupObject::BeginPlay()
 void ASlAiPickupObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (IsDestroyNextTick)
+		GetWorld()->DestroyActor(this);
 }
 
 FText ASlAiPickupObject::GetInfoText() const

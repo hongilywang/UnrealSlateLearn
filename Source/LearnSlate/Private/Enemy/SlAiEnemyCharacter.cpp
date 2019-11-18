@@ -62,6 +62,8 @@ ASlAiEnemyCharacter::ASlAiEnemyCharacter()
 	//加载死亡动画资源
 	AnimDead_I = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), nullptr, *FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/Enemy_Dead_I.Enemy_Dead_I'")));
 	AnimDead_II = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), nullptr, *FString("AnimSequence'/Game/Res/PolygonAdventure/Mannequin/Enemy/Animation/FightGroup/Enemy_Dead_II.Enemy_Dead_II'")));
+
+	IsDestroyNextTick = false;
 }
 
 // Called when the game starts or when spawned
@@ -131,6 +133,9 @@ void ASlAiEnemyCharacter::CreateFlobObject()
 void ASlAiEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (IsDestroyNextTick)
+		DestroyEvent();
 }
 
 // Called to bind functionality to input
@@ -277,6 +282,13 @@ bool ASlAiEnemyCharacter::IsLockPlayer()
 	if (SEController)
 		return SEController->IsLockPlayer;
 	return false;
+}
+
+void ASlAiEnemyCharacter::LoadHP(float HPValue)
+{
+	HP = HPValue;
+	//更新UI
+	HPBarWidget->ChangeHP(HP / 200.f);
 }
 
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)

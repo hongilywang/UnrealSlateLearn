@@ -174,6 +174,14 @@ void ASlAiPlayerState::AcceptDamage(int DamageValue)
 	}
 }
 
+void ASlAiPlayerState::LoadState(float HPValue, float HungerValue)
+{
+	HP = HPValue;
+	Hunger = HungerValue;
+	//¸üÐÂUI×´Ì¬
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
+}
+
 void ASlAiPlayerState::BeginPlay()
 {
 	Super::BeginPlay();

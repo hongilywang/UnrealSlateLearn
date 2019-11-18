@@ -16,6 +16,11 @@
 #include "SlAiEnemyCharacter.h"
 #include "EngineUtils.h"
 #include "Sound/SoundWave.h"
+#include "SlAiSaveGame.h"
+#include "SlAiResourceRock.h"
+#include "SlAiResourceTree.h"
+#include "SlAiPickupStone.h"
+#include "SlAiPickupWood.h"
 
 ASlAiGameMode::ASlAiGameMode()
 {
@@ -30,11 +35,18 @@ ASlAiGameMode::ASlAiGameMode()
 
 	//是否已经初始化背包
 	IsInitPackage = false;
+	//小地图还没有生成
+	IsCreateMiniMap = false;
+	//开始涉足不需要加载存档
+	IsNeedLoadRecord = false;
 }
 
 void ASlAiGameMode::Tick(float DeltaSeconds)
 {
 	InitializeMiniMapCamera();
+
+	//给背包加载存档，放在初始化背包上面是为了第二帧再执行
+	LoadRecordPackage();
 
 	//TODO这样做好吗，每帧斗湖运行
 	InitializePackage();
@@ -60,6 +72,8 @@ void ASlAiGameMode::BeginPlay()
 	USoundWave* BGMusic = LoadObject<USoundWave>(nullptr, TEXT("SoundWave'/Game/Res/Sound/GameSound/GameBG.GameBG'"));
 	BGMusic->bLooping = true;
 	UGameplayStatics::PlaySound2D(GetWorld(), BGMusic, 0.1f);
+
+	LoadRecord();
 }
 
 void ASlAiGameMode::InitializePackage()
@@ -110,4 +124,118 @@ void ASlAiGameMode::InitializeMiniMapCamera()
 		//每帧更新小地图的方向文字位置
 		UpdateMapData.ExecuteIfBound(SPCharacter->GetActorRotation(), MiniMapCamera->GetMapSize(), &EnemyPosList, &EnemyLockList, &EnemyRotateList);
 	}
+}
+
+void ASlAiGameMode::LoadRecord()
+{
+	//如果RecordName为空，直接return
+	if (SlAiDataHandle::Get()->RecordName.IsEmpty() || SlAiDataHandle::Get()->RecordName.Equals(FString("Default")))
+		return;
+	//循环检测存档是否已经存在
+	for (TArray<FString>::TIterator It(SlAiDataHandle::Get()->RecordDataList); It; ++It)
+	{
+		if ((*It).Equals(SlAiDataHandle::Get()->RecordName))
+		{
+			IsNeedLoadRecord = true;
+			break;
+		}
+	}
+
+	//如果需要加载存档，进行存档加载
+	if (IsNeedLoadRecord && UGameplayStatics::DoesSaveGameExist(SlAiDataHandle::Get()->RecordName, 0))
+		GameRecord = Cast<USlAiSaveGame>(UGameplayStatics::LoadGameFromSlot(SlAiDataHandle::Get()->RecordName, 0));
+	else
+		IsNeedLoadRecord = false;
+	
+	//如果需要加载存档并且存档存在
+	if (IsNeedLoadRecord && GameRecord)
+	{
+		//涉足玩家位置和血量
+		SPCharacter->SetActorLocation(GameRecord->PlayerLocation);
+		SPState->LoadState(GameRecord->PlayerHP, GameRecord->PlayerHunger);
+
+		//循环设置敌人
+		int EnemyCount = 0;
+		for (TActorIterator<ASlAiEnemyCharacter> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
+		{
+			if (EnemyCount < GameRecord->EnemyLocation.Num())
+			{
+				(*EnemyIt)->SetActorLocation(GameRecord->EnemyLocation[EnemyCount]);
+				(*EnemyIt)->LoadHP(GameRecord->EnemyHP[EnemyCount]);
+			}
+			else
+				(*EnemyIt)->IsDestroyNextTick = true;
+			++EnemyCount;
+		}
+
+		//循环设置岩石
+		int RockCount = 0;
+		for (TActorIterator<ASlAiResourceRock> RockIt(GetWorld()); RockIt; ++RockIt)
+		{
+			if (RockCount < GameRecord->ResourceRock.Num())
+			{
+				(*RockIt)->SetActorLocation(GameRecord->ResourceRock[RockCount]);
+			}
+			else
+			{
+				(*RockIt)->IsDestroyNextTick = true;
+			}
+			++RockCount;
+		}
+
+		int TreeCount = 0;
+		for (TActorIterator<ASlAiResourceTree> TreeIt(GetWorld()); TreeIt; ++TreeIt)
+		{
+			if (TreeCount < GameRecord->ResourceTree.Num())
+			{
+				(*TreeIt)->SetActorLocation(GameRecord->ResourceTree[TreeCount]);
+			}
+			else
+			{
+				(*TreeIt)->IsDestroyNextTick = true;
+			}
+			++TreeCount;
+		}
+
+		int StoneCount = 0;
+		for (TActorIterator<ASlAiPickupStone> StoneIt(GetWorld()); StoneIt; ++StoneIt)
+		{
+			if (StoneCount < GameRecord->PickupStone.Num())
+			{
+				(*StoneIt)->SetActorLocation(GameRecord->PickupStone[StoneCount]);
+			}
+			else
+			{
+				(*StoneIt)->IsDestroyNextTick = true;
+			}
+			++StoneCount;
+		}
+
+		int WoodCount = 0;
+		for (TActorIterator<ASlAiPickupWood> WoodIt(GetWorld()); WoodIt; ++WoodIt)
+		{
+			if (WoodCount < GameRecord->PickupWood.Num())
+			{
+				(*WoodIt)->SetActorLocation(GameRecord->PickupWood[WoodCount]);
+			}
+			else
+			{
+				(*WoodIt)->IsDestroyNextTick = true;
+			}
+			++WoodCount;
+		}
+	}
+}
+
+void ASlAiGameMode::LoadRecordPackage()
+{
+	if (!IsInitPackage || !IsNeedLoadRecord)
+		return;
+
+	if (IsNeedLoadRecord && GameRecord)
+	{
+		SlAiPackageManager::Get()->LoadRecord(&GameRecord->InputIndex, &GameRecord->InputNum, &GameRecord->NormalIndex, &GameRecord->NormalNum, &GameRecord->ShortcutIndex, &GameRecord->ShortcutNum);
+	}
+
+	IsNeedLoadRecord = false;
 }

@@ -27,6 +27,8 @@ public:
 public:
 	int ObjectIndex;
 
+	bool IsDestroyNextTick;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

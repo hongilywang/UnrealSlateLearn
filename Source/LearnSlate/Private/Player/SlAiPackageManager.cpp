@@ -251,6 +251,25 @@ bool SlAiPackageManager::EatUpEvent(int ShortcutID)
 	return false;
 }
 
+void SlAiPackageManager::LoadRecord(TArray<int32>* InputIndex, TArray<int32>* InputNum, TArray<int32>* NormalIndex, TArray<int32>* NormalNum, TArray<int32>* ShortcutIndex, TArray<int32>* ShortcutNum)
+{
+	for (int i = 0; i < InputContainerList.Num(); ++i)
+	{
+		if ((*InputIndex)[i] != 0)
+			InputContainerList[i]->ResetContainerPara((*InputIndex)[i], (*InputNum)[i]);
+	}
+	for (int i = 0; i < NormalContainerList.Num(); ++i)
+	{
+		if ((*NormalIndex)[i] != 0)
+			InputContainerList[i]->ResetContainerPara((*NormalIndex)[i], (*NormalNum)[i]);
+	}
+	for (int i = 0; i < ShortcutContainerList.Num(); ++i)
+	{
+		if ((*ShortcutIndex)[i] != 0)
+			InputContainerList[i]->ResetContainerPara((*ShortcutIndex)[i], (*ShortcutNum)[i]);
+	}
+}
+
 void SlAiPackageManager::CompoundOutput(int ObjectID, int Num)
 {
 	//如果生成为0

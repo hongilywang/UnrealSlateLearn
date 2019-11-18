@@ -50,6 +50,12 @@ protected:
 	//初始化与更新小地图摄像机
 	void InitializeMiniMapCamera();
 
+	//存档加载
+	void LoadRecord();
+
+	//给背包进行加载存档，这个函数一定要在第二帧执行
+	void LoadRecordPackage();
+
 private:
 	//是否已经初始化背包
 	bool IsInitPackage;
@@ -59,4 +65,10 @@ private:
 
 	//渲染相机指针
 	class ASlAiSceneCapture2D* MiniMapCamera;
+
+	//是否需要加载存档
+	bool IsNeedLoadRecord;
+
+	//游戏存档指针
+	class USlAiSaveGame* GameRecord;
 };

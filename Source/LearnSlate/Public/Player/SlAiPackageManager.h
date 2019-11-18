@@ -38,6 +38,8 @@ public:
 
 	//吃东西，传入快捷栏ID， 传回是否成功吃掉
 	bool EatUpEvent(int ShortcutID);
+
+	void LoadRecord(TArray<int32>* InputIndex, TArray<int32>* InputNum, TArray<int32>* NormalIndex, TArray<int32>* NormalNum, TArray<int32>* ShortcutIndex, TArray<int32>* ShortcutNum);
 public:
 	//鼠标物品ID
 	int ObjectIndex;

@@ -58,6 +58,9 @@ public:
 	//接受伤害
 	void AcceptDamage(int DamageValue);
 
+	//加载序列和饥饿度
+	void LoadState(float HPValue, float HungerValue);
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -36,6 +36,9 @@ public:
 	//资源ID
 	int ResourceIndex;
 
+	//下一帧销毁
+	bool IsDestroyNextTick;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
