@@ -24,6 +24,8 @@ public:
 	void ResetGameVolume(float MusicVol, float SoundVol);
 	//游戏数据初始化
 	void InitializeGameData();
+	//添加一个新存档
+	void AddNewRecord();
 
 private:
 	//创建单例

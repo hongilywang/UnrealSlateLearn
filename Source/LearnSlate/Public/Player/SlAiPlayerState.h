@@ -61,6 +61,9 @@ public:
 	//加载序列和饥饿度
 	void LoadState(float HPValue, float HungerValue);
 
+	//保存血量和饥饿值
+	void SaveState(float& HPValue, float& HungerValue);
+
 protected:
 	virtual void BeginPlay() override;
 

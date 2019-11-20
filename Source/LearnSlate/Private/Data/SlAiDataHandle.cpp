@@ -147,6 +147,14 @@ void SlAiDataHandle::InitializeGameData()
 }
 
 
+void SlAiDataHandle::AddNewRecord()
+{
+	RecordDataList.Add(RecordName);
+	//更新Json数据
+	SlAiSingleton<SlAiJsonHandle>::Get()->UpdateRecodeData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
+
+}
+
 void SlAiDataHandle::InitializeObjectAttr()
 {
 	SlAiSingleton<SlAiJsonHandle>::Get()->ObjectAttrJsonRead(ObjectAttrMap);

@@ -182,6 +182,12 @@ void ASlAiPlayerState::LoadState(float HPValue, float HungerValue)
 	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
 }
 
+void ASlAiPlayerState::SaveState(float& HPValue, float& HungerValue)
+{
+	HPValue = HP;
+	HungerValue = Hunger;
+}
+
 void ASlAiPlayerState::BeginPlay()
 {
 	Super::BeginPlay();

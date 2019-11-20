@@ -60,6 +60,72 @@ void ASlAiGameMode::InitGamePlayModule()
 	SPState = Cast<ASlAiPlayerState>(SPCharacter->GetPlayerState());
 }
 
+void ASlAiGameMode::SaveGame()
+{
+	//如果存档名是Default，不进行保存
+	if (SlAiDataHandle::Get()->RecordName.Equals(FString("Default")))
+		return;
+	
+	//创建一个新的存档
+	USlAiSaveGame* NewRecord = Cast<USlAiSaveGame>(UGameplayStatics::CreateSaveGameObject(USlAiSaveGame::StaticClass()));
+
+	NewRecord->PlayerLocation = SPCharacter->GetActorLocation();
+	SPState->SaveState(NewRecord->PlayerHP, NewRecord->PlayerHunger);
+
+	for (TActorIterator<ASlAiEnemyCharacter> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
+	{
+		NewRecord->EnemyLocation.Add((*EnemyIt)->GetActorLocation());
+		NewRecord->EnemyHP.Add((*EnemyIt)->GetHP());
+	}
+
+	for (TActorIterator<ASlAiResourceRock> RockIt(GetWorld()); RockIt; ++RockIt)
+	{
+		NewRecord->ResourceRock.Add((*RockIt)->GetActorLocation());
+	}
+
+	for (TActorIterator<ASlAiResourceTree> TreeIt(GetWorld()); TreeIt; ++TreeIt)
+	{
+		NewRecord->ResourceTree.Add((*TreeIt)->GetActorLocation());
+	}
+
+	for (TActorIterator<ASlAiPickupStone> StoneIt(GetWorld()); StoneIt; ++StoneIt)
+	{
+		NewRecord->PickupStone.Add((*StoneIt)->GetActorLocation());
+	}
+
+	for (TActorIterator<ASlAiPickupWood> WoodIt(GetWorld()); WoodIt; ++WoodIt)
+	{
+		NewRecord->PickupWood.Add((*WoodIt)->GetActorLocation());
+	}
+
+	SlAiPackageManager::Get()->SaveData(NewRecord->InputIndex, NewRecord->InputNum, NewRecord->NormalIndex, NewRecord->NormalNum, NewRecord->ShortcutIndex, NewRecord->ShortcutNum);
+
+	//如果存档名已经存在，就先删除
+	if (UGameplayStatics::DoesSaveGameExist(SlAiDataHandle::Get()->RecordName, 0))
+	{
+		UGameplayStatics::DeleteGameInSlot(SlAiDataHandle::Get()->RecordName, 0);
+	}
+
+	//保存存档名字
+	UGameplayStatics::SaveGameToSlot(NewRecord, SlAiDataHandle::Get()->RecordName, 0);
+
+	//检查json是否已经有这个存档
+	bool IsRecordExist = false;
+	for (TArray<FString>::TIterator It(SlAiDataHandle::Get()->RecordDataList); It; ++It)
+	{
+		//只要有一个相同，就跳出
+		if ((*It).Equals(SlAiDataHandle::Get()->RecordName))
+		{
+			IsRecordExist = true;
+			break;
+		}
+	}
+
+	//如果存档名字不存在，就将新的存档名字写入
+	if (!IsRecordExist)
+		SlAiDataHandle::Get()->AddNewRecord();
+}
+
 void ASlAiGameMode::BeginPlay()
 {
 	//初始化游戏数据

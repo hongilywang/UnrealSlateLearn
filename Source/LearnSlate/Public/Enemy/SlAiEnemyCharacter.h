@@ -69,6 +69,9 @@ public:
 	//加载血量
 	void LoadHP(float HPValue);
 
+	//获取HP
+	float GetHP();
+
 public:
 	//资源ID
 	int ResourceIndex;

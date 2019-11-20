@@ -30,6 +30,9 @@ public:
 	//组件赋值， 给GameHUD调用，避免空引用引起崩溃
 	void InitGamePlayModule();
 
+	//保存游戏
+	void SaveGame();
+
 public:
 	class ASlAiPlayerController* SPController;
 	class ASlAiPlayerCharacter* SPCharacter;

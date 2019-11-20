@@ -288,7 +288,15 @@ void ASlAiEnemyCharacter::LoadHP(float HPValue)
 {
 	HP = HPValue;
 	//¸üÐÂUI
-	HPBarWidget->ChangeHP(HP / 200.f);
+	if (HPBarWidget.IsValid())
+	{
+		HPBarWidget->ChangeHP(HP / 200.f);
+	}
+}
+
+float ASlAiEnemyCharacter::GetHP()
+{
+	return HP;
 }
 
 void ASlAiEnemyCharacter::OnSeePlayer(APawn* PlayerChar)
